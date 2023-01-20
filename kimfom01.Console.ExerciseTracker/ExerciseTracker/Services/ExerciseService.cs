@@ -1,3 +1,4 @@
+using ExerciseTracker.Dtos;
 using ExerciseTracker.Models;
 using ExerciseTracker.Repositories;
 using ExerciseTracker.UserInput;
@@ -20,12 +21,39 @@ public class ExerciseService : IExerciseService
 
     public void GetAllExercises()
     {
-        var exercises = _exerciseRepository.GetExercises().ToList();
+        List<Exercise> exercises = _exerciseRepository.GetExercises().ToList();
 
-        _tableVisualization.DisplayTable(exercises);
+        var exercisesDtos = MapExerciseToDto(exercises);
+
+        _tableVisualization.DisplayTable(exercisesDtos);
 
         Console.Write("Press Enter to continue");
         Console.ReadLine();
+    }
+
+    private static List<ExerciseViewDto> MapExerciseToDto(List<Exercise> exercises)
+    {
+        List<ExerciseViewDto> exercisesDtos = new();
+        foreach (var exercise in exercises)
+        {
+            var hours = exercise.Duration?.Hours + (exercise.Duration?.Days * 24);
+            var minutes = exercise.Duration?.Minutes;
+            
+            var duration = $"{hours} hrs, {minutes} mins";
+
+            var temp = new ExerciseViewDto
+            {
+                Id = exercise.Id,
+                StartDate = exercise.StartDate,
+                EndDate = exercise.EndDate,
+                Duration = duration,
+                Comments = exercise.Comments
+            };
+
+            exercisesDtos.Add(temp);
+        }
+
+        return exercisesDtos;
     }
 
     public void GetExerciseById()
@@ -34,7 +62,9 @@ public class ExerciseService : IExerciseService
 
         var exercise = _exerciseRepository.GetExerciseById(id);
         
-        _tableVisualization.DisplayTable(new List<Exercise> { exercise });
+        var exercisesDtos = MapExerciseToDto(new List<Exercise> { exercise });
+        
+        _tableVisualization.DisplayTable(exercisesDtos);
 
         Console.Write("Press Enter to continue");
         Console.ReadLine();
