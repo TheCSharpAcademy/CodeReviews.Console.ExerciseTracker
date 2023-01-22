@@ -9,20 +9,23 @@ public class ExerciseRepository : Repository, IExerciseRepository
     {
     }
 
-    public override void UpdateExercise(int id, Exercise exercise)
+    public override bool UpdateExercise(int id, Exercise exercise)
     {
         var oldExercise = GetExerciseById(id);
 
-        if(exercise is null)
+        if(oldExercise is null)
         {
+            Console.Clear();
             Console.WriteLine("This exercise does not exist!");
-            return;
+            Console.Write("Press Enter to continue...");
+            Console.ReadLine();
+            return false;
         }
 
         var duration = exercise.EndDate - oldExercise.StartDate;
 
         exercise.Duration = duration;
 
-        base.UpdateExercise(id, exercise);
+        return base.UpdateExercise(id, exercise);
     }
 }

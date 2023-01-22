@@ -38,7 +38,7 @@ public class ExerciseService : IExerciseService
         {
             var hours = exercise.Duration?.Hours + (exercise.Duration?.Days * 24);
             var minutes = exercise.Duration?.Minutes;
-            
+
             var duration = $"{hours} hrs, {minutes} mins";
 
             var temp = new ExerciseViewDto
@@ -61,9 +61,18 @@ public class ExerciseService : IExerciseService
         var id = _input.GetId();
 
         var exercise = _exerciseRepository.GetExerciseById(id);
-        
+
+        if (exercise is null)
+        {
+            Console.Clear();
+            Console.WriteLine("This exercise does not exist!");
+            Console.Write("Press Enter to continue...");
+            Console.ReadLine();
+            return;
+        }
+
         var exercisesDtos = MapExerciseToDto(new List<Exercise> { exercise });
-        
+
         _tableVisualization.DisplayTable(exercisesDtos);
 
         Console.Write("Press Enter to continue");
@@ -93,26 +102,30 @@ public class ExerciseService : IExerciseService
 
         var exercise = new Exercise { EndDate = endDate, Comments = comments };
 
-        _exerciseRepository.UpdateExercise(id, exercise);
-        _exerciseRepository.SaveChanges();
+        var success = _exerciseRepository.UpdateExercise(id, exercise);
+        var saveCount = _exerciseRepository.SaveChanges();
         Console.Clear();
 
-        Console.WriteLine("Exercise updated");
-
-        Console.Write("Press Enter to continue");
-        Console.ReadLine();
+        if (success && saveCount > 0)
+        {
+            Console.WriteLine("Exercise updated");
+            Console.Write("Press Enter to continue");
+            Console.ReadLine();
+        }
     }
 
     public void DeleteExercise()
     {
         var id = _input.GetId();
-        _exerciseRepository.DeleteExercise(id);
-        _exerciseRepository.SaveChanges();
+        var success = _exerciseRepository.DeleteExercise(id);
+        var deleteCount = _exerciseRepository.SaveChanges();
         Console.Clear();
-
-        Console.WriteLine("Exercise deleted");
-
-        Console.Write("Press Enter to continue");
-        Console.ReadLine();
+        
+        if (success && deleteCount > 0)
+        {
+            Console.WriteLine("Exercise deleted");
+            Console.Write("Press Enter to continue");
+            Console.ReadLine();
+        }
     }
 }

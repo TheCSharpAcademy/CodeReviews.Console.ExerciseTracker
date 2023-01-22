@@ -17,9 +17,9 @@ public abstract class Repository : IRepository
         return _exerciseContext.Exercises;
     }
 
-    public virtual Exercise GetExerciseById(int id)
+    public virtual Exercise? GetExerciseById(int id)
     {
-        return _exerciseContext.Exercises.FirstOrDefault(x => x.Id == id);
+        return _exerciseContext.Exercises.Find(id);
     }
 
     public virtual void AddExercise(Exercise exercise)
@@ -27,19 +27,32 @@ public abstract class Repository : IRepository
         _exerciseContext.Add(exercise);
     }
 
-    public virtual void UpdateExercise(int id, Exercise exercise)
+    public virtual bool UpdateExercise(int id, Exercise exercise)
     {
         var exerciseToBeUpdated = GetExerciseById(id);
 
-        exerciseToBeUpdated.EndDate = exercise.EndDate;
+        exerciseToBeUpdated!.EndDate = exercise.EndDate;
         exerciseToBeUpdated.Duration = exercise.Duration;
         exerciseToBeUpdated.Comments = exercise.Comments;
+
+        return true;
     }
 
-    public virtual void DeleteExercise(int id)
+    public virtual bool DeleteExercise(int id)
     {
         var exerciseToBeDeleted = GetExerciseById(id);
+        
+        if (exerciseToBeDeleted is null)
+        {
+            Console.Clear();
+            Console.WriteLine("Entry does not exist!");
+            Console.Write("Press Enter to continue...");
+            Console.ReadLine();
+            return false;
+        }
+
         _exerciseContext.Remove(exerciseToBeDeleted);
+        return true;
     }
 
     public virtual int SaveChanges()
