@@ -28,7 +28,7 @@ internal static class Program
 
     static IHostBuilder CreateHostBuilder(string[] args)
     {
-        return Host.CreateDefaultBuilder(args).ConfigureServices((builder, services) =>
+        return Host.CreateDefaultBuilder(args).ConfigureServices((_, services) =>
         {
             services
             .AddDbContext<ExerciseContext>(options =>

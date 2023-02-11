@@ -2,7 +2,7 @@
 
 namespace edvaudin.ExerciseTracker.Input;
 
-internal class Validator
+internal static class Validator
 {
     public static bool IsValidOption(string input)
     {

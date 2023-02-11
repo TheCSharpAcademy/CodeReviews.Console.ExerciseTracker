@@ -57,7 +57,6 @@ internal class UserInput : IUserInput
             {
                 if (exerciseRepository.TryGetExerciseById(result, out _) || result == -1)
                 {
-                    validIdEntered = true;
                     return result;
                 }
             }

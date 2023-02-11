@@ -6,7 +6,7 @@ namespace edvaudin.ExerciseTracker.Controllers;
 
 internal class ExerciseController : IExerciseController
 {
-    private static bool endApp = false;
+    private static bool endApp;
     private readonly IExerciseService exerciseService;
     private readonly IUserInput userInput;
     public ExerciseController(IUserInput userInput, IExerciseService exerciseService)
@@ -47,14 +47,14 @@ internal class ExerciseController : IExerciseController
                 UpdateExercise();
                 break;
             case "0":
-                endApp = true;
+                Exit();
                 break;
             default:
                 throw new NotImplementedException();
         }
     }
 
-    private void Exit()
+    private static void Exit()
     {
         Environment.Exit(0);
     }

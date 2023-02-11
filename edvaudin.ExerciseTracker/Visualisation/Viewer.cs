@@ -2,7 +2,7 @@
 
 namespace edvaudin.ExerciseTracker.Visulisation;
 
-internal class Viewer
+internal static class Viewer
 {
     internal static void DisplayExerciseTable(List<Exercise> exercises)
     {
