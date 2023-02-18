@@ -35,10 +35,10 @@ internal static class Program
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             })
-            .AddSingleton<IExerciseController, ExerciseController>()
-            .AddSingleton<IExerciseService, ExerciseService>()
-            .AddSingleton<IExerciseRepository, ExerciseRepository>()
-            .AddSingleton<IUserInput, UserInput>();
+            .AddScoped<IExerciseController, ExerciseController>()
+            .AddScoped<IExerciseService, ExerciseService>()
+            .AddScoped<IExerciseRepository, ExerciseRepository>()
+            .AddScoped<IUserInput, UserInput>();
         });
     }
 }
