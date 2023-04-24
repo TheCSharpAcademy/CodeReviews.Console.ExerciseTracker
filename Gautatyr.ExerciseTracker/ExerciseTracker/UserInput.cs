@@ -8,7 +8,7 @@ namespace ExerciseTracker;
 public class UserInput
 {
     private readonly IRunController _controller;
-    string error = string.Empty;
+    private string error = string.Empty;
 
     public UserInput(IRunController runController)
     {
@@ -39,17 +39,21 @@ public class UserInput
                 case "1":
                     await AddRun();
                     break;
+
                 case "2":
                     await UpdateRun();
                     break;
+
                 case "3":
                     Console.WriteLine("\nType the id of the run you want to Delete\n");
                     var id = GetRunIdInput(_controller);
                     await _controller.DeleteRunAsync(_controller.GetRunByIdAsync(id).Result);
                     break;
+
                 case "0":
                     Environment.Exit(0);
                     break;
+
                 default:
                     error = "\nWrong Input: Type a number between 0 to 3";
                     break;

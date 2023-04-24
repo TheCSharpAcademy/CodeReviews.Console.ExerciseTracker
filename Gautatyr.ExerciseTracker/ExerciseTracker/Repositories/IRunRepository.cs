@@ -11,4 +11,6 @@ public interface IRunRepository : IRepository<Run>
     Task<Run> UpdateRunAsync(Run run);
 
     Task<Run> DeleteRunAsync(Run run);
+
+    Task<Run> AddRunAsync(Run run);
 }

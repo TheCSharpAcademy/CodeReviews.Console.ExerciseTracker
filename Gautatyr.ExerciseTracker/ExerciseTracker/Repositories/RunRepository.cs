@@ -1,22 +1,25 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ExerciseTracker.Models;
+﻿using ExerciseTracker.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExerciseTracker.Repositories;
 
 public class RunRepository : Repository<Run>, IRunRepository
 {
+    private readonly ExerciseTrackerContext _context;
+
     public RunRepository(ExerciseTrackerContext exerciseTrackerContext) : base(exerciseTrackerContext)
     {
+        _context = exerciseTrackerContext;
     }
 
     public Task<Run> GetRunByIdAsync(int id)
     {
-        return GetAll().FirstOrDefaultAsync(x => x.Id == id);
+        return GetRunByIdAsync(id);
     }
 
     public async Task<List<Run>> GetAllRunsAsync()
     {
-        return await GetAll().ToListAsync();
+        return await _context.Run.ToListAsync();
     }
 
     public async Task<Run> UpdateRunAsync(Run run)
@@ -27,5 +30,10 @@ public class RunRepository : Repository<Run>, IRunRepository
     public async Task<Run> DeleteRunAsync(Run run)
     {
         return await DeleteAsync(run);
+    }
+
+    public async Task<Run> AddRunAsync(Run run)
+    {
+        return await AddAsync(run);
     }
 }
