@@ -12,9 +12,9 @@ public class RunRepository : Repository<Run>, IRunRepository
         _context = exerciseTrackerContext;
     }
 
-    public Task<Run> GetRunByIdAsync(int id)
+    public async Task<Run> GetRunByIdAsync(int id)
     {
-        return GetRunByIdAsync(id);
+        return await _context.Run.FindAsync(id);
     }
 
     public async Task<List<Run>> GetAllRunsAsync()

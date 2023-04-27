@@ -92,6 +92,11 @@ public class UserInput
         var start = GetDateTimeInput();
         Console.WriteLine("\nPlease input the run's ending date and time (dd/mm/yy HH:mm)\n");
         var end = GetDateTimeInput();
+        while (end < start)
+        {
+            Console.WriteLine("\nThe end date canno't be before the start date, enter another end date\n");
+            end = GetDateTimeInput();
+        }
         Console.WriteLine("\nPlease input the run's distance in km\n");
         var distance = GetNumberInput();
         Console.WriteLine("\nType in any comment you have on the run, or leave empty\n");
