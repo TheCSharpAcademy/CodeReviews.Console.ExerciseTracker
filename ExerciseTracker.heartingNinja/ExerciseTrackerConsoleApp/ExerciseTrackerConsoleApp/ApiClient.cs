@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 
@@ -15,7 +14,7 @@ public class ApiClient
     public async Task<List<Customer>> GetAllCustomersAsync()
     {
         var response = await httpClient.GetAsync("/api/Customer");
-        if (response.StatusCode == HttpStatusCode.NotFound)
+        if (!response.IsSuccessStatusCode)
             return null;
 
         response.EnsureSuccessStatusCode();
@@ -27,7 +26,7 @@ public class ApiClient
     public async Task<Customer> GetCustomerByIdAsync(int id)
     {
         var response = await httpClient.GetAsync($"/api/Customer/{id}");
-        if (response.StatusCode == HttpStatusCode.NotFound)
+        if (!response.IsSuccessStatusCode)
             return null;
 
         response.EnsureSuccessStatusCode();
@@ -110,7 +109,7 @@ public class ApiClient
     public async Task<Exercise> GetExerciseByIdAsync(int id)
     {
         var response = await httpClient.GetAsync($"/api/Exercise/{id}");
-        if (response.StatusCode == HttpStatusCode.NotFound)
+        if (!response.IsSuccessStatusCode)
             return null;
         response.EnsureSuccessStatusCode();
         var result = await response.Content.ReadFromJsonAsync<Exercise>();
@@ -195,7 +194,7 @@ public class ApiClient
     public async Task<bool?> DeleteExerciseAsync(int id)
     {
         var response = await httpClient.DeleteAsync($"/api/Exercise/{id}");
-        if (response.StatusCode == HttpStatusCode.NotFound)
+        if (!response.IsSuccessStatusCode)
             return null;
         return response.IsSuccessStatusCode;
     }
