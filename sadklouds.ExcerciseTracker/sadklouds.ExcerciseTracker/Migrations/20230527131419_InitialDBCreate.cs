@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace sadklouds.ExcerciseTracker.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialDBCreation : Migration
+    public partial class InitialDBCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

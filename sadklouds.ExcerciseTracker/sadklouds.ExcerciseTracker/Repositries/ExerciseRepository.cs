@@ -29,6 +29,12 @@ public class ExerciseRepository : IExerciseRepository
         return _context.Find<ExerciseModel>(id);
     }
 
+    public void Delete(ExerciseModel exercise)
+    {
+        _context.Remove(exercise);
+        _context.SaveChanges();
+    }
+
     public void Update(ExerciseModel updatedEntity, ExerciseModel curentEntity)
     {
         curentEntity.StartDate = updatedEntity.StartDate;

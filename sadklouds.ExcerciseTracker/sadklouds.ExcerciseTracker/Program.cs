@@ -8,7 +8,6 @@ using sadklouds.ExcerciseTracker.DBContext;
 using sadklouds.ExcerciseTracker.Repositries;
 using sadklouds.ExcerciseTracker.Services;
 
-//var config = GetConnectionString();
 IConfiguration config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 IHost _host = Host.CreateDefaultBuilder().ConfigureServices(
     services =>
@@ -16,26 +15,13 @@ IHost _host = Host.CreateDefaultBuilder().ConfigureServices(
         services.AddDbContext<ExerciseContext>(options =>
         {
             options.UseSqlServer(config.GetConnectionString("Default"));
-        })
-       .AddTransient<IExerciseService, ExerciseService>()
-       .AddTransient<IExerciseRepository, ExerciseRepository>()
-       .AddTransient<IUserInput, UserInput>()
-       .AddTransient<IExerciseController, ExerciseController>();
+        });
+        services.AddScoped<IExerciseService, ExerciseService>();
+        services.AddScoped<IExerciseRepository, ExerciseRepository>();
+        services.AddScoped<IUserInput, UserInput>();
+        services.AddScoped<IExerciseController, ExerciseController>();
     }).Build();
 
 var exerciseController = _host.Services.GetService<IExerciseController>();
-exerciseController.Run();
+exerciseController!.Run();
 
-
-static string GetConnectionString(string connectionStringName = "Default")
-{
-    string output = "";
-
-    var builder = new ConfigurationBuilder()
-        .SetBasePath(Directory.GetCurrentDirectory())
-        .AddJsonFile("appsettings.json");
-    var config = builder.Build();
-
-    output = config.GetConnectionString(connectionStringName);
-    return output;
-}

@@ -12,8 +12,8 @@ using sadklouds.ExcerciseTracker.DBContext;
 namespace sadklouds.ExcerciseTracker.Migrations
 {
     [DbContext(typeof(ExerciseContext))]
-    [Migration("20230527121236_InitialDBCreation")]
-    partial class InitialDBCreation
+    [Migration("20230527131419_InitialDBCreate")]
+    partial class InitialDBCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

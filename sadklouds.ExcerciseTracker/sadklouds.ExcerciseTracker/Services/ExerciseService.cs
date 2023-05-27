@@ -2,82 +2,96 @@
 using sadklouds.ExcerciseTracker.Models;
 using sadklouds.ExcerciseTracker.Repositries;
 
-namespace sadklouds.ExcerciseTracker.Services
+namespace sadklouds.ExcerciseTracker.Services;
+public class ExerciseService : IExerciseService
 {
-    public class ExerciseService : IExerciseService
+    private readonly IExerciseRepository _exerciseRepository;
+    private readonly IUserInput _userInput;
+
+    public ExerciseService(IExerciseRepository _exerciseRepository, IUserInput _userInput)
     {
-        private readonly IExerciseRepository _exerciseRepository;
-        private readonly IUserInput _userInput;
+        this._exerciseRepository = _exerciseRepository;
+        this._userInput = _userInput;
+    }
 
-        public ExerciseService(IExerciseRepository _exerciseRepository, IUserInput _userInput)
+    public void AddExercise()
+    {
+        DateTime startDate = _userInput.GetStartDate();
+        DateTime endDate = _userInput.GetEndDate(startDate);
+        TimeSpan duration = endDate - startDate;
+        string comment = _userInput.GetComment();
+        ExerciseModel excercise = new ExerciseModel()
         {
-            this._exerciseRepository = _exerciseRepository;
-            this._userInput = _userInput;
+            StartDate = startDate,
+            EndDate = endDate,
+            Duration = duration,
+            Comments = comment
+        };
+        _exerciseRepository.Add(excercise);
+    }
+
+    public void DeleteExercise()
+    {
+        GetAllExercises();
+        int id = _userInput.GetIdInput();
+        var exercise = _exerciseRepository.GetById(id);
+        if (exercise == null)
+            Console.WriteLine($"Excercise with Id:{id} was  not found!");
+        else
+        {
+            _exerciseRepository.Delete(exercise);
+            Console.WriteLine($"Exercise Id:{id} was deleted");
         }
+    }
 
-        public void AddExercise()
+    public void GetAllExercises()
+    {
+        List<ExerciseModel> exercises = _exerciseRepository.GetAll().ToList();
+        if (exercises == null)
+            Console.WriteLine("No excercises where found");
+        else
         {
-            DateTime startDate = _userInput.GetStartDate();
-            DateTime endDate = _userInput.GetEndDate(startDate);
-            TimeSpan duration = endDate - startDate;
-            ExerciseModel excercise = new ExerciseModel()
+            Console.WriteLine("----------------------------------------------------------------------------------------");
+            foreach (var exercise in exercises)
             {
-                StartDate = startDate,
-                EndDate = endDate,
-                Duration = duration
-            };
-            _exerciseRepository.Add(excercise);
-        }
-
-        public void DeleteExercise()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void GetAllExercises()
-        {
-            var exercises = _exerciseRepository.GetAll();
-            if (exercises == null)
-                Console.WriteLine("No excercises where found");
-            else
-            {
-                foreach (var exercise in exercises)
-                {
-                    Console.WriteLine("template");
-                }
-            }
-        }
-
-        public void GetExercise()
-        {
-            int id = _userInput.GetIdInput();
-            var exercise = _exerciseRepository.GetById(id);
-            if (exercise == null)
-                Console.WriteLine($"Excercise with Id:{id} was  not found!");
-            else
                 Console.WriteLine($"Id:{exercise.Id}, Start:{exercise.StartDate}, End:{exercise.EndDate}, Duration:{exercise.Duration}");
-        }
-
-        public void UpdateExercise()
-        {
-            int id = _userInput.GetIdInput();
-            var currentExercise = _exerciseRepository.GetById(id);
-            if (currentExercise == null)
-            {
-                Console.WriteLine("Excercise could not be found");
-                return;
+                Console.WriteLine($"Comment:{exercise.Comments}");
+                Console.WriteLine("----------------------------------------------------------------------------------------\n");
             }
-            DateTime startDate = _userInput.GetStartDate();
-            DateTime endDate = _userInput.GetEndDate(startDate);
-            TimeSpan duration = endDate - startDate;
-            ExerciseModel updatedModel = new ExerciseModel()
-            {
-                StartDate = startDate,
-                EndDate = endDate,
-                Duration = duration
-            };
-            _exerciseRepository.Update(updatedModel, currentExercise);
-
         }
+    }
+
+    public void GetExercise()
+    {
+        int id = _userInput.GetIdInput();
+        var exercise = _exerciseRepository.GetById(id);
+        if (exercise == null)
+            Console.WriteLine($"Excercise with Id: {id} was  not found!");
+        else
+            Console.WriteLine($"\nId:{exercise.Id}, Start:{exercise.StartDate}, End:{exercise.EndDate}, Duration:{exercise.Duration}\n");
+    }
+
+    public void UpdateExercise()
+    {
+        GetAllExercises();
+        int id = _userInput.GetIdInput();
+        var currentExercise = _exerciseRepository.GetById(id);
+        if (currentExercise == null)
+        {
+            Console.WriteLine("Excercise could not be found");
+            return;
+        }
+        DateTime startDate = _userInput.GetStartDate();
+        DateTime endDate = _userInput.GetEndDate(startDate);
+        TimeSpan duration = endDate - startDate;
+        string comment = _userInput.GetComment();
+        ExerciseModel updatedModel = new ExerciseModel()
+        {
+            StartDate = startDate,
+            EndDate = endDate,
+            Duration = duration,
+            Comments = comment
+        };
+        _exerciseRepository.Update(updatedModel, currentExercise);
     }
 }
