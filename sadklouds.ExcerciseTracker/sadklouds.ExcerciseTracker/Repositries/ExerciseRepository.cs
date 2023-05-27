@@ -15,14 +15,13 @@ public class ExerciseRepository : IExerciseRepository
 
     public void Add(ExerciseModel entity)
     {
-        var addedEntity = _context.Add(entity);
+         _context.Add(entity);
         _context.SaveChanges();
     }
 
     public IEnumerable<ExerciseModel> GetAll()
     {
-        var entities = _context.Set<ExerciseModel>().ToList();
-        return entities;
+        return _context.Set<ExerciseModel>().ToList();
     }
 
     public ExerciseModel GetById(int id)

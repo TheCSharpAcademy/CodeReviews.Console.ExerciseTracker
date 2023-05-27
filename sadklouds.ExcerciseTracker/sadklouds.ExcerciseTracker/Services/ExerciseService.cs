@@ -1,22 +1,24 @@
-﻿using sadklouds.ExcerciseTracker.Models;
+﻿using sadklouds.ExcerciseTracker.DataInput;
+using sadklouds.ExcerciseTracker.Models;
 using sadklouds.ExcerciseTracker.Repositries;
-using sadklouds.ExcerciseTracker.UserInpit;
 
 namespace sadklouds.ExcerciseTracker.Services
 {
     public class ExerciseService : IExerciseService
     {
         private readonly IExerciseRepository _exerciseRepository;
+        private readonly IUserInput _userInput;
 
-        public ExerciseService(IExerciseRepository _exerciseRepository)
+        public ExerciseService(IExerciseRepository _exerciseRepository, IUserInput _userInput)
         {
             this._exerciseRepository = _exerciseRepository;
+            this._userInput = _userInput;
         }
 
         public void AddExercise()
         {
-            DateTime startDate = UserInput.GetStartDate();
-            DateTime endDate = UserInput.GetEndDate(startDate);
+            DateTime startDate = _userInput.GetStartDate();
+            DateTime endDate = _userInput.GetEndDate(startDate);
             TimeSpan duration = endDate - startDate;
             ExerciseModel excercise = new ExerciseModel()
             {
@@ -24,7 +26,6 @@ namespace sadklouds.ExcerciseTracker.Services
                 EndDate = endDate,
                 Duration = duration
             };
-
             _exerciseRepository.Add(excercise);
         }
 
@@ -49,7 +50,7 @@ namespace sadklouds.ExcerciseTracker.Services
 
         public void GetExercise()
         {
-            int id = UserInput.GetIdInput();
+            int id = _userInput.GetIdInput();
             var exercise = _exerciseRepository.GetById(id);
             if (exercise == null)
                 Console.WriteLine($"Excercise with Id:{id} was  not found!");
@@ -59,15 +60,15 @@ namespace sadklouds.ExcerciseTracker.Services
 
         public void UpdateExercise()
         {
-            int id = UserInput.GetIdInput();
+            int id = _userInput.GetIdInput();
             var currentExercise = _exerciseRepository.GetById(id);
             if (currentExercise == null)
             {
                 Console.WriteLine("Excercise could not be found");
                 return;
             }
-            DateTime startDate = UserInput.GetStartDate();
-            DateTime endDate = UserInput.GetEndDate(startDate);
+            DateTime startDate = _userInput.GetStartDate();
+            DateTime endDate = _userInput.GetEndDate(startDate);
             TimeSpan duration = endDate - startDate;
             ExerciseModel updatedModel = new ExerciseModel()
             {

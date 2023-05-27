@@ -1,10 +1,10 @@
 ﻿using System.Globalization;
 
-namespace sadklouds.ExcerciseTracker.UserInpit
+namespace sadklouds.ExcerciseTracker.DataInput
 {
-    public class UserInput
+    public class UserInput : IUserInput
     {
-        public static int GetIdInput()
+        public int GetIdInput()
         {
             int id;
             Console.Write("Enter shift id: ");
@@ -18,7 +18,7 @@ namespace sadklouds.ExcerciseTracker.UserInpit
             return id;
         }
 
-        public static DateTime GetStartDate()
+        public DateTime GetStartDate()
         {
             Console.Write("Please enter exercise start date & time (dd/MM/yyyy HH:mm): ");
             string textDate = Console.ReadLine();
@@ -33,7 +33,7 @@ namespace sadklouds.ExcerciseTracker.UserInpit
 
         }
 
-        public static DateTime GetEndDate(DateTime startDate)
+        public DateTime GetEndDate(DateTime startDate)
         {
             Console.Write("Please enter exercise end date & time (dd/MM/yyyy HH:mm): ");
             string textDate = Console.ReadLine();
