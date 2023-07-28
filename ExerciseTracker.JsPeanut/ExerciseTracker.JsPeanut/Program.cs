@@ -4,7 +4,7 @@ namespace ExerciseTracker.JsPeanut
 {
     class Program
     {
-        public static bool exit = false;
+        public static bool exit;
         public static void Main(string[] args)
         {
             while(!exit)
