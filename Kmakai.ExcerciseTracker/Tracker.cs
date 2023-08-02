@@ -38,7 +38,7 @@ public class Tracker
                     break;
                 default:
                     break;
-            };
+            }
 
         }
     }
