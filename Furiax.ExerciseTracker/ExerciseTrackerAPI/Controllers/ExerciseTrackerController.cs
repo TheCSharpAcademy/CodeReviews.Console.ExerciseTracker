@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExerciseTrackerAPI.Controllers
 {
-	[Route("api/[ExerciseTracker]")]
+	[Route("api/ExerciseTracker")]
 	[ApiController]
 	public class ExerciseTrackerController : ControllerBase
 	{
