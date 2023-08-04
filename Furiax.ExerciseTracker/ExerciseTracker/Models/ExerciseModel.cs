@@ -1,7 +1,10 @@
-﻿namespace ExerciseTracker.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ExerciseTracker.Models
 {
 	internal class ExerciseModel
 	{
+		[Key]
 		public int ExerciseId { get; set; }
 		public string ExerciseType { get; set; }
 		public DateTime DateStart { get; set; }
