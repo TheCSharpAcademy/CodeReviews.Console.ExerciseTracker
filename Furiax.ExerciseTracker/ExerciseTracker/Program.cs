@@ -19,6 +19,8 @@ using (var scope = host.Services.CreateScope())
 	var context = services.GetRequiredService<ExerciseTrackerContext>();
 }
 
+
+// testing the db connection
 string connectionString = "Data Source=(localdb)\\MSSQLLocalDB";
 
 using (SqlConnection connection = new SqlConnection(connectionString))

@@ -9,38 +9,52 @@ namespace ExerciseTracker.Repositories
 {
 	internal class ExerciseRepository : IExerciseRepository
 	{
-        public ExerciseRepository()
+		private readonly ExerciseTrackerContext _context;
+        public ExerciseRepository(ExerciseTrackerContext context)
         {
-            
-        }
+			_context = context;
+		}
         public void Delete(int id)
 		{
-			throw new NotImplementedException();
+			var exerciseInDb = _context.Exercises.Find(id);
+			if (exerciseInDb != null)
+			{
+				_context.Remove(exerciseInDb);
+			}
 		}
 
 		public ExerciseModel Get(int id)
 		{
-			throw new NotImplementedException();
+			var exerciseInDb = _context.Exercises.Find(id);
+			return exerciseInDb;
 		}
 
 		public IEnumerable<ExerciseModel> GetAll()
 		{
-			throw new NotImplementedException();
+			var allExercises = _context.Exercises;
+			return allExercises;
 		}
 
 		public void Insert(ExerciseModel model)
 		{
-			throw new NotImplementedException();
+			_context.Exercises.Add(model);
 		}
 
 		public void SaveChanges()
 		{
-			throw new NotImplementedException();
+			_context.SaveChanges();
 		}
 
 		public void Update(ExerciseModel model)
 		{
-			throw new NotImplementedException();
+			var exerciseInDb = _context.Exercises.Find(model.ExerciseId);
+			if (exerciseInDb != null)
+			{
+				exerciseInDb.ExerciseType = model.ExerciseType;
+				exerciseInDb.DateStart = model.DateStart;
+				exerciseInDb.DateEnd = model.DateEnd;
+				exerciseInDb.Comments = model.Comments;
+			}
 		}
 	}
 }
