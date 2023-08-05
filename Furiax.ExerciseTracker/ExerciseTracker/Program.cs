@@ -1,4 +1,5 @@
 ﻿using ExerciseTracker;
+using ExerciseTracker.Repositories;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +11,7 @@ var host = new HostBuilder()
 	{
 		services.AddDbContext<ExerciseTrackerContext>(options =>
 			options.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Database=ExerciseTracker"));
+		services.AddTransient<IExerciseRepository, ExerciseRepository>();
 	})
 	.Build();
 
@@ -38,3 +40,5 @@ using (SqlConnection connection = new SqlConnection(connectionString))
 
 Console.WriteLine("Press any key to exit...");
 Console.ReadKey();
+
+UserInput.MainMenu();

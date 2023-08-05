@@ -1,6 +1,15 @@
-﻿namespace ExerciseTracker
+﻿using ExerciseTracker.Models;
+
+namespace ExerciseTracker
 {
-	internal class ExerciseService
+	public class ExerciseService
 	{
+		public void AddExercise()
+		{
+			var exercise = new ExerciseModel();
+			exercise = UserInput.GetExerciseInfo();
+			ExerciseController.InsertExercise(exercise);
+
+		}
 	}
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExerciseTracker
 {
-	internal class ExerciseTrackerContext : DbContext
+	public class ExerciseTrackerContext : DbContext
 	{
         public ExerciseTrackerContext(DbContextOptions<ExerciseTrackerContext>options) 
 			: base(options)

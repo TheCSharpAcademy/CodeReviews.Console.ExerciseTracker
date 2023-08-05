@@ -2,7 +2,7 @@
 
 namespace ExerciseTracker.Models
 {
-	internal class ExerciseModel
+	public class ExerciseModel
 	{
 		[Key]
 		public int ExerciseId { get; set; }

@@ -1,26 +1,22 @@
 ﻿using ExerciseTracker.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ExerciseTracker.Repositories
 {
-	internal class ExerciseRepository : IExerciseRepository
+	public class ExerciseRepository : IExerciseRepository
 	{
 		private readonly ExerciseTrackerContext _context;
-        public ExerciseRepository(ExerciseTrackerContext context)
-        {
+		public ExerciseRepository(ExerciseTrackerContext context)
+		{
 			_context = context;
 		}
-        public void Delete(int id)
+		public void Delete(int id)
 		{
 			var exerciseInDb = _context.Exercises.Find(id);
 			if (exerciseInDb != null)
 			{
 				_context.Remove(exerciseInDb);
 			}
+			_context.SaveChanges();
 		}
 
 		public ExerciseModel Get(int id)
@@ -38,10 +34,6 @@ namespace ExerciseTracker.Repositories
 		public void Insert(ExerciseModel model)
 		{
 			_context.Exercises.Add(model);
-		}
-
-		public void SaveChanges()
-		{
 			_context.SaveChanges();
 		}
 
@@ -55,6 +47,7 @@ namespace ExerciseTracker.Repositories
 				exerciseInDb.DateEnd = model.DateEnd;
 				exerciseInDb.Comments = model.Comments;
 			}
+			_context.SaveChanges();
 		}
 	}
 }

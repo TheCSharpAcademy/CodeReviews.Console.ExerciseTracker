@@ -1,6 +1,67 @@
-﻿namespace ExerciseTracker
+﻿using ExerciseTracker.Models;
+using Spectre.Console;
+
+namespace ExerciseTracker
 {
-	internal class UserInput
+	public class UserInput
 	{
+		public static ExerciseModel GetExerciseInfo()
+		{
+			var exercise = new ExerciseModel();
+			string type = AnsiConsole.Ask<string>("What exercise did you do ? ");
+			DateTime start = AnsiConsole.Ask<DateTime>("When did the exercise start ? format(yyyy-mm-dd hh:mm): ");
+			DateTime end = AnsiConsole.Ask<DateTime>("When did the exercise end ? format (yyyy-mm-dd hh:mm): ");
+			string comment = AnsiConsole.Ask<string>("Add a comment about the exercise (optional): ");
+
+			exercise.ExerciseType = type;
+			exercise.DateStart = start;
+			exercise.DateEnd = end;
+			exercise.Comments = comment;
+
+			return exercise;
+		}
+		public static void MainMenu()
+		{
+			bool isAppAlive = true;
+			while (isAppAlive)
+			{
+				Console.Clear();
+				var option = AnsiConsole.Prompt(new SelectionPrompt<Menu>()
+					.Title("What would you like to do?")
+					.AddChoices(
+						Menu.AddExercise,
+						Menu.ViewAllExercises,
+						Menu.ViewExercise,
+						Menu.UpdateExercise,
+						Menu.DeleteExercise,
+						Menu.Quit
+						));
+				switch (option)
+				{
+					case Menu.AddExercise:
+						ExerciseService.AddExercise();
+						break;
+					case Menu.ViewAllExercises:
+						break;
+					case Menu.ViewExercise:
+						break;
+					case Menu.UpdateExercise: break;
+					case Menu.DeleteExercise:
+						break;
+					case Menu.Quit:
+						isAppAlive = false;
+						break;
+				}
+			}
+		}
+		enum Menu
+		{
+			AddExercise,
+			ViewAllExercises,
+			ViewExercise,
+			UpdateExercise,
+			DeleteExercise,
+			Quit
+		}
 	}
 }
