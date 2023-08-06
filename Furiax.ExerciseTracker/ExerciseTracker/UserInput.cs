@@ -1,5 +1,6 @@
 ﻿using ExerciseTracker.Models;
 using ExerciseTracker.Repositories;
+using Microsoft.Identity.Client;
 using Spectre.Console;
 
 namespace ExerciseTracker
@@ -14,10 +15,12 @@ namespace ExerciseTracker
 		public static ExerciseModel GetExerciseInfo()
 		{
 			var exercise = new ExerciseModel();
-			string type = AnsiConsole.Ask<string>("What exercise did you do ? ");
+			string type = AnsiConsole.Ask<string>("What exercise did you do ? ").Trim();
 			DateTime start = AnsiConsole.Ask<DateTime>("When did the exercise start ? format(yyyy-mm-dd hh:mm): ");
 			DateTime end = AnsiConsole.Ask<DateTime>("When did the exercise end ? format (yyyy-mm-dd hh:mm): ");
-			string comment = AnsiConsole.Ask<string>("Add a comment about the exercise (optional): ");
+			string comment = AnsiConsole.Prompt(new TextPrompt<string>("Add a comment about the exercise (optional): ")
+				.AllowEmpty());
+			
 
 			exercise.ExerciseType = type;
 			exercise.DateStart = start;
@@ -29,7 +32,6 @@ namespace ExerciseTracker
 		public void MainMenu()
 		{
 			IExerciseRepository exerciseRepository = new ExerciseRepository(_context);
-
 			ExerciseService exerciseService = new ExerciseService(exerciseRepository);
 			bool isAppAlive = true;
 			while (isAppAlive)
@@ -51,6 +53,7 @@ namespace ExerciseTracker
 						exerciseService.AddExercise();
 						break;
 					case Menu.ViewAllExercises:
+						exerciseService.GetAll();
 						break;
 					case Menu.ViewExercise:
 						break;

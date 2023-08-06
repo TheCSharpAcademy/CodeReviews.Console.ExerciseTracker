@@ -10,11 +10,18 @@ namespace ExerciseTracker
         {
 			_exerciseRepository = exerciseRepository;
 		}
-        public void AddExercise()
+		public void AddExercise()
 		{
-			var exercise = new ExerciseModel();
-			exercise = UserInput.GetExerciseInfo();
+			var exercise = ExerciseController.AddExercise();
 			_exerciseRepository.Insert(exercise);
+		}
+
+		internal void GetAll()
+		{
+			var exercises = _exerciseRepository.GetAll().ToList();
+			ExerciseController.PrintExercisesTable(exercises);
+			//ExerciseController exercisecontroller = new ExerciseController(_exerciseRepository);
+			//exercisecontroller.PrintExercisesTable(exercises);
 		}
 	}
 }
