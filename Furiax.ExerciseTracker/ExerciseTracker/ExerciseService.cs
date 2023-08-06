@@ -23,5 +23,12 @@ namespace ExerciseTracker
 			//ExerciseController exercisecontroller = new ExerciseController(_exerciseRepository);
 			//exercisecontroller.PrintExercisesTable(exercises);
 		}
+
+		internal void GetExerciseById()
+		{
+			var exercises = _exerciseRepository.GetAll().ToList();
+			int id = ExerciseController.GetIdOption(exercises);
+			var exercise = _exerciseRepository.GetById(id);
+		}
 	}
 }

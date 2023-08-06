@@ -56,6 +56,7 @@ namespace ExerciseTracker
 						exerciseService.GetAll();
 						break;
 					case Menu.ViewExercise:
+						exerciseService.GetExerciseById();
 						break;
 					case Menu.UpdateExercise: break;
 					case Menu.DeleteExercise:
