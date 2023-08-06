@@ -8,10 +8,12 @@ namespace ExerciseTracker
 	public class UserInput
 	{
 		private readonly ExerciseTrackerContext _context;
+
 		public UserInput(ExerciseTrackerContext context)
 		{
 			_context = context;
 		}
+
 		public static ExerciseModel GetExerciseInfo()
 		{
 			var exercise = new ExerciseModel();
@@ -39,6 +41,24 @@ namespace ExerciseTracker
 			var exerciseId = option.Split(" - ")[0];
 			int id = exercises.Single(x => x.ExerciseId.ToString() == exerciseId).ExerciseId;
 			return id;
+		}
+
+		internal static ExerciseModel GetUpdatedInfo(ExerciseModel exercise)
+		{
+			exercise.ExerciseType = AnsiConsole.Confirm($"Do you want to update the exercise name ({exercise.ExerciseType}) ?") ?
+				AnsiConsole.Ask<string>("Enter a new name: ")
+				: exercise.ExerciseType;
+			exercise.DateStart = AnsiConsole.Confirm($"Do you want to edit the start time ({exercise.DateStart}) ?") ?
+				AnsiConsole.Ask<DateTime>("Enter the new start time: ")
+				: exercise.DateStart;
+			exercise.DateEnd = AnsiConsole.Confirm($"Do you want to edit the end time ({exercise.DateEnd})?") ?
+				AnsiConsole.Ask<DateTime>("Enter the new end time: ")
+				:exercise.DateEnd;
+			exercise.Comments = AnsiConsole.Confirm($"Do you want to add or change a comment ?") ?
+				AnsiConsole.Ask<string>("Enter comment: ")
+				:exercise.Comments;
+
+			return exercise;
 		}
 
 		public void MainMenu()
@@ -71,6 +91,7 @@ namespace ExerciseTracker
 						exerciseService.GetExerciseById();
 						break;
 					case Menu.UpdateExercise: 
+						exerciseService.UpdateExercise();
 						break;
 					case Menu.DeleteExercise:
 						exerciseService.DeleteExercise();
@@ -81,6 +102,7 @@ namespace ExerciseTracker
 				}
 			}
 		}
+
 		enum Menu
 		{
 			AddExercise,

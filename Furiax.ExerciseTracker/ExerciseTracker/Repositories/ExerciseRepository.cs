@@ -42,10 +42,6 @@ namespace ExerciseTracker.Repositories
 			if (exerciseInDb != null)
 			{
 				exerciseInDb = model;
-				//exerciseInDb.ExerciseType = model.ExerciseType;
-				//exerciseInDb.DateStart = model.DateStart;
-				//exerciseInDb.DateEnd = model.DateEnd;
-				//exerciseInDb.Comments = model.Comments;
 			}
 			_context.SaveChanges();
 		}

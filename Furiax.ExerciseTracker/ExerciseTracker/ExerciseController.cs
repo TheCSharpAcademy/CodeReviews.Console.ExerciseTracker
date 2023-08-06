@@ -6,16 +6,6 @@ namespace ExerciseTracker
 {
 	public class ExerciseController
 	{
-		//private readonly IExerciseRepository _exerciseRepository;
-		//public ExerciseController(IExerciseRepository exerciseRepository)
-		//{
-		//	_exerciseRepository = exerciseRepository;
-		//}
-		//private readonly ExerciseService _exerciseService;
-		//public ExerciseController(ExerciseService exerciseService)
-		//{
-		//	_exerciseService = exerciseService;
-		//}
 		public static ExerciseModel AddExercise()
 		{
 			var exercise = UserInput.GetExerciseInfo();
@@ -62,6 +52,11 @@ Comment: {exercise.Comments}");
 		{
 			int id = UserInput.GetIdOfExercise(exercises);
 			return id;
+		}
+		internal static ExerciseModel GetUpdateInfo(ExerciseModel exercise)
+		{
+			var updatedExercise = UserInput.GetUpdatedInfo(exercise);
+			return updatedExercise;
 		}
 	}
 }
