@@ -16,13 +16,12 @@ namespace ExerciseTracker.Repositories
 			{
 				_context.Remove(exerciseInDb);
 			}
-			_context.SaveChanges();
+			_context.SaveChangesAsync();
 		}
 
-		public ExerciseModel Get(int id)
+		public ExerciseModel GetById(int id)
 		{
-			var exerciseInDb = _context.Exercises.Find(id);
-			return exerciseInDb;
+			return GetAll().FirstOrDefault(x => x.ExerciseId == id);
 		}
 
 		public IEnumerable<ExerciseModel> GetAll()
@@ -42,10 +41,11 @@ namespace ExerciseTracker.Repositories
 			var exerciseInDb = _context.Exercises.Find(model.ExerciseId);
 			if (exerciseInDb != null)
 			{
-				exerciseInDb.ExerciseType = model.ExerciseType;
-				exerciseInDb.DateStart = model.DateStart;
-				exerciseInDb.DateEnd = model.DateEnd;
-				exerciseInDb.Comments = model.Comments;
+				exerciseInDb = model;
+				//exerciseInDb.ExerciseType = model.ExerciseType;
+				//exerciseInDb.DateStart = model.DateStart;
+				//exerciseInDb.DateEnd = model.DateEnd;
+				//exerciseInDb.Comments = model.Comments;
 			}
 			_context.SaveChanges();
 		}

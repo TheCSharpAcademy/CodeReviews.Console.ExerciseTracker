@@ -19,26 +19,28 @@ using (var scope = host.Services.CreateScope())
 {
 	var services = scope.ServiceProvider;
 	var context = services.GetRequiredService<ExerciseTrackerContext>();
-}
 
 
-// testing the db connection
-string connectionString = "Data Source=(localdb)\\MSSQLLocalDB";
 
-using (SqlConnection connection = new SqlConnection(connectionString))
-{
-	try
+	// testing the db connection
+	string connectionString = "Data Source=(localdb)\\MSSQLLocalDB";
+
+	using (SqlConnection connection = new SqlConnection(connectionString))
 	{
-		connection.Open();
-		Console.WriteLine("Connection successful!");
+		try
+		{
+			connection.Open();
+			Console.WriteLine("Connection successful!");
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"Connection failed: {ex.Message}");
+		}
 	}
-	catch (Exception ex)
-	{
-		Console.WriteLine($"Connection failed: {ex.Message}");
-	}
+
+	Console.WriteLine("Press any key to exit...");
+	Console.ReadKey();
+
+	var userInput = new UserInput(context);
+	userInput.MainMenu();
 }
-
-Console.WriteLine("Press any key to exit...");
-Console.ReadKey();
-
-UserInput.MainMenu();

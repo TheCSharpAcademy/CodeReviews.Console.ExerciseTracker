@@ -1,10 +1,16 @@
 ﻿using ExerciseTracker.Models;
+using ExerciseTracker.Repositories;
 using Spectre.Console;
 
 namespace ExerciseTracker
 {
 	public class UserInput
 	{
+		private readonly ExerciseTrackerContext _context;
+		public UserInput(ExerciseTrackerContext context)
+		{
+			_context = context;
+		}
 		public static ExerciseModel GetExerciseInfo()
 		{
 			var exercise = new ExerciseModel();
@@ -20,8 +26,11 @@ namespace ExerciseTracker
 
 			return exercise;
 		}
-		public static void MainMenu()
+		public void MainMenu()
 		{
+			IExerciseRepository exerciseRepository = new ExerciseRepository(_context);
+
+			ExerciseService exerciseService = new ExerciseService(exerciseRepository);
 			bool isAppAlive = true;
 			while (isAppAlive)
 			{
@@ -39,7 +48,7 @@ namespace ExerciseTracker
 				switch (option)
 				{
 					case Menu.AddExercise:
-						ExerciseService.AddExercise();
+						exerciseService.AddExercise();
 						break;
 					case Menu.ViewAllExercises:
 						break;

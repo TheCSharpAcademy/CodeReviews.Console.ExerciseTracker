@@ -1,15 +1,20 @@
 ﻿using ExerciseTracker.Models;
+using ExerciseTracker.Repositories;
 
 namespace ExerciseTracker
 {
 	public class ExerciseService
 	{
-		public void AddExercise()
+		private readonly IExerciseRepository _exerciseRepository;
+        public ExerciseService(IExerciseRepository exerciseRepository)
+        {
+			_exerciseRepository = exerciseRepository;
+		}
+        public void AddExercise()
 		{
 			var exercise = new ExerciseModel();
 			exercise = UserInput.GetExerciseInfo();
-			ExerciseController.InsertExercise(exercise);
-
+			_exerciseRepository.Insert(exercise);
 		}
 	}
 }
