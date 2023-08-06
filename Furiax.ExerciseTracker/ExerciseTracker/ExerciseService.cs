@@ -16,6 +16,13 @@ namespace ExerciseTracker
 			_exerciseRepository.Insert(exercise);
 		}
 
+		internal void DeleteExercise()
+		{
+			var exercises = _exerciseRepository.GetAll().ToList();
+			int id = ExerciseController.GetIdOption(exercises);
+			_exerciseRepository.Delete(id);
+		}
+
 		internal void GetAll()
 		{
 			var exercises = _exerciseRepository.GetAll().ToList();

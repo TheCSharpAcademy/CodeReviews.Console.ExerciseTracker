@@ -70,8 +70,10 @@ namespace ExerciseTracker
 					case Menu.ViewExercise:
 						exerciseService.GetExerciseById();
 						break;
-					case Menu.UpdateExercise: break;
+					case Menu.UpdateExercise: 
+						break;
 					case Menu.DeleteExercise:
+						exerciseService.DeleteExercise();
 						break;
 					case Menu.Quit:
 						isAppAlive = false;
