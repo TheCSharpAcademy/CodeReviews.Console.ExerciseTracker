@@ -29,6 +29,7 @@ namespace ExerciseTracker
 			var exercises = _exerciseRepository.GetAll().ToList();
 			int id = ExerciseController.GetIdOption(exercises);
 			var exercise = _exerciseRepository.GetById(id);
+			ExerciseController.PrintExercise(exercise);
 		}
 	}
 }

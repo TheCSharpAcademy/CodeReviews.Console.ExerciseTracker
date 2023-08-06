@@ -60,12 +60,7 @@ Comment: {exercise.Comments}");
 
 		internal static int GetIdOption(List<ExerciseModel> exercises)
 		{
-			var exerciseArray = exercises.Select(x => $"{x.ExerciseId} - {x.ExerciseType}").ToArray();
-			var option = AnsiConsole.Prompt(new SelectionPrompt<string>()
-				.Title("Select the desired exercise:")
-				.AddChoices(exerciseArray));
-			var exerciseId = option.Split(" - ")[0];
-			int id = Convert.ToInt32(exercises.Single(x => x.ExerciseId.ToString() == exerciseId));
+			int id = UserInput.GetIdOfExercise(exercises);
 			return id;
 		}
 	}
