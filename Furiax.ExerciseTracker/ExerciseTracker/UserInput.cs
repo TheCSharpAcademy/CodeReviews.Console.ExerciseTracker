@@ -9,8 +9,19 @@ namespace ExerciseTracker
 		{
 			var exercise = new ExerciseModel();
 			string type = AnsiConsole.Ask<string>("What exercise did you do ? ").Trim();
-			DateTime start = AnsiConsole.Ask<DateTime>("When did the exercise start ? format(yyyy-mm-dd hh:mm): ");
-			DateTime end = AnsiConsole.Ask<DateTime>("When did the exercise end ? format (yyyy-mm-dd hh:mm): ");
+
+			DateTime start;
+			do
+			{
+				start = AnsiConsole.Ask<DateTime>("When did the exercise start ? format(yyyy-mm-dd hh:mm): ");
+			} while (!Validation.IsDateNotInFuture(start));
+
+			DateTime end;
+			do
+			{
+				end = AnsiConsole.Ask<DateTime>("When did the exercise end ? format (yyyy-mm-dd hh:mm): ");
+			} while (!Validation.IsEndDateGreaterThanStartDate(start,end));
+
 			string comment = AnsiConsole.Prompt(new TextPrompt<string>("Add a comment about the exercise (optional): ")
 				.AllowEmpty());
 
@@ -38,16 +49,24 @@ namespace ExerciseTracker
 			exercise.ExerciseType = AnsiConsole.Confirm($"Do you want to update the exercise name ({exercise.ExerciseType}) ?") ?
 				AnsiConsole.Ask<string>("Enter a new name: ")
 				: exercise.ExerciseType;
-			exercise.DateStart = AnsiConsole.Confirm($"Do you want to edit the start time ({exercise.DateStart}) ?") ?
-				AnsiConsole.Ask<DateTime>("Enter the new start time: ")
-				: exercise.DateStart;
-			exercise.DateEnd = AnsiConsole.Confirm($"Do you want to edit the end time ({exercise.DateEnd})?") ?
-				AnsiConsole.Ask<DateTime>("Enter the new end time: ")
-				: exercise.DateEnd;
-			exercise.Comments = AnsiConsole.Confirm($"Do you want to add or change a comment ?") ?
+			do {
+				do
+				{
+					exercise.DateStart = AnsiConsole.Confirm($"Do you want to edit the start time ({exercise.DateStart}) ?") ?
+					AnsiConsole.Ask<DateTime>("Enter the new start time: ")
+					: exercise.DateStart;
+				} while (!Validation.IsDateNotInFuture(exercise.DateStart));
+
+				do
+				{
+					exercise.DateEnd = AnsiConsole.Confirm($"Do you want to edit the end time ({exercise.DateEnd})?") ?
+					AnsiConsole.Ask<DateTime>("Enter the new end time: ")
+					: exercise.DateEnd; 
+				} while (!Validation.IsDateNotInFuture(exercise.DateEnd));
+			} while  (!Validation.IsEndDateGreaterThanStartDate(exercise.DateStart, exercise.DateEnd));
+			exercise.Comments = AnsiConsole.Confirm($"Do you want to add or change the comment ({exercise.Comments}) ?") ?
 				AnsiConsole.Prompt(new TextPrompt<string>("Enter comment: ").AllowEmpty())
 				: exercise.Comments;
-
 			return exercise;
 		}
 	}
