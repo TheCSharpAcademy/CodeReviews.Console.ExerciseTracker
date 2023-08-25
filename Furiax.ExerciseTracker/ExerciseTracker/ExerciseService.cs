@@ -11,8 +11,8 @@ namespace ExerciseTracker
 		}
 		public void AddExercise()
 		{
-			var exercise = ExerciseController.AddExercise();
-			_exerciseRepository.Insert(exercise);
+			var exercise = UserInput.GetExerciseInfo();
+			_exerciseRepository.Add(exercise);
 		}
 
 		internal void DeleteExercise()
@@ -32,7 +32,7 @@ namespace ExerciseTracker
 		{
 			var exercises = _exerciseRepository.GetAll().ToList();
 			int id = ExerciseController.GetIdOption(exercises);
-			var exercise = _exerciseRepository.GetById(id);
+			var exercise = _exerciseRepository.GetExerciseById(id);
 			ExerciseController.PrintExercise(exercise);
 		}
 
@@ -40,7 +40,7 @@ namespace ExerciseTracker
 		{
 			var exercises = _exerciseRepository.GetAll().ToList();
 			int id = ExerciseController.GetIdOption(exercises);
-			var exercise = _exerciseRepository.GetById(id);
+			var exercise = _exerciseRepository.GetExerciseById(id);
 			var updatedExercise = ExerciseController.GetUpdateInfo(exercise);
 			_exerciseRepository.Update(updatedExercise);
 		}

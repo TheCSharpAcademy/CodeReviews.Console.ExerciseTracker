@@ -9,40 +9,36 @@ namespace ExerciseTracker.Repositories
 		{
 			_context = context;
 		}
+
+		public void Add(ExerciseModel exercise)
+		{
+			_context.Add(exercise);
+			_context.SaveChanges();
+		}
+
 		public void Delete(int id)
 		{
 			var exerciseInDb = _context.Exercises.Find(id);
 			if (exerciseInDb != null)
 			{
 				_context.Remove(exerciseInDb);
+				_context.SaveChanges();
 			}
-			_context.SaveChangesAsync();
-		}
-
-		public ExerciseModel GetById(int id)
-		{
-			return GetAll().FirstOrDefault(x => x.ExerciseId == id);
 		}
 
 		public IEnumerable<ExerciseModel> GetAll()
 		{
-			var allExercises = _context.Exercises;
-			return allExercises;
+			return _context.Set<ExerciseModel>().ToList();
 		}
 
-		public void Insert(ExerciseModel model)
+		public ExerciseModel GetExerciseById(int id)
 		{
-			_context.Exercises.Add(model);
-			_context.SaveChanges();
+			return _context.Find<ExerciseModel>(id);
 		}
 
-		public void Update(ExerciseModel model)
+		public void Update(ExerciseModel exercise)
 		{
-			var exerciseInDb = _context.Exercises.Find(model.ExerciseId);
-			if (exerciseInDb != null)
-			{
-				exerciseInDb = model;
-			}
+			_context.Update(exercise);
 			_context.SaveChanges();
 		}
 	}

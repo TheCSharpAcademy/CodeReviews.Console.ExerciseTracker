@@ -1,15 +1,14 @@
 ﻿using ExerciseTracker.Models;
-using ExerciseTracker.Repositories;
 using Spectre.Console;
 
 namespace ExerciseTracker
 {
 	public class ExerciseController
 	{
-		public static ExerciseModel AddExercise()
+		private readonly ExerciseService _exerciseService;
+		public ExerciseController(ExerciseService exerciseService)
 		{
-			var exercise = UserInput.GetExerciseInfo();
-			return exercise;
+			_exerciseService = exerciseService;
 		}
 		public static void PrintExercisesTable(List<ExerciseModel> exercises)
 		{
@@ -24,7 +23,7 @@ namespace ExerciseTracker
 			foreach (var exercise in exercises)
 			{
 				table.AddRow(exercise.ExerciseId.ToString(), exercise.ExerciseType,
-					exercise.DateStart.ToString(), exercise.DateEnd.ToString(), 
+					exercise.DateStart.ToString(), exercise.DateEnd.ToString(),
 					exercise.Duration.ToString(), exercise.Comments);
 			}
 			AnsiConsole.Write(table);
@@ -47,7 +46,6 @@ Comment: {exercise.Comments}");
 			Console.ReadKey();
 			Console.Clear();
 		}
-
 		internal static int GetIdOption(List<ExerciseModel> exercises)
 		{
 			int id = UserInput.GetIdOfExercise(exercises);
@@ -57,6 +55,54 @@ Comment: {exercise.Comments}");
 		{
 			var updatedExercise = UserInput.GetUpdatedInfo(exercise);
 			return updatedExercise;
+		}
+		public void MainMenu()
+		{
+			bool isAppAlive = true;
+			while (isAppAlive)
+			{
+				Console.Clear();
+				var option = AnsiConsole.Prompt(new SelectionPrompt<Menu>()
+					.Title("What would you like to do?")
+					.AddChoices(
+						Menu.AddExercise,
+						Menu.ViewAllExercises,
+						Menu.ViewExercise,
+						Menu.UpdateExercise,
+						Menu.DeleteExercise,
+						Menu.Quit
+						));
+				switch (option)
+				{
+					case Menu.AddExercise:
+						_exerciseService.AddExercise();
+						break;
+					case Menu.ViewAllExercises:
+						_exerciseService.GetAll();
+						break;
+					case Menu.ViewExercise:
+						_exerciseService.GetExerciseById();
+						break;
+					case Menu.UpdateExercise:
+						_exerciseService.UpdateExercise();
+						break;
+					case Menu.DeleteExercise:
+						_exerciseService.DeleteExercise();
+						break;
+					case Menu.Quit:
+						isAppAlive = false;
+						break;
+				}
+			}
+		}
+		enum Menu
+		{
+			AddExercise,
+			ViewAllExercises,
+			ViewExercise,
+			UpdateExercise,
+			DeleteExercise,
+			Quit
 		}
 	}
 }

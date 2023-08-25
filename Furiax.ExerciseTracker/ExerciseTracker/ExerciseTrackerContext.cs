@@ -7,13 +7,13 @@ namespace ExerciseTracker
 	{
         public ExerciseTrackerContext(DbContextOptions<ExerciseTrackerContext>options) 
 			: base(options)
-        {
-            
+        {  
         }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-		{
-			base.OnModelCreating(modelBuilder);
-		}
 		public DbSet<ExerciseModel> Exercises { get; set; }
+		//protected override void OnModelCreating(ModelBuilder modelBuilder)
+		//{
+		//	base.OnModelCreating(modelBuilder);
+		//}
+		
 	}
 }
