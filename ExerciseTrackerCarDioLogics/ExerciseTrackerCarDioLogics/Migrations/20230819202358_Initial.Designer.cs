@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ExerciseTrackerCarDioLogics.Migrations
 {
-    [DbContext(typeof(ExSessionContext))]
+    [DbContext(typeof(SessionContext))]
     [Migration("20230819202358_Initial")]
     partial class Initial
     {

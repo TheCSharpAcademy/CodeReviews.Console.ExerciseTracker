@@ -1,10 +1,11 @@
-﻿using ExerciseTrackerCarDioLogics.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using ExerciseTrackerCarDioLogics.Models;
+
 namespace ExerciseTrackerCarDioLogics.Data;
 
-public class ExSessionContext : DbContext
+public class SessionContext : DbContext
 {
-    public DbSet<ExSession> ExSessions { get; set; }
+    public DbSet<Session> Sessions { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

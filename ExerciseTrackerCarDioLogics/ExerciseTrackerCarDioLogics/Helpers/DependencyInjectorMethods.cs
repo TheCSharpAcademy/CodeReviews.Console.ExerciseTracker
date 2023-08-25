@@ -1,35 +1,36 @@
 ﻿using ExerciseTrackerCarDioLogics.Data;
 using ExerciseTrackerCarDioLogics.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExerciseTrackerCarDioLogics.Helpers;
 
 public class DependencyInjectorMethods
 {
-    public ExSessionController EFImplementationService()
+    public SessionController EFImplementationService()
     {
         //test
         Console.WriteLine("Entity framework is being used!");
         Console.ReadLine();
 
-        ExSessionContext exSessionContext = new ExSessionContext();
-        IExSessionRepository eFExSessionRepository = new EFExSessionRepository(exSessionContext);
-        ExSessionService exSessionServiceEF = new ExSessionService(eFExSessionRepository);
-        ExSessionController exSessionControllerEF = new ExSessionController(exSessionServiceEF);
+        SessionContext SessionContext = new SessionContext();
+        ISessionRepository eFSessionRepository = new EFSessionRepository(SessionContext);
+        SessionService SessionServiceEF = new SessionService(eFSessionRepository);
+        SessionController SessionControllerEF = new SessionController(SessionServiceEF);
 
-        return exSessionControllerEF;
+        return SessionControllerEF;
     }
 
-    public ExSessionController RawSQLImplementationService()
+    public SessionController RawSQLImplementationService()
     {
         //test
         Console.WriteLine("Raw SQL is being used!");
         Console.ReadLine();
 
         string connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=ExerciseTrackerDB;Trusted_Connection=True;";
-        IExSessionRepository rawSQLExSessionRepository = new RawSQLExSessionRepository(connectionString);
-        ExSessionService exSessionServiceRawSQL = new ExSessionService(rawSQLExSessionRepository);
-        ExSessionController exSessionControllerRawSQL = new ExSessionController(exSessionServiceRawSQL);
+        ISessionRepository rawSQLSessionRepository = new RawSQLSessionRepository(connectionString);
+        SessionService SessionServiceRawSQL = new SessionService(rawSQLSessionRepository);
+        SessionController SessionControllerRawSQL = new SessionController(SessionServiceRawSQL);
 
-        return exSessionControllerRawSQL;
+        return SessionControllerRawSQL;
     }
 }

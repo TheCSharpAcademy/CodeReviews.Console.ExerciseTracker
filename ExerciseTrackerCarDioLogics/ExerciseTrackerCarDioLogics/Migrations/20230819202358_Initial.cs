@@ -12,7 +12,7 @@ namespace ExerciseTrackerCarDioLogics.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "ExSessions",
+                name: "Sessions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -24,7 +24,7 @@ namespace ExerciseTrackerCarDioLogics.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExSessions", x => x.Id);
+                    table.PrimaryKey("PK_Sessions", x => x.Id);
                 });
         }
 
@@ -32,7 +32,7 @@ namespace ExerciseTrackerCarDioLogics.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ExSessions");
+                name: "Sessions");
         }
     }
 }

@@ -3,17 +3,22 @@ using Microsoft.Data.SqlClient;
 
 namespace ExerciseTrackerCarDioLogics.Repositories;
 
-public class RawSQLExSessionRepository : IExSessionRepository
+public class RawSQLSessionRepository : ISessionRepository
 {
     //implementation of the ExSession interface into RawSQL
     private readonly string _connectionString;
 
-    public RawSQLExSessionRepository(string connectionString)
+    public RawSQLSessionRepository(string connectionString)
     {
         _connectionString = connectionString;
     }
 
-    public ExSession GetSessionById(int id)
+    public void CreateDatabase()
+    {
+        //Could not implement SQL to create database. Got error denying me access.
+    }
+
+    public Session GetSessionById(int id)
     {
         using ( var connection = new SqlConnection(_connectionString))
         {
@@ -28,7 +33,7 @@ public class RawSQLExSessionRepository : IExSessionRepository
                 {
                     if(reader.Read())
                     {
-                        return new ExSession
+                        return new Session
                         {
                             Id = Convert.ToInt32(reader["Id"]),
                             DateStart = Convert.ToDateTime(reader["DateStart"]),
@@ -46,7 +51,7 @@ public class RawSQLExSessionRepository : IExSessionRepository
         return null; //
     }
 
-    public void AddSession(ExSession session)
+    public void AddSession(Session session)
     {
         using (var connection = new SqlConnection(_connectionString))
         {
@@ -81,7 +86,7 @@ public class RawSQLExSessionRepository : IExSessionRepository
         }
     }
 
-    public void UpdateSession(ExSession session)
+    public void UpdateSession(Session session)
     {
         using (var connection = new SqlConnection(_connectionString))
         {
@@ -101,9 +106,9 @@ public class RawSQLExSessionRepository : IExSessionRepository
         }
     }
 
-    public List<ExSession> GetAllSessions()
+    public List<Session> GetAllSessions()
     {
-        List<ExSession> sessions = new List<ExSession>();
+        List<Session> sessions = new List<Session>();
 
         using (var connection = new SqlConnection(_connectionString))
         {
@@ -116,7 +121,7 @@ public class RawSQLExSessionRepository : IExSessionRepository
                 {
                     while (reader.Read())
                     {
-                        ExSession session = new ExSession
+                        Session session = new Session
                         {
                             Id = Convert.ToInt32(reader["Id"]),
                             DateStart = Convert.ToDateTime(reader["DateStart"]),

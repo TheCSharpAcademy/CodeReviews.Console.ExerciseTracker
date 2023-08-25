@@ -8,7 +8,7 @@ namespace ExerciseTrackerCarDioLogics;
 public class UserInterface
 {
     DependencyInjectorMethods dependencyInjectorMethods = new DependencyInjectorMethods();
-    ExSessionController controller;
+    SessionController controller;
     DateTime dateStart, dateEnd;
     TimeSpan duration;
     string comment;
@@ -16,6 +16,7 @@ public class UserInterface
     public void StartMenu() //Depending on what the user chooses it will "inject" either the EF or RawSQL.
     {
         bool isAppRunning = true;
+        dependencyInjectorMethods.EFImplementationService().CreateDatabase();
 
         do
         {
@@ -62,24 +63,28 @@ public class UserInterface
             {
                 case MainMenuOptions.AddSession:
                     GetUserInput(out dateStart, out dateEnd, out duration, out comment);
-                    controller.AddExSession(dateStart, dateEnd, duration, comment);
+                    controller.AddSession(dateStart, dateEnd, duration, comment);
                     break;
                 case MainMenuOptions.RemoveSession:
                     ShowListSessions();
                     Console.WriteLine("Removing Session...");
                     id = GetSessionID();
-                    controller.RemoveSession(id);
+
+                    if (id != -1)
+                    {
+                        controller.RemoveSession(id);
+                    }
                     break;
                 case MainMenuOptions.UpdateSession:
                     ShowListSessions();
                     Console.WriteLine("Updating Session...");
                     id = GetSessionID();
-                    ExSession session = controller.GetSessionById(id);
 
-                    if(session != null)
+                    if(id != -1)
                     {
+                        Session session = controller.GetSessionById(id);
                         GetUserInput(out dateStart, out dateEnd, out duration, out comment);
-                        controller.UpdateExSession(id, dateStart, dateEnd, duration, comment, session);
+                        controller.UpdateSession(id, dateStart, dateEnd, duration, comment, session);
                     }
                     break;
                 case MainMenuOptions.ViewSessions:
@@ -94,7 +99,7 @@ public class UserInterface
 
     public void ShowListSessions()
     {
-        List<ExSession> sessions = controller.GetAllSessions();
+        List<Session> sessions = controller.GetAllSessions();
 
         var table = new Table();
         table.AddColumn("ID");
@@ -121,7 +126,7 @@ public class UserInterface
 
     public int GetSessionID()
     {
-        List<ExSession> sessions = controller.GetAllSessions();
+        List<Session> sessions = controller.GetAllSessions();
 
         var sessionOptions = new List<int>();
 
@@ -130,10 +135,20 @@ public class UserInterface
             sessionOptions.Add(session.Id);
         }
 
-        var sessionSelection = AnsiConsole.Prompt(
-            new SelectionPrompt<int>()
+        int sessionSelection;
+        if (sessionOptions.Count > 0)
+        {
+            sessionSelection = AnsiConsole.Prompt(
+                 new SelectionPrompt<int>()
                 .Title("Choose a session:")
                 .AddChoices(sessionOptions));
+        }
+        else
+        {
+            sessionSelection = -1;
+            Console.WriteLine("No sessions exist yet!");
+            Console.ReadLine();
+        }
 
         return sessionSelection;
     }
@@ -154,7 +169,13 @@ public class UserInterface
             Console.WriteLine("End Date:");
             string input = AnsiConsole.Prompt(new TextPrompt<string>("Enter date and time (yyyy/MM/dd HH:mm):"));
             dateEnd = Validator.GetValidDate(input, out isDateValid);
-        } while (isDateValid != true);
+            
+            if(dateEnd < dateStart)
+            {
+                Console.WriteLine("The end date should be later than the start date!");
+                Console.ReadLine() ;
+            }
+        } while (isDateValid != true || dateEnd < dateStart);
 
         duration = dateEnd - dateStart;
 

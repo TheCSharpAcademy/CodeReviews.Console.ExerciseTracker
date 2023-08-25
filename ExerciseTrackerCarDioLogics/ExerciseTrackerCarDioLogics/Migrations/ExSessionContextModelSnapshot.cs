@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ExerciseTrackerCarDioLogics.Migrations
 {
-    [DbContext(typeof(ExSessionContext))]
-    partial class ExSessionContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(SessionContext))]
+    partial class SessionContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -22,7 +22,7 @@ namespace ExerciseTrackerCarDioLogics.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ExerciseTrackerCarDioLogics.Models.ExSession", b =>
+            modelBuilder.Entity("ExerciseTrackerCarDioLogics.Models.Session", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -45,7 +45,7 @@ namespace ExerciseTrackerCarDioLogics.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ExSessions");
+                    b.ToTable("Sessions");
                 });
 #pragma warning restore 612, 618
         }

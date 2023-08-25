@@ -1,6 +1,4 @@
-﻿using Spectre.Console;
-
-namespace ExerciseTrackerCarDioLogics;
+﻿namespace ExerciseTrackerCarDioLogics;
 
 static public class Validator
 {

@@ -1,6 +1,6 @@
 ﻿namespace ExerciseTrackerCarDioLogics.Models;
 
-public class ExSession
+public class Session
 {
     public int Id { get; set; }
     public DateTime DateStart { get; set; }
