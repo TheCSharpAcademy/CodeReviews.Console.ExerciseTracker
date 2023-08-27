@@ -10,10 +10,6 @@ namespace ExerciseTracker
         {  
         }
 		public DbSet<ExerciseModel> Exercises { get; set; }
-		//protected override void OnModelCreating(ModelBuilder modelBuilder)
-		//{
-		//	base.OnModelCreating(modelBuilder);
-		//}
-		
+	
 	}
 }
