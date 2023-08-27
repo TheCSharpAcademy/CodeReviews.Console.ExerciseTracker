@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;xcvcvxcxv
-using System.Threading.Tasks;
+﻿using System.Globalization;
 
 namespace ExerciseTracker.JsPeanut
 {
