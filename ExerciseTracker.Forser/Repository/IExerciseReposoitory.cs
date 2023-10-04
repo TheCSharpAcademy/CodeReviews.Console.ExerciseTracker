@@ -8,6 +8,6 @@ namespace ExerciseTracker.Forser.Repository
         public bool GetExerciseById(int id, out Exercise? exercise);
         public bool AddExercise(Exercise exercise);
         public bool EditExercise(Exercise exercise);
-        public bool DeleteExercise(Exercise exercise);
+        public void DeleteExercise(Exercise exercise);
     }
 }

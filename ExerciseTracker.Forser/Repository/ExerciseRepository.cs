@@ -1,6 +1,6 @@
 ﻿namespace ExerciseTracker.Forser.Repository
 {
-    internal class ExerciseRepository : IExerciseReposoitory
+    public class ExerciseRepository : IExerciseReposoitory
     {
         private readonly ExerciseContext _exerciseContext;
         public ExerciseRepository(ExerciseContext context)
@@ -18,9 +18,10 @@
             }
             else { return false; }
         }
-        public bool DeleteExercise(Exercise exercise)
+        public void DeleteExercise(Exercise exercise)
         {
-            throw new NotImplementedException();
+            _exerciseContext.Remove(exercise);
+            _exerciseContext.SaveChanges();
         }
         public bool EditExercise(Exercise exercise)
         {
@@ -28,7 +29,18 @@
         }
         public bool GetExerciseById(int id, out Exercise? exercise)
         {
-            throw new NotImplementedException();
+            exercise = null;
+            Exercise? _ = _exerciseContext.Exercises.Find(id);
+            if (_ == null)
+            {
+                return false;
+            }
+            else
+            {
+                exercise = _;
+                return true;
+            }
+                
         }
         public IEnumerable<Exercise> GetExercises()
         {

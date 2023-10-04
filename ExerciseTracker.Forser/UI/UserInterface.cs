@@ -1,14 +1,25 @@
 ﻿namespace ExerciseTracker.Forser.UI
 {
-    public class UserInterface : IUserInterface
+    internal class UserInterface : IUserInterface
     {
+        private readonly IExerciseReposoitory _exerciseReposoitory;
+        public UserInterface(IExerciseReposoitory exerciseReposoitory)
+        {
+            _exerciseReposoitory = exerciseReposoitory;
+        }
         public DateTime GetEndTime(DateTime startTime)
         {
             throw new NotImplementedException();
         }
-        public int GetExerciseId()
+        public int GetExerciseId(int id)
         {
-            throw new NotImplementedException();
+            bool result = _exerciseReposoitory.GetExerciseById(id, out _);
+
+            if(result)
+            {
+                return id;
+            }
+            return -1;
         }
         public string GetExerciseOption()
         {
@@ -22,16 +33,14 @@
         {
             Table table = new Table();
             table.Expand();
-            table.AddColumns("Date Started","Date Ended","Duration","Comments");
+            table.AddColumns("Id","Date Started","Date Ended","Duration","Comments");
 
             foreach (Exercise exercise in exercises)
             {
-                table.AddRow($"{exercise.DateStart}", $"{exercise.DateEnd}",$"{exercise.Duration}", $"{exercise.Comments}");
+                table.AddRow($"{exercise.Id}", $"{exercise.DateStart}", $"{exercise.DateEnd}",$"{exercise.Duration}", $"{exercise.Comments}");
             }
 
             AnsiConsole.Write(table);
-            AnsiConsole.WriteLine("Press any key to return to main menu");
-            Console.ReadLine();
         }
     }
 }

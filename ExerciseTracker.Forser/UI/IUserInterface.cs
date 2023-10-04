@@ -3,7 +3,7 @@
     internal interface IUserInterface
     {
         DateTime GetEndTime(DateTime startTime);
-        int GetExerciseId();
+        int GetExerciseId(int id);
         string GetExerciseOption();
         DateTime GetStartTime();
     }

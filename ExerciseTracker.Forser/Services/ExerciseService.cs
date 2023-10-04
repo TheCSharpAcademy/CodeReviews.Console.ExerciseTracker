@@ -21,7 +21,18 @@
 
         public void DeleteExercise(int id)
         {
-            throw new NotImplementedException();
+            if(!_exerciseReposoitory.GetExerciseById(id, out Exercise? exerciseToDelete))
+            {
+                AnsiConsole.WriteLine("Couldn't find the exercise you wanted to delete");
+                return;
+            }
+            if (exerciseToDelete == null)
+            {
+                AnsiConsole.WriteLine("Something went wrong when trying to get the exercise");
+                return;
+            }
+            _exerciseReposoitory.DeleteExercise(exerciseToDelete);
+            AnsiConsole.WriteLine("Successfully deleted exercise.");
         }
 
         public void DisplayExercises()

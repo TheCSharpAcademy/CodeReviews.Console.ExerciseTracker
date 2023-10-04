@@ -25,9 +25,16 @@
                 {
                     case 0:
                         _exerciseService.DisplayExercises();
+                        AnsiConsole.WriteLine("Press any key to return to main menu");
+                        Console.ReadLine();
                         break;
                     case 1:
                         AddNewExercise();
+                        break;
+                    case 2:
+                        DeleteExercise();
+                        AnsiConsole.WriteLine("Press any key to return to main menu");
+                        Console.ReadLine();
                         break;
                     case -1:
                         AnsiConsole.WriteLine("Goodbye!");
@@ -37,7 +44,13 @@
                 }
             }
         }
-
+        private void DeleteExercise()
+        {
+            _exerciseService.DisplayExercises();
+            int id = _exerciseUI.GetExerciseId(AnsiConsole.Ask<int>("Which exercise do you want to delete?"));
+            if(id == -1) { return; }
+            _exerciseService.DeleteExercise(id);
+        }
         private void AddNewExercise()
         {
             DisplayNewExerciseView(out DateTime startDate, out DateTime endDate, out string? comments);
@@ -53,7 +66,6 @@
             AnsiConsole.WriteLine("Press any key to return to main menu");
             Console.ReadLine();
         }
-
         private void DisplayNewExerciseView(out DateTime startDate, out DateTime endDate, out string? comments)
         {
             AnsiConsole.Clear();
