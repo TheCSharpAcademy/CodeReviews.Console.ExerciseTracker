@@ -6,4 +6,3 @@ global using ExerciseTracker.Forser.UI;
 global using ExerciseTracker.Forser.Models;
 global using Spectre.Console;
 global using Microsoft.EntityFrameworkCore;
-global using System.Globalization;

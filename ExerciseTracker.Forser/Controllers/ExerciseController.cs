@@ -1,4 +1,6 @@
-﻿namespace ExerciseTracker.Forser.Controllers
+﻿using System.Globalization;
+
+namespace ExerciseTracker.Forser.Controllers
 {
     internal class ExerciseController : IExerciseController
     {

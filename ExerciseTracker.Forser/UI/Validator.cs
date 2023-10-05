@@ -1,4 +1,6 @@
-﻿namespace ExerciseTracker.Forser.UI
+﻿using System.Globalization;
+
+namespace ExerciseTracker.Forser.UI
 {
     internal class Validator
     {
