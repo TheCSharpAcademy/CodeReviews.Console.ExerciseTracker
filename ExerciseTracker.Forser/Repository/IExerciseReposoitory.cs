@@ -6,6 +6,7 @@ namespace ExerciseTracker.Forser.Repository
     {
         public IEnumerable<Exercise> GetExercises();
         public bool GetExerciseById(int id, out Exercise? exercise);
+        public Exercise EditExerciseById(int id);
         public bool AddExercise(Exercise exercise);
         public bool EditExercise(Exercise exercise);
         public void DeleteExercise(Exercise exercise);

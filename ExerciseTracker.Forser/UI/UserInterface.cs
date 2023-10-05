@@ -21,10 +21,6 @@
             }
             return -1;
         }
-        public string GetExerciseOption()
-        {
-            throw new NotImplementedException();
-        }
         public DateTime GetStartTime()
         {
             throw new NotImplementedException();

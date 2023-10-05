@@ -28,6 +28,7 @@
                 new() { Id = 0, Text = "Display Exercises" },
                 new() { Id = 1, Text = "Add Exercise" },
                 new() { Id = 2, Text = "Delete Exercise" },
+                new() { Id = 3, Text = "Edit Exercise" },
                 new() { Id = -1, Text = "Quit" }
             });
 

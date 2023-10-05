@@ -4,7 +4,8 @@
     {
         bool AddExercise(DateTime start, DateTime end, string? comments);
         void DeleteExercise(int id);
-        void EditExercise(int id, DateTime start, DateTime end, string? comments);
+        Exercise EditExercise(int id);
+        bool UpdateExercise(Exercise exercise);
         void DisplayExercises();
     }
 }

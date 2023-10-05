@@ -25,7 +25,19 @@
         }
         public bool EditExercise(Exercise exercise)
         {
-            throw new NotImplementedException();
+            _exerciseContext.Update(exercise);
+            int result = _exerciseContext.SaveChanges();
+
+            if (result > 0)
+                return true;
+            else
+                return false;
+        }
+        public Exercise EditExerciseById(int id)
+        {
+            Exercise exercise = _exerciseContext.Exercises.Find(id);
+
+            return exercise;
         }
         public bool GetExerciseById(int id, out Exercise? exercise)
         {
@@ -40,7 +52,6 @@
                 exercise = _;
                 return true;
             }
-                
         }
         public IEnumerable<Exercise> GetExercises()
         {

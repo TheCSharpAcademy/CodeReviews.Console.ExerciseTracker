@@ -16,9 +16,8 @@
                 Duration = end - start,
                 Comments = comments
             };
-            return _exerciseReposoitory.AddExercise(newExercise);   
+            return _exerciseReposoitory.AddExercise(newExercise);
         }
-
         public void DeleteExercise(int id)
         {
             if(!_exerciseReposoitory.GetExerciseById(id, out Exercise? exerciseToDelete))
@@ -34,16 +33,18 @@
             _exerciseReposoitory.DeleteExercise(exerciseToDelete);
             AnsiConsole.WriteLine("Successfully deleted exercise.");
         }
-
         public void DisplayExercises()
         {
             List<Exercise> exercises = _exerciseReposoitory.GetExercises().ToList();
             UserInterface.DisplayExerciseTable(exercises);
         }
-
-        public void EditExercise(int id, DateTime start, DateTime end, string? comments)
+        public Exercise EditExercise(int id)
         {
-            throw new NotImplementedException();
+            return _exerciseReposoitory.EditExerciseById(id);
+        }
+        public bool UpdateExercise(Exercise exercise)
+        {
+            return _exerciseReposoitory.EditExercise(exercise);
         }
     }
 }
