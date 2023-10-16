@@ -7,7 +7,7 @@ namespace ExerciseUI
     internal class UserInterface
     {
         private SELECTOR Selector { get; set; }
-        private IExerciseController<ExerciseModel> _controller { get; set; }
+        private IExerciseController<ExerciseModel> _controller;
         public UserInterface(IExerciseController<ExerciseModel> controller) 
         { 
             Selector = MainMenu();
