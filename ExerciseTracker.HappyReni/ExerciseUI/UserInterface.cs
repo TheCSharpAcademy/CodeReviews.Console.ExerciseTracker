@@ -66,8 +66,8 @@ namespace ExerciseUI
             Clear();
             try
             {
-                DateTime startTime = Validation.CheckDateTime(GetInput("Input a start time.").str);
-                DateTime endTime = Validation.CheckDateTime(GetInput("Input an end time.").str);
+                DateTime startTime = Validation.CheckDateTime(GetInput("Input a start time. (YYYY-MM-dd)").str);
+                DateTime endTime = Validation.CheckDateTime(GetInput("Input an end time. (YYYY-MM-dd)").str);
                 Validation.CheckStartEndTime(startTime, endTime);
                 string comment = GetInput("Type a comment.").str;
                 var exercise = new ExerciseModel() { DateStart = startTime, DateEnd = endTime, Comments = comment };
@@ -87,8 +87,8 @@ namespace ExerciseUI
             try
             {
                 int id = GetInput("Input an id to update.").val;
-                DateTime startTime = Validation.CheckDateTime(GetInput("Input a start time.").str);
-                DateTime endTime = Validation.CheckDateTime(GetInput("Input an end time.").str);
+                DateTime startTime = Validation.CheckDateTime(GetInput("Input a start time. (YYYY-MM-dd)").str);
+                DateTime endTime = Validation.CheckDateTime(GetInput("Input an end time. (YYYY-MM-dd)").str);
                 Validation.CheckStartEndTime(startTime, endTime);
                 string comment = GetInput("Type a comment.").str;
                 var exercise = _controller.GetExercise(id);
