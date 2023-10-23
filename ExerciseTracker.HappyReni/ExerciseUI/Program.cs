@@ -9,9 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 ServiceCollection collection = new();
 
 collection.AddDbContext<ExerciseContext>(option =>
-{
-    option.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Exercises;Integrated Security=true");
-})
+{})
     .AddScoped<IRepository<ExerciseModel>, ExerciseRepository<ExerciseModel>>()
     .AddScoped<IExerciseService<ExerciseModel>, ExerciseService>()
     .AddScoped<IExerciseController<ExerciseModel>, ExerciseController>();
