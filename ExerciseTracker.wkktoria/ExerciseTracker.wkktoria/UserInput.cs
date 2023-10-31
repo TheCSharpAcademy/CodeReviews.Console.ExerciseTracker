@@ -131,17 +131,24 @@ public class UserInput
 
             Console.Clear();
 
-            var exerciseToUpdate = GetExerciseSelection(exercises);
+            if (exercises.Any())
+            {
+                var exerciseToUpdate = GetExerciseSelection(exercises);
 
-            ShowExerciseDetails(ExerciseToViewDto(exerciseToUpdate));
+                ShowExerciseDetails(ExerciseToViewDto(exerciseToUpdate));
 
-            var updatedExercise = GetUpdatedExerciseInput(exerciseToUpdate);
+                var updatedExercise = GetUpdatedExerciseInput(exerciseToUpdate);
 
-            _exerciseController.UpdateExercise(updatedExercise);
+                _exerciseController.UpdateExercise(updatedExercise);
 
-            Console.Clear();
+                Console.Clear();
 
-            WriteSuccess("Exercise has been updated.");
+                WriteSuccess("Exercise has been updated.");
+            }
+            else
+            {
+                Console.WriteLine("No exercises found.");
+            }
         }
         catch (Exception e)
         {
@@ -157,13 +164,20 @@ public class UserInput
 
             Console.Clear();
 
-            var exerciseToDelete = GetExerciseSelection(exercises);
+            if (exercises.Any())
+            {
+                var exerciseToDelete = GetExerciseSelection(exercises);
 
-            _exerciseController.DeleteExercise(exerciseToDelete);
+                _exerciseController.DeleteExercise(exerciseToDelete);
 
-            Console.Clear();
+                Console.Clear();
 
-            WriteSuccess("Exercise has been deleted.");
+                WriteSuccess("Exercise has been deleted.");
+            }
+            else
+            {
+                Console.WriteLine("No exercises found.");
+            }
         }
         catch (Exception e)
         {

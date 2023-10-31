@@ -1,4 +1,7 @@
+using System.Configuration;
+using Dapper;
 using ExerciseTracker.wkktoria.Data.Models;
+using Microsoft.Data.SqlClient;
 
 namespace ExerciseTracker.wkktoria.Data.Repositories;
 
@@ -13,9 +16,25 @@ public class ExerciseRepository : IExerciseRepository
 
     public List<Exercise> GetAllExercises()
     {
+        var exercises = new List<Exercise>();
+
         try
         {
-            return _context.Exercises.ToList();
+            using var connection =
+                new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            var reader = connection.ExecuteReader("SELECT Id, StartDate, EndDate, Comment FROM Exercises");
+
+            while (reader.Read())
+                exercises.Add(new Exercise
+                {
+                    Id = reader.GetInt32(0),
+                    StartDate = reader.GetDateTime(1),
+                    EndDate = reader.GetDateTime(2),
+                    Duration = reader.GetDateTime(2) - reader.GetDateTime(1),
+                    Comment = reader.GetString(3)
+                });
+
+            return exercises;
         }
         catch (Exception e)
         {
@@ -77,8 +96,11 @@ public class ExerciseRepository : IExerciseRepository
 
         try
         {
-            _context.Remove(exerciseToDelete);
-            _context.SaveChanges();
+            const string sql = "DELETE FROM Exercises WHERE Id = @id";
+            using var connection =
+                new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+
+            connection.Execute(sql, new { id = exerciseToDelete.Id });
         }
         catch (Exception e)
         {
