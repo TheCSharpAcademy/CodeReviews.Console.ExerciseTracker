@@ -52,11 +52,10 @@ public class ExerciseRepository : IExerciseRepository
         }
     }
 
-    public Exercise UpdateExercise(int id, Exercise updatedExercise)
+    public Exercise UpdateExercise(Exercise updatedExercise)
     {
         if (updatedExercise == null)
             throw new ArgumentNullException(nameof(updatedExercise));
-        if (id != updatedExercise.Id) throw new ArgumentException("Invalid arguments");
 
         try
         {
@@ -71,11 +70,10 @@ public class ExerciseRepository : IExerciseRepository
         }
     }
 
-    public void DeleteExercise(int id, Exercise exerciseToDelete)
+    public void DeleteExercise(Exercise exerciseToDelete)
     {
         if (exerciseToDelete == null)
             throw new ArgumentNullException(nameof(exerciseToDelete));
-        if (id != exerciseToDelete.Id) throw new ArgumentException("Invalid arguments");
 
         try
         {
