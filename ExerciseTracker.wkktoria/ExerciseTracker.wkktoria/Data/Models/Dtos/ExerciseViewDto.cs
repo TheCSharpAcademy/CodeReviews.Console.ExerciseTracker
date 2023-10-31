@@ -1,9 +1,7 @@
-namespace ExerciseTracker.wkktoria.Data.Models;
+namespace ExerciseTracker.wkktoria.Data.Models.Dtos;
 
-public class Exercise
+public class ExerciseViewDto
 {
-    public int Id { get; set; }
-
     public DateTime StartDate { get; set; }
 
     public DateTime EndDate { get; set; }
@@ -14,6 +12,6 @@ public class Exercise
 
     public override string ToString()
     {
-        return $"Start Date: {StartDate:f} - End Date: {EndDate:f}";
+        return $"Start Date: {StartDate:f}\tEnd Date: {EndDate:f}";
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System.Configuration;
+using System.Globalization;
+using ExerciseTracker.wkktoria;
 using ExerciseTracker.wkktoria.Controllers;
 using ExerciseTracker.wkktoria.Data;
 using ExerciseTracker.wkktoria.Data.Repositories;
@@ -19,3 +21,15 @@ var builder = Host.CreateDefaultBuilder(args)
     });
 
 var host = builder.Build();
+var serviceProvider = host.Services;
+
+var exerciseService = serviceProvider.GetRequiredService<IExerciseService>();
+var exerciseController = new ExerciseController(exerciseService);
+
+var ci = new CultureInfo("en-US");
+Thread.CurrentThread.CurrentCulture = ci;
+Thread.CurrentThread.CurrentUICulture = ci;
+
+var ui = new UserInput(exerciseController);
+
+ui.Run();
