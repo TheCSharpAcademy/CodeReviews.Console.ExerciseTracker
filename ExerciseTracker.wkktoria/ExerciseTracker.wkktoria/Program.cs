@@ -1,4 +1,5 @@
 ﻿using System.Configuration;
+using ExerciseTracker.wkktoria.Controllers;
 using ExerciseTracker.wkktoria.Data;
 using ExerciseTracker.wkktoria.Data.Repositories;
 using ExerciseTracker.wkktoria.Services;
@@ -14,6 +15,7 @@ var builder = Host.CreateDefaultBuilder(args)
 
         services.AddScoped<IExerciseRepository, ExerciseRepository>();
         services.AddScoped<IExerciseService, ExerciseService>();
+        services.AddScoped<IExerciseController, ExerciseController>();
     });
 
 var host = builder.Build();

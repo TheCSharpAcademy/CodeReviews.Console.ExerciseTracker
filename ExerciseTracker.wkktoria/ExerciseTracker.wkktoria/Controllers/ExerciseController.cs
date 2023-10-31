@@ -1,22 +1,22 @@
 using ExerciseTracker.wkktoria.Data.Models;
-using ExerciseTracker.wkktoria.Data.Repositories;
+using ExerciseTracker.wkktoria.Services;
 
-namespace ExerciseTracker.wkktoria.Services;
+namespace ExerciseTracker.wkktoria.Controllers;
 
-public class ExerciseService : IExerciseService
+public class ExerciseController : IExerciseController
 {
-    private readonly IExerciseRepository _exerciseRepository;
+    private readonly IExerciseService _exerciseService;
 
-    public ExerciseService(IExerciseRepository exerciseRepository)
+    public ExerciseController(IExerciseService exerciseService)
     {
-        _exerciseRepository = exerciseRepository;
+        _exerciseService = exerciseService;
     }
 
     public List<Exercise> GetAllExercises()
     {
         try
         {
-            return _exerciseRepository.GetAllExercises();
+            return _exerciseService.GetAllExercises();
         }
         catch (Exception e)
         {
@@ -28,7 +28,7 @@ public class ExerciseService : IExerciseService
     {
         try
         {
-            return _exerciseRepository.GetExercise(id);
+            return _exerciseService.GetExercise(id);
         }
         catch (Exception e)
         {
@@ -36,11 +36,11 @@ public class ExerciseService : IExerciseService
         }
     }
 
-    public Exercise AddExercise(Exercise exercise)
+    public Exercise? AddExercise(Exercise exercise)
     {
         try
         {
-            return _exerciseRepository.AddExercise(exercise);
+            return _exerciseService.AddExercise(exercise);
         }
         catch (Exception e)
         {
@@ -52,7 +52,7 @@ public class ExerciseService : IExerciseService
     {
         try
         {
-            return _exerciseRepository.UpdateExercise(updatedExercise);
+            return _exerciseService.UpdateExercise(updatedExercise);
         }
         catch (Exception e)
         {
@@ -64,7 +64,7 @@ public class ExerciseService : IExerciseService
     {
         try
         {
-            _exerciseRepository.DeleteExercise(exerciseToDelete);
+            _exerciseService.DeleteExercise(exerciseToDelete);
         }
         catch (Exception e)
         {
