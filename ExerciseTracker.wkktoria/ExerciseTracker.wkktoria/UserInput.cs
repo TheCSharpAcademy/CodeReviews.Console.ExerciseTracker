@@ -10,7 +10,8 @@ public class UserInput
     private readonly string _dateFormat = Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern;
     private readonly IExerciseController _exerciseController;
 
-    private readonly string _timeFormat = Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortTimePattern;
+    private readonly string _timeFormat =
+        Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortTimePattern.Replace("tt", "").Trim();
 
     public UserInput(IExerciseController exerciseController)
     {
