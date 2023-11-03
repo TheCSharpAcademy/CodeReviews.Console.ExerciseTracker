@@ -302,8 +302,8 @@ public class UserInput
 
         foreach (var exercise in exercises)
             table.AddRow(
-                exercise.StartDate.ToString("dd MMM yyyy hh:mm"),
-                exercise.EndDate.ToString("dd MMM yyyy hh:mm"),
+                exercise.StartDate.ToString("dd MMM yyyy HH:mm"),
+                exercise.EndDate.ToString("dd MMM yyyy HH:mm"),
                 exercise.Duration.ToString(),
                 exercise.Comment!);
 
@@ -314,8 +314,8 @@ public class UserInput
     private static void ShowExerciseDetails(ExerciseViewDto exercise)
     {
         var panel = new Panel($"""
-                               Start Date: {exercise.StartDate:dd MMM yyyy hh:mm}
-                               End Date: {exercise.EndDate:dd MMM yyyy hh:mm}
+                               Start Date: {exercise.StartDate:dd MMM yyyy HH:mm}
+                               End Date: {exercise.EndDate:dd MMM yyyy HH:mm}
                                Duration: {exercise.Duration}
                                Comment: {exercise.Comment}
                                """)
