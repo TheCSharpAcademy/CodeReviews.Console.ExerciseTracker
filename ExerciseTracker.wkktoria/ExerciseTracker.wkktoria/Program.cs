@@ -13,7 +13,11 @@ var builder = Host.CreateDefaultBuilder(args)
     .ConfigureServices((_, services) =>
     {
         services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString));
+            {
+                options.UseSqlServer(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            }
+        );
 
         services.AddScoped<IExerciseRepository, ExerciseRepository>();
         services.AddScoped<IExerciseService, ExerciseService>();
