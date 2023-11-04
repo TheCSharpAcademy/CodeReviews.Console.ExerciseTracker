@@ -15,7 +15,6 @@ var builder = Host.CreateDefaultBuilder(args)
         services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
-                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             }
         );
 

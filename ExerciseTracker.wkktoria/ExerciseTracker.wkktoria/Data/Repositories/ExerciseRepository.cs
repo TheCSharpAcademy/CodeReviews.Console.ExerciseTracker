@@ -46,7 +46,7 @@ public class ExerciseRepository : IExerciseRepository
     {
         try
         {
-            return _context.Exercises.FirstOrDefault(exercise => exercise.Id == id);
+            return _context.Exercises.Find(id);
         }
         catch (Exception e)
         {
@@ -71,40 +71,38 @@ public class ExerciseRepository : IExerciseRepository
         }
     }
 
-    public Exercise UpdateExercise(Exercise updatedExercise)
+    public Exercise UpdateExercise(Exercise exercise)
     {
-        if (updatedExercise == null)
-            throw new ArgumentNullException(nameof(updatedExercise));
+        if (exercise == null)
+            throw new ArgumentNullException(nameof(exercise));
 
         try
         {
-            _context.Update(updatedExercise);
+            _context.Update(exercise);
             _context.SaveChanges();
 
-            return updatedExercise;
+            return exercise;
         }
         catch (Exception e)
         {
-            throw new Exception($"{nameof(updatedExercise)} could not be updated: {e.Message}");
+            throw new Exception($"{nameof(exercise)} could not be updated: {e.Message}");
         }
     }
 
-    public void DeleteExercise(Exercise exerciseToDelete)
+    public void DeleteExercise(int id)
     {
-        if (exerciseToDelete == null)
-            throw new ArgumentNullException(nameof(exerciseToDelete));
-
         try
         {
-            const string sql = "DELETE FROM Exercises WHERE Id = @id";
-            using var connection =
-                new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            var exercise = _context.Exercises.Find(id);
 
-            connection.Execute(sql, new { id = exerciseToDelete.Id });
+            if (exercise == null) throw new ArgumentNullException(nameof(exercise));
+
+            _context.Remove(exercise);
+            _context.SaveChanges();
         }
         catch (Exception e)
         {
-            throw new Exception($"{nameof(exerciseToDelete)} could not be deleted: {e.Message}");
+            throw new Exception($"Entity with id '{id}' could not be deleted: {e.Message}");
         }
     }
 }

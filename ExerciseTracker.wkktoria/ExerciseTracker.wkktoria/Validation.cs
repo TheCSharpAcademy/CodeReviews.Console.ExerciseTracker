@@ -6,4 +6,9 @@ public static class Validation
     {
         return startDate < endDate;
     }
+
+    public static bool IsValidDuration(TimeSpan duration)
+    {
+        return duration.TotalHours < 24;
+    }
 }

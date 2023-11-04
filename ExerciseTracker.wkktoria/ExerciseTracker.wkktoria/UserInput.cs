@@ -1,6 +1,5 @@
 using ExerciseTracker.wkktoria.Controllers;
 using ExerciseTracker.wkktoria.Data.Models;
-using ExerciseTracker.wkktoria.Data.Models.Dtos;
 using Spectre.Console;
 
 namespace ExerciseTracker.wkktoria;
@@ -65,22 +64,61 @@ public class UserInput
         }
     }
 
-    private void AddExercise()
+    private void ShowExercise()
     {
         try
         {
-            var exercise = GetExerciseInput();
-
-            _exerciseController.AddExercise(exercise);
+            var exercises = _exerciseController.GetAllExercises();
 
             Console.Clear();
 
-            WriteSuccess("Exercise has been added.");
+            if (exercises.Any())
+            {
+                ShowExercisesTable(exercises);
+
+                var id = AnsiConsole.Ask<int>("Enter id of exercise to show:");
+                var exercise = _exerciseController.GetExercise(id);
+
+                Console.Clear();
+
+                while (exercise == null)
+                {
+                    WriteError($"No exercise with id '{id}'.");
+
+                    ShowExercisesTable(exercises);
+
+                    id = AnsiConsole.Ask<int>("Enter id of exercise to show:");
+                    exercise = _exerciseController.GetExercise(id);
+                }
+
+                Console.Clear();
+
+                ShowExerciseDetails(exercise);
+            }
+            else
+            {
+                Console.WriteLine("No exercises found.");
+            }
         }
         catch (Exception e)
         {
             WriteError(e.Message);
         }
+    }
+
+    private static void ShowExerciseDetails(Exercise exercise)
+    {
+        var panel = new Panel($"""
+                               Start Date: {exercise.StartDate:HH:mm, dd MMM yyyy}
+                               End Date: {exercise.EndDate:HH:mm, dd MMM yyyy}
+                               Duration: {exercise.Duration}
+                               Comment: {exercise.Comment}
+                               """)
+        {
+            Header = new PanelHeader($"Exercise#{exercise.Id}")
+        };
+
+        AnsiConsole.Write(panel);
     }
 
     private void ShowAllExercises()
@@ -92,7 +130,7 @@ public class UserInput
             Console.Clear();
 
             if (exercises.Any())
-                ShowExercisesTable(ExercisesToViewDtos(exercises));
+                ShowExercisesTable(exercises);
             else
                 Console.WriteLine("No exercises found.");
         }
@@ -102,7 +140,30 @@ public class UserInput
         }
     }
 
-    private void ShowExercise()
+    private static void ShowExercisesTable(List<Exercise> exercises)
+    {
+        var table = new Table();
+        table.Title("Exercises");
+
+        table.AddColumn("Id");
+        table.AddColumn("Start Date");
+        table.AddColumn("End Date");
+        table.AddColumn("Duration");
+        table.AddColumn("Comment");
+
+        foreach (var exercise in exercises)
+            table.AddRow(
+                exercise.Id.ToString(),
+                exercise.StartDate.ToString("HH:mm, dd MMM yyyy"),
+                exercise.EndDate.ToString("HH:mm, dd MMM yyyy"),
+                exercise.Duration.ToString(),
+                exercise.Comment ?? string.Empty
+            );
+
+        AnsiConsole.Write(table);
+    }
+
+    private void DeleteExercise()
     {
         try
         {
@@ -110,13 +171,34 @@ public class UserInput
 
             Console.Clear();
 
-            var exercise = GetExerciseSelection(exercises);
+            if (exercises.Any())
+            {
+                ShowExercisesTable(exercises);
 
-            _exerciseController.GetExercise(exercise.Id);
+                var id = AnsiConsole.Ask<int>("Enter id of exercise to delete:");
+                var exercise = _exerciseController.GetExercise(id);
 
-            Console.Clear();
+                Console.Clear();
 
-            ShowExerciseDetails(ExerciseToViewDto(exercise));
+                while (exercise == null)
+                {
+                    WriteError($"No exercise with id '{id}'.");
+
+                    ShowExercisesTable(exercises);
+
+                    id = AnsiConsole.Ask<int>("Enter id of exercise to delete:");
+                    exercise = _exerciseController.GetExercise(id);
+                }
+
+                _exerciseController.DeleteExercise(id);
+
+                Console.Clear();
+                WriteSuccess("Exercise has been deleted.");
+            }
+            else
+            {
+                Console.WriteLine("No exercises found.");
+            }
         }
         catch (Exception e)
         {
@@ -134,16 +216,62 @@ public class UserInput
 
             if (exercises.Any())
             {
-                var exerciseToUpdate = GetExerciseSelection(exercises);
+                ShowExercisesTable(exercises);
 
-                ShowExerciseDetails(ExerciseToViewDto(exerciseToUpdate));
-
-                var updatedExercise = GetUpdatedExerciseInput(exerciseToUpdate);
-
-                _exerciseController.UpdateExercise(updatedExercise);
+                var id = AnsiConsole.Ask<int>("Enter id of exercise to edit:");
+                var exercise = _exerciseController.GetExercise(id);
 
                 Console.Clear();
 
+                while (exercise == null)
+                {
+                    WriteError($"No exercise with id '{id}'.");
+
+                    ShowExercisesTable(exercises);
+
+                    id = AnsiConsole.Ask<int>("Enter id of exercise to edit:");
+                    exercise = _exerciseController.GetExercise(id);
+                }
+
+                Console.Clear();
+
+                DateTime fullStartDate;
+                DateTime fullEndDate;
+                TimeSpan duration;
+
+                ShowExerciseDetails(exercise);
+
+                do
+                {
+                    var startDate = AnsiConsole.Ask<DateTime>($"Enter start date (format: {_dateFormat}):");
+                    var startTime = AnsiConsole.Ask<TimeSpan>($"Enter start time (format: {_timeFormat}):");
+                    fullStartDate = startDate.Add(startTime);
+
+                    var endDate = AnsiConsole.Ask<DateTime>($"Enter end date (format: {_dateFormat}):");
+                    var endTime = AnsiConsole.Ask<TimeSpan>($"Enter end time (format: {_timeFormat}):");
+                    fullEndDate = endDate.Add(endTime);
+
+                    duration = fullEndDate - fullStartDate;
+
+                    if (!Validation.IsValidDuration(duration)) WriteError("Duration cannot be longer than 24 hours.");
+
+                    if (!Validation.IsStartDateBeforeEndDate(fullStartDate, fullEndDate))
+                        WriteError("End date cannot be before start date.");
+                } while (!Validation.IsStartDateBeforeEndDate(fullStartDate, fullEndDate) ||
+                         !Validation.IsValidDuration(duration));
+
+                var comment = AnsiConsole.Prompt(
+                    new TextPrompt<string?>("Enter comment (or press enter to skip adding comment):")
+                        .AllowEmpty());
+
+                exercise.StartDate = fullStartDate;
+                exercise.EndDate = fullEndDate;
+                exercise.Duration = duration;
+                exercise.Comment = comment;
+
+                _exerciseController.UpdateExercise(exercise);
+
+                Console.Clear();
                 WriteSuccess("Exercise has been updated.");
             }
             else
@@ -157,174 +285,54 @@ public class UserInput
         }
     }
 
-    private void DeleteExercise()
+    private void AddExercise()
     {
+        DateTime fullStartDate;
+        DateTime fullEndDate;
+        TimeSpan duration;
+
+        do
+        {
+            var startDate = AnsiConsole.Ask<DateTime>($"Enter start date (format: {_dateFormat}):");
+            var startTime = AnsiConsole.Ask<TimeSpan>($"Enter start time (format: {_timeFormat}):");
+            fullStartDate = startDate.Add(startTime);
+
+            var endDate = AnsiConsole.Ask<DateTime>($"Enter end date (format: {_dateFormat}):");
+            var endTime = AnsiConsole.Ask<TimeSpan>($"Enter end time (format: {_timeFormat}):");
+            fullEndDate = endDate.Add(endTime);
+
+            duration = fullEndDate - fullStartDate;
+
+            if (!Validation.IsValidDuration(duration)) WriteError("Duration cannot be longer than 24 hours.");
+
+            if (!Validation.IsStartDateBeforeEndDate(fullStartDate, fullEndDate))
+                WriteError("End date cannot be before start date.");
+        } while (!Validation.IsStartDateBeforeEndDate(fullStartDate, fullEndDate) ||
+                 !Validation.IsValidDuration(duration));
+
+        var comment = AnsiConsole.Prompt(
+            new TextPrompt<string?>("Enter comment (or press enter to skip adding comment):")
+                .AllowEmpty());
+
+        var exercise = new Exercise
+        {
+            StartDate = fullStartDate,
+            EndDate = fullEndDate,
+            Duration = duration,
+            Comment = comment
+        };
+
         try
         {
-            var exercises = _exerciseController.GetAllExercises();
+            _exerciseController.AddExercise(exercise);
 
             Console.Clear();
-
-            if (exercises.Any())
-            {
-                var exerciseToDelete = GetExerciseSelection(exercises);
-
-                _exerciseController.DeleteExercise(exerciseToDelete);
-
-                Console.Clear();
-
-                WriteSuccess("Exercise has been deleted.");
-            }
-            else
-            {
-                Console.WriteLine("No exercises found.");
-            }
+            WriteSuccess("Exercise has been added.");
         }
         catch (Exception e)
         {
             WriteError(e.Message);
         }
-    }
-
-    private DateTime GetFullDate(string forWhat)
-    {
-        var date = AnsiConsole.Ask<DateTime>($"{forWhat} date (format: {_dateFormat}):");
-        var time = AnsiConsole.Ask<TimeSpan>($"{forWhat} time (format: {_timeFormat}):");
-
-        return date.Add(time);
-    }
-
-    private Exercise GetExerciseInput()
-    {
-        var startDate = GetFullDate("Start");
-        DateTime endDate;
-
-        do
-        {
-            if (AnsiConsole.Confirm("Would you like to use the same date as start date for end date?"))
-            {
-                var date = startDate.Date;
-                var time = AnsiConsole.Ask<TimeSpan>($"End time (format: {_timeFormat}):");
-                endDate = date.Add(time);
-            }
-            else
-            {
-                endDate = GetFullDate("End");
-            }
-
-            if (!Validation.IsStartDateBeforeEndDate(startDate, endDate))
-                WriteError("Start date cannot be after end date.");
-        } while (!Validation.IsStartDateBeforeEndDate(startDate, endDate));
-
-        var comment = string.Empty;
-
-        if (AnsiConsole.Confirm("Would you like to add comment to exercise?"))
-            comment = AnsiConsole.Ask<string>("Comment:");
-
-        var exercise = new Exercise
-        {
-            StartDate = startDate,
-            EndDate = endDate,
-            Duration = endDate - startDate,
-            Comment = comment
-        };
-
-        return exercise;
-    }
-
-    private Exercise GetUpdatedExerciseInput(Exercise exerciseToUpdate)
-    {
-        exerciseToUpdate.StartDate = AnsiConsole.Confirm("Would you like to edit start date?")
-            ? GetFullDate("Start")
-            : exerciseToUpdate.StartDate;
-
-        do
-        {
-            exerciseToUpdate.EndDate = AnsiConsole.Confirm("Would you like to edit end date?")
-                ? GetFullDate("End")
-                : exerciseToUpdate.EndDate;
-
-            if (!Validation.IsStartDateBeforeEndDate(exerciseToUpdate.StartDate, exerciseToUpdate.EndDate))
-                WriteError("Start date cannot be after end date.");
-        } while (!Validation.IsStartDateBeforeEndDate(exerciseToUpdate.StartDate, exerciseToUpdate.EndDate));
-
-        exerciseToUpdate.Duration = exerciseToUpdate.EndDate - exerciseToUpdate.StartDate;
-
-        exerciseToUpdate.Comment = AnsiConsole.Confirm("Would you like to edit comment?")
-            ? AnsiConsole.Ask<string>("Comment:")
-            : exerciseToUpdate.Comment;
-
-        return exerciseToUpdate;
-    }
-
-    private static Exercise GetExerciseSelection(IEnumerable<Exercise> exercises)
-    {
-        var exercise = AnsiConsole.Prompt(
-            new SelectionPrompt<Exercise>()
-                .Title("Choose exercise")
-                .AddChoices(exercises));
-
-        return exercise;
-    }
-
-    private static List<ExerciseViewDto> ExercisesToViewDtos(IEnumerable<Exercise> exercises)
-    {
-        return exercises.Select(exercise => new ExerciseViewDto
-        {
-            StartDate = exercise.StartDate,
-            EndDate = exercise.EndDate,
-            Duration = exercise.Duration,
-            Comment = exercise.Comment
-        }).ToList();
-    }
-
-    private static ExerciseViewDto ExerciseToViewDto(Exercise exercise)
-    {
-        return new ExerciseViewDto
-        {
-            StartDate = exercise.StartDate,
-            EndDate = exercise.EndDate,
-            Duration = exercise.Duration,
-            Comment = exercise.Comment
-        };
-    }
-
-    private static void ShowExercisesTable(List<ExerciseViewDto> exercises)
-    {
-        var table = new Table
-        {
-            Title = new TableTitle("Exercises")
-        };
-
-        table.AddColumn("Start Date");
-        table.AddColumn("End Date");
-        table.AddColumn("Duration");
-        table.AddColumn("Comment");
-
-        foreach (var exercise in exercises)
-            table.AddRow(
-                exercise.StartDate.ToString("dd MMM yyyy HH:mm"),
-                exercise.EndDate.ToString("dd MMM yyyy HH:mm"),
-                exercise.Duration.ToString(),
-                exercise.Comment!);
-
-
-        AnsiConsole.Write(table);
-    }
-
-    private static void ShowExerciseDetails(ExerciseViewDto exercise)
-    {
-        var panel = new Panel($"""
-                               Start Date: {exercise.StartDate:dd MMM yyyy HH:mm}
-                               End Date: {exercise.EndDate:dd MMM yyyy HH:mm}
-                               Duration: {exercise.Duration}
-                               Comment: {exercise.Comment}
-                               """)
-        {
-            Header = new PanelHeader("Exercise Details")
-        };
-
-        AnsiConsole.Write(panel);
     }
 
     private static void WriteError(string message)

@@ -48,11 +48,11 @@ public class ExerciseController : IExerciseController
         }
     }
 
-    public Exercise UpdateExercise(Exercise updatedExercise)
+    public Exercise UpdateExercise(Exercise exercise)
     {
         try
         {
-            return _exerciseService.UpdateExercise(updatedExercise);
+            return _exerciseService.UpdateExercise(exercise);
         }
         catch (Exception e)
         {
@@ -60,11 +60,11 @@ public class ExerciseController : IExerciseController
         }
     }
 
-    public void DeleteExercise(Exercise exerciseToDelete)
+    public void DeleteExercise(int id)
     {
         try
         {
-            _exerciseService.DeleteExercise(exerciseToDelete);
+            _exerciseService.DeleteExercise(id);
         }
         catch (Exception e)
         {

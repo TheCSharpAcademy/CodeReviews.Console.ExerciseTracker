@@ -10,7 +10,7 @@ public interface IExerciseService
 
     Exercise? AddExercise(Exercise exercise);
 
-    Exercise UpdateExercise(Exercise updatedExercise);
+    Exercise UpdateExercise(Exercise exercise);
 
-    void DeleteExercise(Exercise exerciseToDelete);
+    void DeleteExercise(int id);
 }
