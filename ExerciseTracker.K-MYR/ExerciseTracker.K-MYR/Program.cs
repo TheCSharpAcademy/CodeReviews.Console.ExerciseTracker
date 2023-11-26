@@ -4,11 +4,13 @@ using Microsoft.Extensions.Hosting;
 
 
 HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
-builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
+
+builder.Services.AddSingleton<DapperContext>();
+builder.Services.AddScoped<IExerciseRepository, ExerciseDapperRepository>();
 builder.Services.AddScoped<IExerciseService, ExerciseService>();
 builder.Services.AddScoped<IExerciseController, ExerciseController>();
 builder.Services.AddScoped<UserInput>();
-builder.Services.AddDbContext<ExerciseDbContext>();
+//builder.Services.AddDbContext<ExerciseDbContext>();
 
 using IHost host = builder.Build();
 

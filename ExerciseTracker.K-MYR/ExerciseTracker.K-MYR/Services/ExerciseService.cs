@@ -7,12 +7,12 @@ internal class ExerciseService : IExerciseService
     {
         _ExerciseRepository = exerciseRepository;
     }
-    public IQueryable<Exercise> GetAll()
+    public IEnumerable<Exercise> GetAll()
     {
         return _ExerciseRepository.GetAll();
     }
 
-    public Task<Exercise> AddAsync(Exercise exerciseEntity)
+    public Task<Exercise> AddAsync(ExerciseInsertModel exerciseEntity)
     {
         return _ExerciseRepository.AddAsync(exerciseEntity);
     }

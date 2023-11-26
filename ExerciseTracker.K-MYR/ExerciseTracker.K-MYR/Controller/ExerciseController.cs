@@ -8,12 +8,12 @@ internal class ExerciseController : IExerciseController
         _ExerciseService = exerciseService;
     }
 
-    public IQueryable<Exercise> GetAll()
+    public IEnumerable<Exercise> GetAll()
     {
         return _ExerciseService.GetAll();
     }
 
-    public Task<Exercise> AddAsync(Exercise exerciseEntity)
+    public Task<Exercise> AddAsync(ExerciseInsertModel exerciseEntity)
     {
         return _ExerciseService.AddAsync(exerciseEntity);
     }

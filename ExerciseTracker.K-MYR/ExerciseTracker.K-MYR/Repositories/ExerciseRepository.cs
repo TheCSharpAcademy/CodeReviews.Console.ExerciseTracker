@@ -1,5 +1,4 @@
-﻿
-namespace ExerciseTracker.K_MYR;
+﻿namespace ExerciseTracker.K_MYR;
 
 internal class ExerciseRepository : IExerciseRepository
 {
@@ -10,28 +9,36 @@ internal class ExerciseRepository : IExerciseRepository
         _ExerciseDbContext = exerciseDbContext;
     }
 
-    public IQueryable<Exercise> GetAll()
+    public IEnumerable<Exercise> GetAll()
     {
         try
         {
             return _ExerciseDbContext.Set<Exercise>();
         }
         catch (Exception ex)
-        {            
+        {    
             throw new Exception($"Couldn't retrieve Entities: {ex.Message}");
         }
     }
 
-    public async Task<Exercise> AddAsync(Exercise exerciseEntity)
+    public async Task<Exercise> AddAsync(ExerciseInsertModel exerciseEntity)
     {
-        ArgumentNullException.ThrowIfNull(exerciseEntity);
+        ArgumentNullException.ThrowIfNull(exerciseEntity);        
 
         try
         {
-            await _ExerciseDbContext.AddAsync(exerciseEntity);
+            var exercise = new Exercise()
+            {
+                StartTime = exerciseEntity.StartTime,
+                EndTime = exerciseEntity.EndTime,
+                Duration = (exerciseEntity.EndTime - exerciseEntity.StartTime).Ticks,
+                Comments = exerciseEntity.Comments
+            };
+            
+            await _ExerciseDbContext.AddAsync(exercise);
             await _ExerciseDbContext.SaveChangesAsync();
 
-            return exerciseEntity;
+            return exercise;
         }
         catch (Exception ex)
         {            

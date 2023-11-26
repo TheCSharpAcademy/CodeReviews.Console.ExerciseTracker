@@ -17,6 +17,7 @@ internal class UserInput
     {
         while(true)
         {
+            Console.Clear();
             AnsiConsole.Write(new Panel("[springgreen2_1]Exercise Tracker[/]").BorderColor(Color.DarkOrange3_1));
             var choice = AnsiConsole.Prompt(new SelectionPrompt<MainMenu>()
                                                 .AddChoices(Enum.GetValues(typeof(MainMenu)).Cast<MainMenu>()));
@@ -44,6 +45,8 @@ internal class UserInput
 
     private async Task DeleteExercise()
     {
+        Console.Clear();
+
         var training = GetExercise();
 
         if (training is not null)
@@ -52,6 +55,8 @@ internal class UserInput
 
     private async Task UpdateExercise()
     {
+        Console.Clear();
+
         var training = GetExercise();        
 
         if (training is not null)
@@ -63,7 +68,7 @@ internal class UserInput
 
             training.StartTime = startTime;
             training.EndTime = endTime;
-            training.Duration = endTime - startTime;
+            training.Duration = (endTime - startTime).Ticks;
             training.Comments = comments;
 
             await _ExerciseController.UpdateAsync(training);
@@ -72,28 +77,30 @@ internal class UserInput
 
     private async Task AddExercise()
     {
+        Console.Clear();
+
         (var startTime, var endTime) = GetExerciseTimes();
         
         Console.WriteLine("Comments: ");
         var comments = Console.ReadLine() ?? "";
 
-        await _ExerciseController.AddAsync(new Exercise
+        await _ExerciseController.AddAsync(new ExerciseInsertModel
         {
             StartTime = startTime,
             EndTime = endTime,
-            Duration = endTime - startTime,
             Comments = comments 
         });    
     }
 
     private void ShowAllExercises()
-    {       
+    {
+        Console.Clear();
         PrintAllExercises(_ExerciseController.GetAll().ToArray());
         Helpers.PrintAndWait("Press Any Key To Return");
     }
     
     private DateTime GetDate(string text, string format = "dd-mm-yy hh:mm")
-    {
+    {        
         var sb = new StringBuilder();
         bool enterPressed;
         ConsoleKeyInfo key;
@@ -163,14 +170,14 @@ internal class UserInput
     private Exercise? GetExercise()
     {
         var trainings = _ExerciseController.GetAll().ToArray();
-
+        
         PrintAllExercises(trainings);
 
         var id = AnsiConsole.Ask<int>("Please enter the Id or 0 to return: ");
 
         while(id < 0 || id > trainings.Length)
         {
-            AnsiConsole.Write(new Markup("[red]Invalid Input[/]"));
+            AnsiConsole.Write(new Markup("[red]Invalid Input[/]\n"));
             id = AnsiConsole.Ask<int>("Please enter the Id or 0 to return: ");
         }
 
@@ -184,13 +191,20 @@ internal class UserInput
     {
         var table = new Table()
                         .BorderColor(Color.DarkOrange3_1)
-                        .AddColumns("ID", "Start Time", "End Time", "Duration", "Comments");
+                        .AddColumns("[springgreen2_1]ID[/]", "[springgreen2_1]Start Time[/]", "[springgreen2_1]End Time[/]", "[springgreen2_1]Duration[/]", "[springgreen2_1]Comments[/]");
         
         var exercises = data.ToArray().AsSpan();
 
+        TimeSpan duration;
+
         for (int i = 0; i < exercises.Length; i++)
         {
-            table.AddRow((i+1).ToString(), exercises[i].StartTime.ToString(), exercises[i].EndTime.ToString(), exercises[i].Duration.ToString(), exercises[i].Comments);
+            duration = TimeSpan.FromTicks(exercises[i].Duration);         
+            table.AddRow((i+1).ToString(), 
+                        exercises[i].StartTime.ToString("dd/MM/yyyy hh:mm"), 
+                        exercises[i].EndTime.ToString("dd/MM/yyyy hh:mm"), 
+                        string.Format("{0} h {1} m", duration.Hours + duration.Days * 24, duration.Minutes),
+                        exercises[i].Comments);
         }
 
         AnsiConsole.Write(table);
