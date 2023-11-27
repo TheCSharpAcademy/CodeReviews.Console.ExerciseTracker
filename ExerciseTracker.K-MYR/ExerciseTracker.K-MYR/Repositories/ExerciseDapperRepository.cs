@@ -11,6 +11,7 @@ internal class ExerciseDapperRepository : IExerciseRepository
     {
         _DapperContext = dapperContext;
     }
+    
     public IEnumerable<Exercise> GetAll()
     {
         try
@@ -36,11 +37,12 @@ internal class ExerciseDapperRepository : IExerciseRepository
         {
             ArgumentNullException.ThrowIfNull(exerciseEntity);
             
-            var sql = "INSERT INTO Exercises (StartTime,EndTime,Duration,Comments) VALUES (@StartTime,@EndTime,@Duration,@Comments); SELECT last_insert_rowid()";
+            var sql = "INSERT INTO Exercises (Type, StartTime,EndTime,Duration,Comments) VALUES (@Type, @StartTime,@EndTime,@Duration,@Comments); SELECT last_insert_rowid()";
 
             using var connection = _DapperContext.CreateConnection();            
 
             var parameters = new DynamicParameters();
+            parameters.Add("Type", exerciseEntity.Type, DbType.String);
             parameters.Add("StartTime", exerciseEntity.StartTime.ToString(), DbType.String);
             parameters.Add("EndTime", exerciseEntity.EndTime.ToString(), DbType.String);
             parameters.Add("Duration", (exerciseEntity.EndTime - exerciseEntity.StartTime).Ticks, DbType.Int64);
@@ -51,6 +53,7 @@ internal class ExerciseDapperRepository : IExerciseRepository
             var exercise = new Exercise()
             {
                 Id = id,
+                Type = exerciseEntity.Type,
                 StartTime = exerciseEntity.StartTime,
                 EndTime = exerciseEntity.EndTime,
                 Duration = (exerciseEntity.EndTime - exerciseEntity.StartTime).Ticks,
@@ -72,11 +75,12 @@ internal class ExerciseDapperRepository : IExerciseRepository
         {
             ArgumentNullException.ThrowIfNull(exerciseEntity);
 
-            var sql = "UPDATE Exercises SET StartTime=@StartTime,EndTime=@EndTime,Duration=@Duration,Comments=@Comments WHERE Id=@Id";
+            var sql = "UPDATE Exercises SET Type=@Type,StartTime=@StartTime,EndTime=@EndTime,Duration=@Duration,Comments=@Comments WHERE Id=@Id";
 
             using var connection = _DapperContext.CreateConnection();
 
             var parameters = new DynamicParameters();
+            parameters.Add("Type", exerciseEntity.Type, DbType.String);
             parameters.Add("StartTime", exerciseEntity.StartTime.ToString(), DbType.String);
             parameters.Add("EndTime", exerciseEntity.EndTime.ToString(), DbType.String);
             parameters.Add("Duration", exerciseEntity.Duration, DbType.Int64);            

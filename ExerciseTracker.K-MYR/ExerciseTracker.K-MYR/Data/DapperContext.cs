@@ -20,7 +20,8 @@ public class DapperContext
             var sql = @"CREATE TABLE IF NOT EXISTS Exercises 
         ( 
             Id INTEGER PRIMARY KEY AUTOINCREMENT,
-            StartTime String ,
+            Type String,
+            StartTime String,
             EndTime String,
             Duration INTEGER,
             Comments String 

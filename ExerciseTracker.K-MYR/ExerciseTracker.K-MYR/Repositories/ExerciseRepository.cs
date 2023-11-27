@@ -29,6 +29,7 @@ internal class ExerciseRepository : IExerciseRepository
         {
             var exercise = new Exercise()
             {
+                Type = exerciseEntity.Type,
                 StartTime = exerciseEntity.StartTime,
                 EndTime = exerciseEntity.EndTime,
                 Duration = (exerciseEntity.EndTime - exerciseEntity.StartTime).Ticks,

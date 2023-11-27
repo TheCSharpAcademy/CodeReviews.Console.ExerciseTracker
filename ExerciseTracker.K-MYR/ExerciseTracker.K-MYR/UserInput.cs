@@ -7,7 +7,7 @@ namespace ExerciseTracker.K_MYR;
 
 internal class UserInput
 {
-    private IExerciseController _ExerciseController;
+    private readonly IExerciseController _ExerciseController;
     public UserInput(IExerciseController exerciseController)
     {
         _ExerciseController = exerciseController;
@@ -43,14 +43,23 @@ internal class UserInput
         }
     }
 
-    private async Task DeleteExercise()
+    private async Task AddExercise()
     {
         Console.Clear();
 
-        var training = GetExercise();
+        (var startTime, var endTime) = GetExerciseTimes();
+        var exerciseType = GetExerciseType();
+        
+        Console.WriteLine("Comments: ");
+        var comments = Console.ReadLine() ?? "";
 
-        if (training is not null)
-            await _ExerciseController.DeleteAsync(training);
+        await _ExerciseController.AddAsync(new ExerciseInsertModel
+        {
+            Type = exerciseType,
+            StartTime = startTime,
+            EndTime = endTime,
+            Comments = comments 
+        });    
     }
 
     private async Task UpdateExercise()
@@ -62,10 +71,12 @@ internal class UserInput
         if (training is not null)
         {
             (var startTime, var endTime) = GetExerciseTimes();
+            var exerciseType = GetExerciseType();
         
             Console.WriteLine("Comments: ");
             var comments = Console.ReadLine() ?? "";
-
+            
+            training.Type = exerciseType;
             training.StartTime = startTime;
             training.EndTime = endTime;
             training.Duration = (endTime - startTime).Ticks;
@@ -74,24 +85,17 @@ internal class UserInput
             await _ExerciseController.UpdateAsync(training);
         }
     }
-
-    private async Task AddExercise()
+    
+    private async Task DeleteExercise()
     {
         Console.Clear();
 
-        (var startTime, var endTime) = GetExerciseTimes();
-        
-        Console.WriteLine("Comments: ");
-        var comments = Console.ReadLine() ?? "";
+        var training = GetExercise();
 
-        await _ExerciseController.AddAsync(new ExerciseInsertModel
-        {
-            StartTime = startTime,
-            EndTime = endTime,
-            Comments = comments 
-        });    
+        if (training is not null)
+            await _ExerciseController.DeleteAsync(training);
     }
-
+    
     private void ShowAllExercises()
     {
         Console.Clear();
@@ -99,7 +103,23 @@ internal class UserInput
         Helpers.PrintAndWait("Press Any Key To Return");
     }
     
-    private DateTime GetDate(string text, string format = "dd-mm-yy hh:mm")
+    private string GetExerciseType()
+    {
+        string type;
+
+        var input = AnsiConsole.Prompt(new SelectionPrompt<ExerciseTypes>()
+                                            .Title("Choose A Exercise Type: ")
+                                            .AddChoices(Enum.GetValues(typeof(ExerciseTypes)).Cast<ExerciseTypes>()));
+
+        if (input == ExerciseTypes.Custom)
+            type = AnsiConsole.Ask<string>("Please Enter The Exercise Type:");
+        else
+            type = input.ToString();
+
+        return type;
+    }
+    
+    private DateTime GetDate(string text, string format = "dd-mm-yy hh:mm", string preset = "")
     {        
         var sb = new StringBuilder();
         bool enterPressed;
@@ -108,13 +128,15 @@ internal class UserInput
 
         do
         {
+            enterPressed = false;
 
             Console.Write($"{text}: ");
             Console.Write(format);
             Console.CursorLeft -= format.Length;
+            Console.Write(preset);
 
-            enterPressed = false;
             sb.Clear();
+            sb.Append(preset);            
 
             while (!enterPressed)
             {
@@ -155,13 +177,13 @@ internal class UserInput
     private (DateTime, DateTime) GetExerciseTimes()
     {
         var startTime = GetDate("Training Start Time");
-        var endTime = GetDate("Training End Time");
+        var endTime = GetDate("Training End Time", preset : startTime.ToString("dd-MM-yy "));
 
         while (endTime <= startTime)
         {
             AnsiConsole.Write(new Panel("[red]The Shift End Time Cannot Be Or Be Before The Shift Start Time[/]").BorderColor(Color.DarkOrange3_1));
             startTime = GetDate("Shift Start Time");
-            endTime = GetDate("Shift End Time");
+            endTime = GetDate("Shift End Time", preset : startTime.ToString("dd-MM-yy "));
         }
 
         return (startTime, endTime);
@@ -191,7 +213,8 @@ internal class UserInput
     {
         var table = new Table()
                         .BorderColor(Color.DarkOrange3_1)
-                        .AddColumns("[springgreen2_1]ID[/]", "[springgreen2_1]Start Time[/]", "[springgreen2_1]End Time[/]", "[springgreen2_1]Duration[/]", "[springgreen2_1]Comments[/]");
+                        .AddColumns("[springgreen2_1]ID[/]", "[springgreen2_1]Type[/]", "[springgreen2_1]Start Time[/]", "[springgreen2_1]End Time[/]",
+                         "[springgreen2_1]Duration[/]", "[springgreen2_1]Comments[/]");
         
         var exercises = data.ToArray().AsSpan();
 
@@ -201,10 +224,11 @@ internal class UserInput
         {
             duration = TimeSpan.FromTicks(exercises[i].Duration);         
             table.AddRow((i+1).ToString(), 
+                        exercises[i].Type,
                         exercises[i].StartTime.ToString("dd/MM/yyyy hh:mm"), 
-                        exercises[i].EndTime.ToString("dd/MM/yyyy hh:mm"), 
+                        exercises[i].EndTime.ToString("dd/MM/yyyy hh:mm"),
                         string.Format("{0} h {1} m", duration.Hours + duration.Days * 24, duration.Minutes),
-                        exercises[i].Comments);
+                        exercises[i].Comments.Length > 15 ? exercises[i].Comments[..12] + "..." : exercises[i].Comments);
         }
 
         AnsiConsole.Write(table);
