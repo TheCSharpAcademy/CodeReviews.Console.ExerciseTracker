@@ -10,4 +10,17 @@ public class Enums
         ShowAllExercise,
         Quit
     }
+
+    public enum ExerciseTypes
+    {
+        Cardio,
+        CrossFit,
+        HIIT,
+        MartialArts,
+        Stretching,
+        Strength,
+        Tabata,       
+        Yoga,
+        Custom
+    }
 }
