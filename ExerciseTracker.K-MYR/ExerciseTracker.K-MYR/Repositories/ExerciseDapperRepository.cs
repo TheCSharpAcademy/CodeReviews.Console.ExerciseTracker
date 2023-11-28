@@ -1,5 +1,5 @@
-﻿using System.Data;
-using Dapper;
+﻿using Dapper;
+using System.Data;
 
 namespace ExerciseTracker.K_MYR;
 
@@ -11,35 +11,35 @@ internal class ExerciseDapperRepository : IExerciseRepository
     {
         _DapperContext = dapperContext;
     }
-    
+
     public IEnumerable<Exercise> GetAll()
     {
         try
         {
-            var sql = "SELECT * FROM Exercises";   
+            var sql = "SELECT * FROM Exercises";
 
             using var connection = _DapperContext.CreateConnection();
-            
 
-            var exercises = connection.Query<Exercise>(sql);            
-            
+
+            var exercises = connection.Query<Exercise>(sql);
+
             return exercises;
         }
         catch (Exception ex)
-        {              
+        {
             throw new Exception($"Couldn't retrieve Entities: {ex.Message}");
-        }        
+        }
     }
-    
+
     public async Task<Exercise> AddAsync(ExerciseInsertModel exerciseEntity)
     {
         try
         {
             ArgumentNullException.ThrowIfNull(exerciseEntity);
-            
+
             var sql = "INSERT INTO Exercises (Type, StartTime,EndTime,Duration,Comments) VALUES (@Type, @StartTime,@EndTime,@Duration,@Comments); SELECT last_insert_rowid()";
 
-            using var connection = _DapperContext.CreateConnection();            
+            using var connection = _DapperContext.CreateConnection();
 
             var parameters = new DynamicParameters();
             parameters.Add("Type", exerciseEntity.Type, DbType.String);
@@ -58,17 +58,17 @@ internal class ExerciseDapperRepository : IExerciseRepository
                 EndTime = exerciseEntity.EndTime,
                 Duration = (exerciseEntity.EndTime - exerciseEntity.StartTime).Ticks,
                 Comments = exerciseEntity.Comments
-            };           
+            };
 
             return exercise;
         }
         catch (Exception ex)
-        {            
+        {
             throw new Exception($"{nameof(exerciseEntity)} couldn't be saved: {ex.Message}");
         }
-        
+
     }
-    
+
     public async Task<Exercise> UpdateAsync(Exercise exerciseEntity)
     {
         try
@@ -83,7 +83,7 @@ internal class ExerciseDapperRepository : IExerciseRepository
             parameters.Add("Type", exerciseEntity.Type, DbType.String);
             parameters.Add("StartTime", exerciseEntity.StartTime.ToString(), DbType.String);
             parameters.Add("EndTime", exerciseEntity.EndTime.ToString(), DbType.String);
-            parameters.Add("Duration", exerciseEntity.Duration, DbType.Int64);            
+            parameters.Add("Duration", exerciseEntity.Duration, DbType.Int64);
             parameters.Add("Comments", exerciseEntity.Comments, DbType.String);
             parameters.Add("Id", exerciseEntity.Id, DbType.Int64);
 
@@ -92,11 +92,11 @@ internal class ExerciseDapperRepository : IExerciseRepository
             return exerciseEntity;
         }
         catch (Exception ex)
-        {            
+        {
             throw new Exception($"{nameof(exerciseEntity)} couldn't be updated: {ex.Message}");
         }
-    } 
-    
+    }
+
     public async Task DeleteAsync(Exercise exerciseEntity)
     {
         try
@@ -107,7 +107,7 @@ internal class ExerciseDapperRepository : IExerciseRepository
 
             using var connection = _DapperContext.CreateConnection();
 
-            var parameters = new DynamicParameters();            
+            var parameters = new DynamicParameters();
             parameters.Add("Id", exerciseEntity.Id, DbType.Int64);
 
             await connection.ExecuteAsync(sql, parameters);
@@ -115,7 +115,7 @@ internal class ExerciseDapperRepository : IExerciseRepository
             return;
         }
         catch (Exception ex)
-        {            
+        {
             throw new Exception($"{nameof(exerciseEntity)} couldn't be updated: {ex.Message}");
         }
     }

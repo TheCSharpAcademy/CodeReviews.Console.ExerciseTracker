@@ -1,6 +1,6 @@
 ﻿using Dapper;
-using System.Data;
 using Microsoft.Data.Sqlite;
+using System.Data;
 
 namespace ExerciseTracker.K_MYR;
 
@@ -8,8 +8,8 @@ public class DapperContext
 {
     private readonly string _connectionString;
     public DapperContext()
-    {        
-        _connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+    {
+        _connectionString = "Data Source = ExerciseTracker.db";
         CreateTables();
     }
 
@@ -27,13 +27,13 @@ public class DapperContext
             Comments String 
         )";
 
-        using var connection = CreateConnection();
-        await connection.ExecuteAsync(sql);   
+            using var connection = CreateConnection();
+            await connection.ExecuteAsync(sql);
         }
         catch (Exception ex)
-        {            
+        {
             throw new Exception($"Couldn't create database: {ex.Message}");
-        }        
+        }
     }
 
     public IDbConnection CreateConnection() => new SqliteConnection(_connectionString);

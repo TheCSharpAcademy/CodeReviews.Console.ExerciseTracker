@@ -16,14 +16,14 @@ internal class ExerciseRepository : IExerciseRepository
             return _ExerciseDbContext.Set<Exercise>();
         }
         catch (Exception ex)
-        {    
+        {
             throw new Exception($"Couldn't retrieve Entities: {ex.Message}");
         }
     }
 
     public async Task<Exercise> AddAsync(ExerciseInsertModel exerciseEntity)
     {
-        ArgumentNullException.ThrowIfNull(exerciseEntity);        
+        ArgumentNullException.ThrowIfNull(exerciseEntity);
 
         try
         {
@@ -35,14 +35,14 @@ internal class ExerciseRepository : IExerciseRepository
                 Duration = (exerciseEntity.EndTime - exerciseEntity.StartTime).Ticks,
                 Comments = exerciseEntity.Comments
             };
-            
+
             await _ExerciseDbContext.AddAsync(exercise);
             await _ExerciseDbContext.SaveChangesAsync();
 
             return exercise;
         }
         catch (Exception ex)
-        {            
+        {
             throw new Exception($"{nameof(exerciseEntity)} couldn't be saved: {ex.Message}");
         }
     }
@@ -59,7 +59,7 @@ internal class ExerciseRepository : IExerciseRepository
             return exerciseEntity;
         }
         catch (Exception ex)
-        {            
+        {
             throw new Exception($"{nameof(exerciseEntity)} couldn't be updated: {ex.Message}");
         }
     }
@@ -68,13 +68,13 @@ internal class ExerciseRepository : IExerciseRepository
     {
         ArgumentNullException.ThrowIfNull(exerciseEntity);
 
-         try
+        try
         {
             _ExerciseDbContext.Remove(exerciseEntity);
             await _ExerciseDbContext.SaveChangesAsync();
         }
         catch (Exception ex)
-        {            
+        {
             throw new Exception($"{nameof(exerciseEntity)} couldn't be deleted: {ex.Message}");
         }
     }

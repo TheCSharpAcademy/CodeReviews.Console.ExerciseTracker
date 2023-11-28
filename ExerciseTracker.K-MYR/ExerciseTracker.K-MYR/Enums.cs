@@ -7,7 +7,8 @@ public class Enums
         AddExercise,
         UpdateExercise,
         DeleteExercise,
-        ShowAllExercise,
+        ViewExercise,
+        ViewAllExercises,
         Quit
     }
 
@@ -19,7 +20,7 @@ public class Enums
         MartialArts,
         Stretching,
         Strength,
-        Tabata,       
+        Tabata,
         Yoga,
         Custom
     }

@@ -7,5 +7,5 @@ public class Exercise
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
     public long Duration { get; set; }
-    public string  Comments { get; set; } = "";
+    public string Comments { get; set; } = "";
 }
