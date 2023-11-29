@@ -1,5 +1,6 @@
 ﻿using ExerciseTracker.Speedierone.Model;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,17 +8,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
 using System.Diagnostics.Eventing.Reader;
+using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
 
 namespace ExerciseTracker.Speedierone
 {
-    public class ExerciseRepository : IExerciseRepository<Exercises>
+    public class ExerciseRepository : IExerciseRepository
     {
-        public void Add(Exercises entity)
+        public readonly ExerciseDbContext _context;
+        public ExerciseRepository(ExerciseDbContext context)
         {
-
+            _context = context;
         }
-
-        public void Delete(Exercises entity)
+        public void Add(Exercises exercises)
+        {
+            _context.Exercises.Add(exercises);
+            _context.SaveChanges();
+        }
+        public void Delete(int id)
         {
 
         }
@@ -65,12 +72,16 @@ namespace ExerciseTracker.Speedierone
                 return Enumerable.Empty<Exercises>();
             }
         }
-        public Exercises Get(int id)
+        public Exercises GetById(int id)
         {
             return null;
         }
 
-        public void Update(Exercises entity)
+        public void Update(Exercises exercises)
+        {
+
+        }
+        public void Save()
         {
 
         }

@@ -9,16 +9,6 @@ namespace ExerciseTracker.Speedierone
 {
     public class ExerciseService
     {
-        private readonly IExerciseRepository<Exercises> _exerciseRepository;
-
-        public ExerciseService(IExerciseRepository<Exercises> exerciseRepository)
-        {
-            _exerciseRepository = exerciseRepository;
-        }
-
-        public void AddExercise(Exercises exercises)
-        {
-            _exerciseRepository.Add(exercises);
-        }
+        
     }
 }

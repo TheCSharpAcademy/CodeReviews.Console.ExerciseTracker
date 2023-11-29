@@ -1,6 +1,5 @@
 ﻿using ExerciseTracker.Speedierone.Model;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ExerciseTracker.Speedierone
 {
-    internal class ExerciseDbContext : DbContext
+    public class ExerciseDbContext : DbContext
     {
         public DbSet<Exercises> Exercises { get; set;}
 

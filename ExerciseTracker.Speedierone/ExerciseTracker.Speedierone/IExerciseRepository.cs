@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExerciseTracker.Speedierone.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,12 +7,13 @@ using System.Threading.Tasks;
 
 namespace ExerciseTracker.Speedierone
 {
-    public interface IExerciseRepository<T>
+    public interface IExerciseRepository
     {
-        void Add(T entity);
-        void Update(T entity);
-        void Delete(T entity);
-        T Get(int id);
-        IEnumerable<T> GetAll();
+        IEnumerable<Exercises> GetAll();
+        Exercises GetById(int id);
+        void Add (Exercises exercises);
+        void Update (Exercises exercises);
+        void Delete (int id);
+        void Save();
     }
 }
