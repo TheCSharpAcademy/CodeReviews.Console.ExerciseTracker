@@ -82,17 +82,20 @@ internal class UserInput
 
         if (training is not null)
         {
-            (var startTime, var endTime) = GetExerciseTimes();
-            var exerciseType = GetExerciseType();
+            if (AnsiConsole.Confirm("Update Exercise Times?", false))
+            {
+                (training.StartTime, training.EndTime) = GetExerciseTimes();
+                training.Duration = (training.StartTime - training.EndTime).Ticks;
+            }
 
-            Console.Write("Comments: ");
-            var comments = Console.ReadLine() ?? "";
+            if (AnsiConsole.Confirm("Update Exercise Type?", false))
+                training.Type = GetExerciseType();
 
-            training.Type = exerciseType;
-            training.StartTime = startTime;
-            training.EndTime = endTime;
-            training.Duration = (endTime - startTime).Ticks;
-            training.Comments = comments;
+            if (AnsiConsole.Confirm("Update Comments?", false))
+            {
+                Console.Write("Comments: ");
+                training.Comments = Console.ReadLine() ?? "";
+            }
 
             try
             {
