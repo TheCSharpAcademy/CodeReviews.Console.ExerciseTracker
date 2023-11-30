@@ -1,16 +1,6 @@
 ﻿using ExerciseTracker.Speedierone.Model;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Configuration;
-using System.Diagnostics.Eventing.Reader;
-using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
 
-namespace ExerciseTracker.Speedierone
+namespace ExerciseTracker.Speedierone.Repository
 {
     public class ExerciseRepository : IExerciseRepository
     {
@@ -26,11 +16,20 @@ namespace ExerciseTracker.Speedierone
         }
         public void Delete(int id)
         {
-
+            var exerciseToDelete = _context.Exercises.Find(id);
+            if (exerciseToDelete != null)
+            {
+                _context.Exercises.Remove(exerciseToDelete);
+                _context.SaveChanges();
+            }
+            else
+            {
+                Console.WriteLine("Could not find session matching that ID");
+            }
         }
 
         public IEnumerable<Exercises> GetAll()
-        {    
+        {
             return _context.Exercises.ToList();
         }
         public List<Exercises> GetById(int id)

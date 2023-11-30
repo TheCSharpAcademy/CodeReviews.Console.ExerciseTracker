@@ -1,11 +1,5 @@
 ﻿using ExerciseTracker.Speedierone.Model;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
+using ExerciseTracker.Speedierone.Repository;
 
 namespace ExerciseTracker.Speedierone
 {
@@ -17,7 +11,7 @@ namespace ExerciseTracker.Speedierone
         {
             _exerciseRepository = exerciseRepository;
         }
-        public IEnumerable<Exercises> ViewAll()
+        public IEnumerable<Exercises> GetAll()
         {
             var allExercises = _exerciseRepository.GetAll();
             return allExercises;

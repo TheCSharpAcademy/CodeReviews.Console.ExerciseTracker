@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using ExerciseTracker.Speedierone.Model;
+using ExerciseTracker.Speedierone.Repository;
 
 namespace ExerciseTracker;
 
@@ -24,10 +25,10 @@ class Program
         .ConfigureServices((hostContext, services) =>
         {
             services.AddDbContext<ExerciseDbContext>();
-            services.AddScoped<IExerciseRepository, ExerciseRepository>();
-            services.AddScoped<ExerciseController>();
-            services.AddScoped<Main_Menu>();
-            services.AddScoped<UserInput>();
+            services.AddTransient<IExerciseRepository, ExerciseRepository>();
+            services.AddTransient<ExerciseController>();
+            services.AddTransient<Main_Menu>();
+            services.AddTransient<UserInput>();
         })
         .UseConsoleLifetime();
 }

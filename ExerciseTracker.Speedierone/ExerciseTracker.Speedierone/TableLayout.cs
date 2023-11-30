@@ -1,10 +1,5 @@
 ﻿using ConsoleTableExt;
 using ExerciseTracker.Speedierone.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ExerciseTracker.Speedierone
 {
@@ -22,9 +17,9 @@ namespace ExerciseTracker.Speedierone
                     exercises.DateEnd,
                     exercises.Duration,
                     exercises.Comments
-                });
-                ConsoleTableBuilder.From(tableData).WithColumn("ID", "Start Date", "End Time", "Duration", "Comments").ExportAndWriteLine();
+                });              
             }
+            ConsoleTableBuilder.From(tableData).WithColumn("ID", "Start Date", "End Time", "Duration", "Comments").ExportAndWriteLine();
         }
         public static void DisplayTableAll(IEnumerable<Exercises> sessions)
         {
@@ -39,9 +34,9 @@ namespace ExerciseTracker.Speedierone
                     exercises.DateEnd,
                     exercises.Duration,
                     exercises.Comments
-                });
-                ConsoleTableBuilder.From(tableData).WithColumn("ID", "Start Date", "End Time", "Duration", "Comments").ExportAndWriteLine();
+                });               
             }
+            ConsoleTableBuilder.From(tableData).WithColumn("ID", "Start Date", "End Time", "Duration", "Comments").ExportAndWriteLine();
         }
     }
 }

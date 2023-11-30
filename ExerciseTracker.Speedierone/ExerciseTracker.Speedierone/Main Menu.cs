@@ -1,10 +1,5 @@
 ﻿using ExerciseTracker.Speedierone.Model;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ExerciseTracker.Speedierone.Repository;
 
 namespace ExerciseTracker.Speedierone
 {
@@ -44,16 +39,24 @@ namespace ExerciseTracker.Speedierone
                     case "1":
                         var tableList = _exerciseService.GetAll();
                         TableLayout.DisplayTableAll(tableList);
+                        Console.WriteLine("Press any key to continue.");
+                        Console.ReadLine();
+                        Console.Clear();
                         break;
 
                     case "2":
                         Console.WriteLine("Please enter Id of record you wish to view.");
                         var id = Int32.Parse(Console.ReadLine());
+                        Console.Clear();
                         var tableListId = _exerciseService.GetById(id);
                         TableLayout.DisplayTable(tableListId);
+                        Console.WriteLine("Press any key to continue.");
+                        Console.ReadLine();
+                        Console.Clear();
                         break;
 
                     case "3":
+                        Console.Clear();
                         Exercises newExercise = _userInput.GetSession();
                         _exerciseService.Add(newExercise);
                         Console.WriteLine("New sessions added.");
@@ -71,13 +74,23 @@ namespace ExerciseTracker.Speedierone
                             {
                                 Exercises exerciseToUpdate = exerciseList[0];
                                 _exerciseService.Update(exerciseToUpdate);
-                                Console.WriteLine("Session Updated");
+                                Console.WriteLine("Session Updated. Press any key to continue.");
+                                Console.ReadLine();
                             }
                             else
                             {
                                 Console.WriteLine("Exercise not found.");
                             }
                         }                      
+                        break;
+
+                    case "5":
+                        var viewToDelete = _exerciseService.GetAll();
+                        TableLayout.DisplayTableAll(viewToDelete);
+                        Console.WriteLine("Please enter ID of session you wish to delete.");
+                        var deleteId = Int32.Parse(Console.ReadLine());
+                        _exerciseService.Delete(deleteId);
+                        Console.WriteLine("Record deleted");
                         break;
 
                     default:
