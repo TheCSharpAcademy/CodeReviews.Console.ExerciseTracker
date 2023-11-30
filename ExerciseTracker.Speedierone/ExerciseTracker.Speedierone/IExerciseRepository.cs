@@ -10,7 +10,7 @@ namespace ExerciseTracker.Speedierone
     public interface IExerciseRepository
     {
         IEnumerable<Exercises> GetAll();
-        Exercises GetById(int id);
+        List<Exercises> GetById(int id);
         void Add (Exercises exercises);
         void Update (Exercises exercises);
         void Delete (int id);

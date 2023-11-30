@@ -28,6 +28,7 @@ namespace ExerciseTracker.Speedierone
         }
         public static void DisplayTableAll(IEnumerable<Exercises> sessions)
         {
+            Console.Clear();
             var tableData = new List<List<Object>>();
             foreach (Exercises exercises in sessions)
             {

@@ -30,56 +30,24 @@ namespace ExerciseTracker.Speedierone
         }
 
         public IEnumerable<Exercises> GetAll()
-        {           
-            try
-            {
-                using (var connection = new SqlConnection(ConfigurationManager.AppSettings.Get("connectionString")))
-                {
-                    connection.Open();
-                    var tableCmd = connection.CreateCommand();
-                    tableCmd.CommandText =
-                        $"SELECT * FROM Exercise Tracker";
-
-                    List<Exercises> tableData = new();
-
-                    using (SqlDataReader reader = tableCmd.ExecuteReader())
-                    {
-                        if (reader.HasRows)
-                        {
-                            while (reader.Read())
-                            {
-                                tableData.Add(new Exercises
-                                {
-                                    Id = reader.GetInt32(0),
-                                    DateStart = reader.GetDateTime(1),
-                                    DateEnd = reader.GetDateTime(2),
-                                    Duration = reader.GetTimeSpan(3)
-                                });
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("No data found");
-                            return Enumerable.Empty<Exercises>();
-                        }
-                    }
-                    return tableData;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return Enumerable.Empty<Exercises>();
-            }
+        {    
+            return _context.Exercises.ToList();
         }
-        public Exercises GetById(int id)
+        public List<Exercises> GetById(int id)
         {
-            return null;
+            Exercises result = _context.Exercises.SingleOrDefault(e => e.Id == id);
+
+            List<Exercises> resultList = result != null ? new List<Exercises> { result } : new List<Exercises>();
+
+            return resultList;
         }
 
-        public void Update(Exercises exercises)
+        public void Update(Exercises exercisesToUpdate)
         {
-
+            UserInput session = new UserInput();
+            session.GetSessionForUpdate(exercisesToUpdate);
+            _context.Update(exercisesToUpdate);
+            _context.SaveChanges();
         }
         public void Save()
         {

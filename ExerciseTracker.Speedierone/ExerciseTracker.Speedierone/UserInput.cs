@@ -77,7 +77,7 @@ namespace ExerciseTracker.Speedierone
 
             return combinedDateTime;
         }
-        public Exercises GetSession()
+        public void GetSessionForUpdate(Exercises existingExercise)
         {
             Console.WriteLine("Please enter start date in format dd/mm/yyyy");
             var startDate = CheckDate();
@@ -110,13 +110,45 @@ namespace ExerciseTracker.Speedierone
             Console.WriteLine("Please enter any comments you wish to make. Press enter when finished or wish to leave it blank.");
             var comments = Console.ReadLine();
 
-            return new Exercises
-            {
-                DateStart = combinedStartDate,
-                DateEnd = combinedEndDate,
-                Duration = duration,
-                Comments = comments
-            };
+            existingExercise.DateStart = combinedStartDate;
+            existingExercise.DateEnd = combinedEndDate;
+            existingExercise.Duration = duration;
+            existingExercise.Comments = comments;            
         }
+        public Exercises GetSession()
+        {
+            Console.WriteLine("Please enter start date in format dd/mm/yyyy");
+            var startDate = CheckDate();
+
+            Console.WriteLine("Please enter start time in format hh:mm");
+            var startTime = CheckTime();
+
+            var combinedStartDate = CombinedDateTime(startDate, startTime);
+            var stringCombinedStartDate = combinedStartDate.ToString();
+
+            Console.WriteLine("Please enter end date in format dd/mm/yyyy");
+            var endDate = CheckDate();
+
+            Console.WriteLine("Please enter end time in format hh:mm");
+            var endTime = CheckTime();
+
+            var combinedEndDate = CombinedDateTime(endDate, endTime);
+            var stringCombinedEndDate = combinedEndDate.ToString();
+
+            var checkEndDate = CheckEndDate(stringCombinedStartDate, stringCombinedEndDate);
+
+            while (checkEndDate = false)
+            {
+                Console.WriteLine("End date is before start date. Press any key to try again.");
+                endDate = CheckDate();
+                endTime = CheckTime();
+            }
+            var duration = GetDuration(combinedStartDate, combinedEndDate);
+
+            Console.WriteLine("Please enter any comments you wish to make. Press enter when finished or wish to leave it blank.");
+            var comments = Console.ReadLine();
+            return new Exercises();    
+        }
+        
     }
 }
