@@ -20,20 +20,28 @@ namespace ExerciseTracker.Speedierone
 
         public static bool CheckEndDate(string startDate, string endDate)
         {
-            var startDateParsed = DateTime.Parse(startDate);
-            var endDateParsed = DateTime.Parse(endDate);
+            try
+            {
+                var startDateParsed = DateTime.Parse(startDate);
+                var endDateParsed = DateTime.Parse(endDate);
 
-            if(startDateParsed > endDateParsed)
+                if (startDateParsed > endDateParsed)
+                {
+                    Console.WriteLine("End date is before start date. Press any button to continue");
+                    return false;
+                }
+                if (endDateParsed > startDateParsed.AddDays(1))
+                {
+                    Console.WriteLine("End date must be less then 1 day from start date.");
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
             {
-                Console.WriteLine("End date is before start date. Press any button to continue");
+                Console.WriteLine(ex.Message );
                 return false;
             }
-            if(endDateParsed > startDateParsed.AddDays(1))
-            {
-                Console.WriteLine("End date must be less then 1 day from start date.");
-                return false;
-            }
-            return true;
         }
         public static string CheckTime()
         {
@@ -56,21 +64,29 @@ namespace ExerciseTracker.Speedierone
 
         public DateTime CombinedDateTime(string date, string time)
         {
-            var userDate = date;
-            var userTime = time;
+            try
+            {
+                var userDate = date;
+                var userTime = time;
 
-            DateTime parsedDate = DateTime.Parse(userDate);
-            DateTime parsedTime = DateTime.Parse(userTime);
+                DateTime parsedDate = DateTime.Parse(userDate);
+                DateTime parsedTime = DateTime.Parse(userTime);
 
-            DateTime combinedDateTime = new DateTime(
-                parsedDate.Year,
-                parsedDate.Month,
-                parsedDate.Day,
-                parsedTime.Hour,
-                parsedTime.Minute,
-                0);
+                DateTime combinedDateTime = new DateTime(
+                    parsedDate.Year,
+                    parsedDate.Month,
+                    parsedDate.Day,
+                    parsedTime.Hour,
+                    parsedTime.Minute,
+                    0);
 
-            return combinedDateTime;
+                return combinedDateTime;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                throw;
+            }
         }
         public void GetSessionForUpdate(Exercises existingExercise)
         {
@@ -94,11 +110,25 @@ namespace ExerciseTracker.Speedierone
 
             var checkEndDate = CheckEndDate(stringCombinedStartDate, stringCombinedEndDate);
 
-            while(checkEndDate = false)
+            if(!checkEndDate)
             {
                 Console.WriteLine("End date is before start date. Press any key to try again.");
                 endDate = CheckDate();
                 endTime = CheckTime();
+
+                combinedEndDate = CombinedDateTime(endDate, endTime);
+                stringCombinedEndDate = combinedEndDate.ToString();
+
+                checkEndDate = CheckEndDate(stringCombinedStartDate, stringCombinedEndDate);
+
+                while(!checkEndDate)
+                {
+                    endDate = CheckDate();
+                    endTime= CheckTime();
+                    combinedEndDate = CombinedDateTime(endDate, endTime);
+                    stringCombinedEndDate = combinedEndDate.ToString();
+                    checkEndDate = CheckEndDate(stringCombinedStartDate, stringCombinedEndDate);
+                }
             }
             var duration = GetDuration(combinedStartDate, combinedEndDate);
 
@@ -113,37 +143,49 @@ namespace ExerciseTracker.Speedierone
         public Exercises GetSession()
         {
             Console.WriteLine("Please enter start date in format dd/mm/yyyy");
-            var startDate = CheckDate();
+            var startDateAdd = CheckDate();
 
             Console.WriteLine("Please enter start time in format hh:mm");
-            var startTime = CheckTime();
+            var startTimeAdd = CheckTime();
 
-            var combinedStartDate = CombinedDateTime(startDate, startTime);
-            var stringCombinedStartDate = combinedStartDate.ToString();
+            var combinedStartDateAdd = CombinedDateTime(startDateAdd, startTimeAdd);
+            var stringCombinedStartDateAdd = combinedStartDateAdd.ToString();
 
             Console.WriteLine("Please enter end date in format dd/mm/yyyy");
-            var endDate = CheckDate();
+            var endDateAdd = CheckDate();
 
             Console.WriteLine("Please enter end time in format hh:mm");
-            var endTime = CheckTime();
+            var endTimeAdd = CheckTime();
 
-            var combinedEndDate = CombinedDateTime(endDate, endTime);
-            var stringCombinedEndDate = combinedEndDate.ToString();
+            var combinedEndDateAdd = CombinedDateTime(endDateAdd, endTimeAdd);
+            var stringCombinedEndDateAdd = combinedEndDateAdd.ToString();
 
-            var checkEndDate = CheckEndDate(stringCombinedStartDate, stringCombinedEndDate);
+            var checkEndDate = CheckEndDate(stringCombinedStartDateAdd, stringCombinedEndDateAdd);
 
-            while (checkEndDate = false)
+            while (checkEndDate == false)
             {
-                Console.WriteLine("End date is before start date. Press any key to try again.");
-                endDate = CheckDate();
-                endTime = CheckTime();
+                Console.WriteLine("Please enter endDate");
+                endDateAdd = CheckDate();
+                Console.WriteLine("Please enter end Time");
+                endTimeAdd = CheckTime();
+                combinedEndDateAdd = CombinedDateTime(endDateAdd, endTimeAdd);
+                stringCombinedEndDateAdd = combinedEndDateAdd.ToString();
+
+                checkEndDate = CheckEndDate(stringCombinedStartDateAdd,stringCombinedEndDateAdd);
             }
-            var duration = GetDuration(combinedStartDate, combinedEndDate);
+            var durationAdd = GetDuration(combinedStartDateAdd, combinedEndDateAdd);
 
             Console.WriteLine("Please enter any comments you wish to make. Press enter when finished or wish to leave it blank.");
             var comments = Console.ReadLine();
-            return new Exercises();    
-        }
-        
+
+            var exercises = new Exercises
+            {
+                DateStart = combinedStartDateAdd,
+                DateEnd = combinedEndDateAdd,
+                Duration = durationAdd,
+                Comments = comments
+            };
+            return exercises;    
+        }    
     }
 }
