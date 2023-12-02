@@ -11,7 +11,7 @@ class Program
    static void Main(string[] args)
     {
         var host = CreateHostBuilder(args).Build();
-        var mainMenu = host.Services.GetRequiredService<Main_Menu>();
+        var mainMenu = host.Services.GetRequiredService<MainMenu>();
         mainMenu.ShowMenu();
         host.Run();
     }
@@ -23,7 +23,7 @@ class Program
             services.AddDbContext<ExerciseDbContext>();
             services.AddTransient<IExerciseRepository, ExerciseRepository>();
             services.AddTransient<IExerciseService, ExerciseService>();
-            services.AddTransient<Main_Menu>();
+            services.AddTransient<MainMenu>();
             services.AddTransient<UserInput>();
         })
         .UseConsoleLifetime();

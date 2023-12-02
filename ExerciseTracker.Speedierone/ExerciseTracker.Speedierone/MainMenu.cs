@@ -3,11 +3,11 @@ using ExerciseTracker.Speedierone.Service;
 
 namespace ExerciseTracker.Speedierone
 {
-    public class Main_Menu
+    public class MainMenu
     {
        private readonly IExerciseService _exerciseService;
        private readonly UserInput _userInput;
-        public Main_Menu(IExerciseService exerciseService, UserInput userInput)
+        public MainMenu(IExerciseService exerciseService, UserInput userInput)
         {
             _exerciseService = exerciseService;
             _userInput = userInput;
