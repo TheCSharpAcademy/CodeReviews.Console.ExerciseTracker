@@ -1,12 +1,8 @@
 ﻿using ExerciseTracker.Speedierone;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Identity.Client;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
-using ExerciseTracker.Speedierone.Model;
 using ExerciseTracker.Speedierone.Repository;
+using ExerciseTracker.Speedierone.Service;
 
 namespace ExerciseTracker;
 

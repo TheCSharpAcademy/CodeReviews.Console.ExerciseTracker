@@ -1,5 +1,4 @@
-﻿using ExerciseTracker.Speedierone.Model;
-using System.Globalization;
+﻿using System.Globalization;
 
 namespace ExerciseTracker.Speedierone
 {

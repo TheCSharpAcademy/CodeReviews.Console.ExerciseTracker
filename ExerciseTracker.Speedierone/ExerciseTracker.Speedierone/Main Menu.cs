@@ -1,5 +1,5 @@
 ﻿using ExerciseTracker.Speedierone.Model;
-using ExerciseTracker.Speedierone.Repository;
+using ExerciseTracker.Speedierone.Service;
 
 namespace ExerciseTracker.Speedierone
 {

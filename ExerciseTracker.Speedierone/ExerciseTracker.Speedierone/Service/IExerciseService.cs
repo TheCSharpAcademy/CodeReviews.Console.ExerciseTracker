@@ -1,7 +1,6 @@
-﻿
-using ExerciseTracker.Speedierone.Model;
+﻿using ExerciseTracker.Speedierone.Model;
 
-namespace ExerciseTracker.Speedierone
+namespace ExerciseTracker.Speedierone.Service
 {
     public interface IExerciseService
     {
