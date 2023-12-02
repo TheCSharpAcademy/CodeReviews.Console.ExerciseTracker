@@ -12,7 +12,6 @@ namespace ExerciseTracker.Speedierone.Repository
         public void Add(Exercises exercises)
         {
             _context.Exercises.Add(exercises);
-            _context.SaveChanges();
         }
         public void Delete(int id)
         {
@@ -20,7 +19,6 @@ namespace ExerciseTracker.Speedierone.Repository
             if (exerciseToDelete != null)
             {
                 _context.Exercises.Remove(exerciseToDelete);
-                _context.SaveChanges();
             }
             else
             {
@@ -34,23 +32,17 @@ namespace ExerciseTracker.Speedierone.Repository
         }
         public List<Exercises> GetById(int id)
         {
-            Exercises result = _context.Exercises.SingleOrDefault(e => e.Id == id);
-
-            List<Exercises> resultList = result != null ? new List<Exercises> { result } : new List<Exercises>();
-
-            return resultList;
+            return _context.Exercises.Where(exercise => exercise.Id == id).ToList();
         }
 
         public void Update(Exercises exercisesToUpdate)
         {
-            UserInput session = new UserInput();
-            session.GetSessionForUpdate(exercisesToUpdate);
             _context.Update(exercisesToUpdate);
             _context.SaveChanges();
         }
-        public void Save()
+        public void SaveChanges()
         {
-
+            _context.SaveChanges();
         }
     }
 }

@@ -26,7 +26,7 @@ class Program
         {
             services.AddDbContext<ExerciseDbContext>();
             services.AddTransient<IExerciseRepository, ExerciseRepository>();
-            services.AddTransient<ExerciseController>();
+            services.AddTransient<IExerciseService, ExerciseService>();
             services.AddTransient<Main_Menu>();
             services.AddTransient<UserInput>();
         })

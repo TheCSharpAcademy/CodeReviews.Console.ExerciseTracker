@@ -5,9 +5,9 @@ namespace ExerciseTracker.Speedierone
 {
     public class Main_Menu
     {
-       private readonly IExerciseRepository _exerciseService;
-        private readonly UserInput _userInput;
-        public Main_Menu(IExerciseRepository exerciseService, UserInput userInput)
+       private readonly IExerciseService _exerciseService;
+       private readonly UserInput _userInput;
+        public Main_Menu(IExerciseService exerciseService, UserInput userInput)
         {
             _exerciseService = exerciseService;
             _userInput = userInput;
@@ -37,7 +37,7 @@ namespace ExerciseTracker.Speedierone
                         Environment.Exit(0);
                         break;
                     case "1":
-                        var tableList = _exerciseService.GetAll();
+                        var tableList = _exerciseService.GetAllExercises();
                         TableLayout.DisplayTableAll(tableList);
                         Console.WriteLine("Press any key to continue.");
                         Console.ReadLine();
@@ -48,7 +48,7 @@ namespace ExerciseTracker.Speedierone
                         Console.WriteLine("Please enter Id of record you wish to view.");
                         var id = Int32.Parse(Console.ReadLine());
                         Console.Clear();
-                        var tableListId = _exerciseService.GetById(id);
+                        var tableListId = _exerciseService.GetExerciseById(id);
                         TableLayout.DisplayTable(tableListId);
                         Console.WriteLine("Press any key to continue.");
                         Console.ReadLine();
@@ -57,25 +57,26 @@ namespace ExerciseTracker.Speedierone
 
                     case "3":
                         Console.Clear();
-                        Exercises newExercise = _userInput.GetSession();
-                        _exerciseService.Add(newExercise);
+                        Exercises newExercise = new Exercises();
+                        _exerciseService.AddExercise(newExercise);
                         Console.WriteLine("New sessions added.");
                         break;
 
                     case "4":
-                        var viewTable = _exerciseService.GetAll();
+                        var viewTable = _exerciseService.GetAllExercises();
                         TableLayout.DisplayTableAll(viewTable);
                         Console.WriteLine("Please enter ID of record you wish to update.");
                         if(int.TryParse(Console.ReadLine(), out id))
                         {
-                            List<Exercises> exerciseList = _exerciseService.GetById(id);
+                            List<Exercises> exerciseList = _exerciseService.GetExerciseById(id);
 
                             if(exerciseList.Count > 0)
                             {
                                 Exercises exerciseToUpdate = exerciseList[0];
-                                _exerciseService.Update(exerciseToUpdate);
+                                _exerciseService.UpdateExercise(exerciseToUpdate);
                                 Console.WriteLine("Session Updated. Press any key to continue.");
                                 Console.ReadLine();
+                                Console.Clear();
                             }
                             else
                             {
@@ -85,11 +86,11 @@ namespace ExerciseTracker.Speedierone
                         break;
 
                     case "5":
-                        var viewToDelete = _exerciseService.GetAll();
+                        var viewToDelete = _exerciseService.GetAllExercises();
                         TableLayout.DisplayTableAll(viewToDelete);
                         Console.WriteLine("Please enter ID of session you wish to delete.");
                         var deleteId = Int32.Parse(Console.ReadLine());
-                        _exerciseService.Delete(deleteId);
+                        _exerciseService.DeleteExercise(deleteId);
                         Console.WriteLine("Record deleted");
                         break;
 

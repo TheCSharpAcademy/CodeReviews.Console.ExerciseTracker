@@ -9,6 +9,6 @@ namespace ExerciseTracker.Speedierone.Repository
         void Add(Exercises exercises);
         void Update(Exercises exercises);
         void Delete(int id);
-        void Save();
+        void SaveChanges();
     }
 }
