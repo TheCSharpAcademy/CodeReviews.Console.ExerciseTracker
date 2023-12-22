@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Text.RegularExpressions;
 using ExerciseTracker.UgniusFalze.Models;
 using Spectre.Console;
 
@@ -22,7 +23,7 @@ public enum ManageMenuOptions
     Exit
 }
 
-public static class UserInput
+public static partial class UserInput
 {
     public static InitialMenuOptions DisplayInitialMenu()
     {
@@ -32,11 +33,17 @@ public static class UserInput
                 InitialMenuOptions.ManageExercises,
                 InitialMenuOptions.AddExercise,
                 InitialMenuOptions.Exit);
+        AddConverter(selectionPrompt);
         var choice = AnsiConsole.Prompt(selectionPrompt);
         return choice;
     }
 
-    public static Pullup? GetExerciseToManage(List<Pullup> exercises)
+    private static void AddConverter<T>(SelectionPrompt<T> selectionPrompt) where T : System.Enum
+    {
+        selectionPrompt.Converter = arg => EnumRegex().Replace(arg.ToString(), " $1");
+    }
+
+public static Pullup? GetExerciseToManage(List<Pullup> exercises)
     {
         if (exercises.Count == 0)
         {
@@ -85,6 +92,7 @@ public static class UserInput
                 ManageMenuOptions.Delete,
                 ManageMenuOptions.Exit
                 );
+        AddConverter(selectionPrompt);
         var choice = AnsiConsole.Prompt(selectionPrompt);
         return choice;
     }
@@ -136,5 +144,7 @@ public static class UserInput
 
         return AnsiConsole.Prompt(textPrompt);
     }
-    
+
+    [GeneratedRegex("(\\B[A-Z])")]
+    private static partial Regex EnumRegex();
 }
