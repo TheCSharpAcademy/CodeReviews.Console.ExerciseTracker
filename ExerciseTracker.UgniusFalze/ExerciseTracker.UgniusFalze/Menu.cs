@@ -7,8 +7,6 @@ namespace ExerciseTracker.UgniusFalze;
 
 public class Menu(ExerciseController exerciseController)
 {
-    private readonly ExerciseController _exerciseController = exerciseController;
-
     public void Start()
     {
         var exit = false;
@@ -19,7 +17,7 @@ public class Menu(ExerciseController exerciseController)
             switch (choice)
             {
                 case InitialMenuOptions.ViewExercises:
-                    var pullups = _exerciseController.GetExercises();
+                    var pullups = exerciseController.GetExercises();
                     Display.DisplayExercises(pullups);
                     break;
                 case InitialMenuOptions.AddExercise:
@@ -43,7 +41,7 @@ public class Menu(ExerciseController exerciseController)
         var reps = UserInput.GetRepetitionInput();
         var exercise = new Pullup
             { Comment = comment, DateEnd = endDate, DateStart = startDate, PullupId = 0, Repetitions = reps };
-        if (_exerciseController.AddExercise(exercise) == false)
+        if (exerciseController.AddExercise(exercise) == false)
         {
             Display.FailedToInsert();
         }
@@ -52,7 +50,7 @@ public class Menu(ExerciseController exerciseController)
 
     private void ManageExercises()
     {
-        var exercise = UserInput.GetExerciseToManage(_exerciseController.GetExercises());
+        var exercise = UserInput.GetExerciseToManage(exerciseController.GetExercises());
         if (exercise == null)
         {
             return;
@@ -78,15 +76,17 @@ public class Menu(ExerciseController exerciseController)
                 exercise.DateEnd = endDate;
                 break;
             case ManageMenuOptions.Delete:
-                if (_exerciseController.DeleteExercise(exercise.PullupId) == false)
+                if (exerciseController.DeleteExercise(exercise.PullupId) == false)
                 {
                     Display.FailedToDelete();
                 }
                 Display.Continue();
                 return;
+            case ManageMenuOptions.Exit:
+                return;
         }
 
-        if (_exerciseController.UpdateExercise(exercise) == false)
+        if (exerciseController.UpdateExercise(exercise) == false)
         {
             Display.FailedToUpdate();
         }
