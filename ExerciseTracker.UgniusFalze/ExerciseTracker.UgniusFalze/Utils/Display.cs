@@ -58,5 +58,15 @@ public static class Display
     {
         Console.WriteLine("There are currently no exercises");
     }
+
+    public static void UpdateSucceeded()
+    {
+        Console.WriteLine("Exercise updated successfully");
+    }
+
+    public static void InsertSucceeded()
+    {
+        Console.WriteLine("Exercise inserted successfully");
+    }
     
 }

@@ -45,6 +45,8 @@ public class Menu(ExerciseController exerciseController)
         {
             Display.FailedToInsert();
         }
+
+        Display.InsertSucceeded();
         Display.Continue();
     }
 
@@ -90,7 +92,7 @@ public class Menu(ExerciseController exerciseController)
         {
             Display.FailedToUpdate();
         }
-
+        Display.UpdateSucceeded();
         Display.Continue();
     }
 }
