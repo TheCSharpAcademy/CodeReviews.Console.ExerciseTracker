@@ -2,10 +2,10 @@
 using ExerciseTracker.UgniusFalze.Models;
 using Spectre.Console;
 
-namespace ExerciseTracker.UgniusFalze;
+namespace ExerciseTracker.UgniusFalze.Utils;
 
 
-public class Display
+public static class Display
 {
     public static void DisplayExercises(List<Pullup> exercises)
     {

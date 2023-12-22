@@ -69,7 +69,9 @@ public static class UserInput
     
     public static int GetRepetitionInput()
     {
-        return GetInput<int>("Please enter your total repetitions for this exercise: ");
+        var prompt = new TextPrompt<int>("Please enter your total repetitions for this exercise: ");
+        prompt.Validate(repetition => repetition < 0 ? ValidationResult.Error("Repetitions must be greater or equal to zero.") : ValidationResult.Success());
+        return AnsiConsole.Prompt(prompt);
     }
 
     public static ManageMenuOptions DisplayManageMenu()

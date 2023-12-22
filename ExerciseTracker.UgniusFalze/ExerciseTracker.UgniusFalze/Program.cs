@@ -6,6 +6,7 @@ using ExerciseTracker.UgniusFalze.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 var builder = Host.CreateApplicationBuilder(args);
 builder.Services
@@ -15,6 +16,7 @@ builder.Services
     .AddScoped<IExerciseService, ExerciseService>()
     .AddScoped<IExerciseRepository, ExerciseRepository>()
     .AddTransient<ExerciseController>();
+builder.Logging.AddFilter("Microsoft.EntityFrameworkCore", LogLevel.Warning);
 var app = builder.Build();
 
 using var scope = app.Services.CreateScope();
