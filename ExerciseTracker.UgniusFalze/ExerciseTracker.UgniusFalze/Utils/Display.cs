@@ -17,11 +17,11 @@ public static class Display
         }
         var table = new Table();
         table.Title("Your current exercises");
-        table.AddColumns("Start Date", "End date", "Comment", "Duration in minutes");
+        table.AddColumns("Start Date", "End date", "Comment", "Duration in minutes", "Repetitions");
         foreach (var exercise in exercises)
         {
             table.AddRow(exercise.DateStart.ToString(CultureInfo.CurrentCulture),
-                exercise.DateEnd.ToString(CultureInfo.CurrentCulture), exercise.Comment, exercise.Duration.TotalMinutes.ToString(CultureInfo.CurrentCulture));
+                exercise.DateEnd.ToString(CultureInfo.CurrentCulture), exercise.Comment, exercise.Duration.TotalMinutes.ToString(CultureInfo.CurrentCulture), exercise.Repetitions.ToString());
         }
 
         AnsiConsole.Write(table);
@@ -36,7 +36,7 @@ public static class Display
 
     public static string InvalidDate()
     {
-        return "Your entered date is invalid, please use dd/mm/yyyy format";
+        return "Your entered date is invalid, please use mm/dd/yyyy format";
     }
 
     public static void FailedToInsert()
