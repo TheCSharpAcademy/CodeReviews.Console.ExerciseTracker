@@ -7,12 +7,6 @@ public class ExerciseService(IExerciseRepository exerciseRepository) : IExercise
 {
     private readonly IExerciseRepository ExerciseRepository = exerciseRepository;
     
-    public Pullup? GetExercise(int id)
-    {
-        var exercise = ExerciseRepository.GetExercise(id);
-        return exercise;
-    }
-
     public List<Pullup> GetExercises()
     {
         return ExerciseRepository.GetExercises();

@@ -5,11 +5,6 @@ namespace ExerciseTracker.UgniusFalze.Repositories;
 
 public class ExerciseRepository(PullUpContext pullUpContext) : IExerciseRepository
 {
-    public Pullup? GetExercise(int id)
-    {
-        return pullUpContext.Pullups.Find(id);
-    }
-
     public List<Pullup> GetExercises()
     {
         return pullUpContext.Pullups.ToList();
