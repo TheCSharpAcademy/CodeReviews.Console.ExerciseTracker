@@ -13,11 +13,13 @@ namespace ExerciceTracker.Services
 
         public void AddService()
         {
+            Console.Clear();
             var exercise = UserInput.GetUserInputExercise();
             _exerciseRepository.Add(exercise);
         }
         public void DeleteService()
         {
+            Console.Clear();
             var exercises = _exerciseRepository.GetAll().ToList();
             if (exercises.Count() == 0)
             {
@@ -33,6 +35,7 @@ namespace ExerciceTracker.Services
         }
         public void GetAllService()
         {
+            Console.Clear();
             var exercises = _exerciseRepository.GetAll().ToList();
             if (exercises.Count == 0)
             {
