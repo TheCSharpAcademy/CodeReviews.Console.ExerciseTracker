@@ -10,36 +10,52 @@ namespace ExerciceTracker
         {
             var exercise = new Exercise();
             DateTime startTime, endTime;
-
+            bool isValidStartTime = false;
+            bool isValidEndTime = false;
             // get start time
-            Console.WriteLine("What's the start time? (hh:mm) \n");
-            string userInputStart = Console.ReadLine();
+            while (!isValidStartTime)
+            {
+                Console.WriteLine("What's the start time? (hh:mm) \n");
+                string userInputStart = Console.ReadLine();
 
-            if (DateTime.TryParseExact(userInputStart, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out startTime))
-            {
-                exercise.DateStart = startTime;
-            }
-            else
-            {
-                Console.WriteLine("Invalid input. (hh:mm)");
+                if (DateTime.TryParseExact(userInputStart, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out startTime))
+                {
+                    exercise.DateStart = startTime;
+                    isValidStartTime = true;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. (hh:mm)");
+                } 
             }
 
             // get end time
-            Console.WriteLine("What's the end time? (hh:mm) \n");
-            string userInputEnd = Console.ReadLine();
+            while (!isValidEndTime)
+            {
+                Console.WriteLine("What's the end time? (hh:mm) \n");
+                string userInputEnd = Console.ReadLine();
 
-            if (DateTime.TryParseExact(userInputEnd, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out endTime))
-            {
-                exercise.DateEnd = endTime;
-            }
-            else
-            {
-                Console.WriteLine("Invalid input. (hh:mm)");
+                if (DateTime.TryParseExact(userInputEnd, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out endTime))
+                {
+                    if (endTime < exercise.DateStart)
+                    {
+                        Console.WriteLine("Invalid input, end time can't be earlier than start time.");
+                    }
+                    else
+                    {
+                        exercise.DateEnd = endTime;
+                        isValidEndTime = true;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. (hh:mm)");
+                } 
             }
 
             // get duration
             TimeSpan duration;
-            duration = endTime - startTime;
+            duration = exercise.DateEnd - exercise.DateStart;
             exercise.Duration = duration;
 
             // get comments
