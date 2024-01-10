@@ -15,27 +15,27 @@ namespace ExerciceTracker
             // get start time
             while (!isValidStartTime)
             {
-                Console.WriteLine("What's the start time? (hh:mm) \n");
+                Console.WriteLine("What's the start time? (dd/mm/yyyy hh:mm) \n");
                 string userInputStart = Console.ReadLine();
 
-                if (DateTime.TryParseExact(userInputStart, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out startTime))
+                if (DateTime.TryParseExact(userInputStart, "d/M/yyyy H:m", CultureInfo.InvariantCulture, DateTimeStyles.None, out startTime))
                 {
                     exercise.DateStart = startTime;
                     isValidStartTime = true;
                 }
                 else
                 {
-                    Console.WriteLine("Invalid input. (hh:mm)");
+                    Console.WriteLine("Invalid input. (dd/mm/yyyy hh:mm)");
                 } 
             }
 
             // get end time
             while (!isValidEndTime)
             {
-                Console.WriteLine("What's the end time? (hh:mm) \n");
+                Console.WriteLine("What's the end time? (dd/mm/yyyy hh:mm) \n");
                 string userInputEnd = Console.ReadLine();
 
-                if (DateTime.TryParseExact(userInputEnd, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out endTime))
+                if (DateTime.TryParseExact(userInputEnd, "d/M/yyyy H:m", CultureInfo.InvariantCulture, DateTimeStyles.None, out endTime))
                 {
                     if (endTime < exercise.DateStart)
                     {
@@ -49,7 +49,7 @@ namespace ExerciceTracker
                 }
                 else
                 {
-                    Console.WriteLine("Invalid input. (hh:mm)");
+                    Console.WriteLine("Invalid input. (dd/mm/yyyy hh:mm)");
                 } 
             }
 
