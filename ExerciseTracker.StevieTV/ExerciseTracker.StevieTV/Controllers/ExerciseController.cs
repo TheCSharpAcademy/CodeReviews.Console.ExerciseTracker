@@ -1,29 +1,29 @@
 using ExerciseTracker.StevieTV.Models;
-using ExerciseTracker.StevieTV.Services;
+using ExerciseTracker.StevieTV.Repositories;
 
 namespace ExerciseTracker.StevieTV.Controllers;
 
-public class ExerciseController
+public class ExerciseController : IExerciseController
 {
-    private readonly IExerciseService _exerciseService;
+    private readonly IExerciseRepository _exerciseRepository;
 
-    public ExerciseController(IExerciseService exerciseService)
+    public ExerciseController(IExerciseRepository exerciseRepository)
     {
-        _exerciseService = exerciseService;
+        _exerciseRepository = exerciseRepository;
     }
 
     public List<Exercise> GetExercises()
     {
-        return _exerciseService.GetExercises();
+        return _exerciseRepository.GetExercises();
     }
 
     public bool AddExercise(Exercise exercise)
     {
-        return _exerciseService.AddExercise(exercise);
+        return _exerciseRepository.AddExercise(exercise);
     }
 
     public bool RemoveExercise(Exercise exercise)
     {
-        return _exerciseService.RemoveExercise(exercise);
+        return _exerciseRepository.RemoveExercise(exercise);
     }
 }

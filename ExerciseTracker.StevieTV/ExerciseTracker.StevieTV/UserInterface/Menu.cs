@@ -1,16 +1,16 @@
 using System.Globalization;
-using ExerciseTracker.StevieTV.Controllers;
 using ExerciseTracker.StevieTV.Helpers;
 using ExerciseTracker.StevieTV.Models;
+using ExerciseTracker.StevieTV.Repositories;
 using Spectre.Console;
 
 namespace ExerciseTracker.StevieTV.UserInterface;
 
 public class Menu
 {
-    private readonly ExerciseController _exerciseController;
+    private readonly IExerciseController _exerciseController;
 
-    public Menu(ExerciseController exerciseController)
+    public Menu(IExerciseController exerciseController)
     {
         _exerciseController = exerciseController;
     }
