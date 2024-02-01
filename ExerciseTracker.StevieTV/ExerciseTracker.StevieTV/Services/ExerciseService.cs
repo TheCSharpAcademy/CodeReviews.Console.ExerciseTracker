@@ -1,53 +1,29 @@
-using System.Data.Common;
-using ExerciseTracker.StevieTV.Database;
 using ExerciseTracker.StevieTV.Models;
 using ExerciseTracker.StevieTV.Repositories;
 
 namespace ExerciseTracker.StevieTV.Services;
 
-public class ExerciseService : IExerciseRepository
+public class ExerciseService : IExerciseService
 {
-    private readonly ExerciseContext _exerciseContext;
+    private readonly IExerciseRepository _exerciseRepository;
 
-    public ExerciseService(ExerciseContext exerciseContext)
+    public ExerciseService(IExerciseRepository exerciseRepository)
     {
-        _exerciseContext = exerciseContext;
+        _exerciseRepository = exerciseRepository;
     }
 
     public List<Exercise> GetExercises()
     {
-        return _exerciseContext.Exercises.ToList();
+        return _exerciseRepository.GetExercises();
     }
 
     public bool AddExercise(Exercise exercise)
     {
-        _exerciseContext.Exercises.Add(exercise);
-
-        try
-        {
-            _exerciseContext.SaveChanges();
-        }
-        catch (DbException)
-        {
-            return false;
-        }
-
-        return true;
+        return _exerciseRepository.AddExercise(exercise);
     }
 
     public bool RemoveExercise(Exercise exercise)
     {
-        _exerciseContext.Exercises.Remove(exercise);
-
-        try
-        {
-            _exerciseContext.SaveChanges();
-        }
-        catch (DbException)
-        {
-            return false;
-        }
-
-        return true;
+        return _exerciseRepository.RemoveExercise(exercise);
     }
 }

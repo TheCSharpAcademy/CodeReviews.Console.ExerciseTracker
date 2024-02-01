@@ -15,16 +15,16 @@ builder.Services.AddDbContext<ExerciseContext>(options =>
     options.UseSqlServer("server=localhost;initial catalog=exercise;Trusted_Connection=True;Integrated Security=SSPI;TrustServerCertificate=True");
 });
 
-builder.Services.AddScoped<IExerciseRepository, ExerciseService>();
-builder.Services.AddScoped<IExerciseController, ExerciseController>();
+builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
+builder.Services.AddScoped<IExerciseService, ExerciseService>();
+builder.Services.AddScoped<ExerciseController>();
 builder.Logging.ClearProviders();
 
 var app = builder.Build();
 
-var exerciseController = app.Services.GetService<IExerciseController>();
+var scope = app.Services.CreateScope();
+var exerciseServices = scope.ServiceProvider;
+var exerciseController = exerciseServices.GetRequiredService<ExerciseController>();
 
-if (exerciseController != null)
-{
-    Menu menu = new Menu(exerciseController);
-    menu.MainMenu();
-}
+Menu menu = new Menu(exerciseController);
+menu.MainMenu();

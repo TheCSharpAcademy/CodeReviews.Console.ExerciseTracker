@@ -1,8 +1,8 @@
 using ExerciseTracker.StevieTV.Models;
 
-namespace ExerciseTracker.StevieTV.Repositories;
+namespace ExerciseTracker.StevieTV.Services;
 
-public interface IExerciseController
+public interface IExerciseService
 {
     List<Exercise> GetExercises();
     bool AddExercise(Exercise exercise);

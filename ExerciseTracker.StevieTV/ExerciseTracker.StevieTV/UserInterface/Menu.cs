@@ -1,16 +1,16 @@
 using System.Globalization;
+using ExerciseTracker.StevieTV.Controllers;
 using ExerciseTracker.StevieTV.Helpers;
 using ExerciseTracker.StevieTV.Models;
-using ExerciseTracker.StevieTV.Repositories;
 using Spectre.Console;
 
 namespace ExerciseTracker.StevieTV.UserInterface;
 
 public class Menu
 {
-    private readonly IExerciseController _exerciseController;
+    private readonly ExerciseController _exerciseController;
 
-    public Menu(IExerciseController exerciseController)
+    public Menu(ExerciseController exerciseController)
     {
         _exerciseController = exerciseController;
     }
@@ -130,9 +130,9 @@ public class Menu
              
         if (!result)
         {
-            AnsiConsole.Prompt(new ConfirmationPrompt("Unable to delete this shift. Press enter to continue"));
+            AnsiConsole.Prompt(new ConfirmationPrompt("Unable to delete this exercise. Press enter to continue"));
         }
-        else if (!AnsiConsole.Prompt(new ConfirmationPrompt("Shift Deleted - Do you wish to do more?")))
+        else if (!AnsiConsole.Prompt(new ConfirmationPrompt("Exercise Deleted - Do you wish to do more?")))
         {
             Environment.Exit(0);
         }
