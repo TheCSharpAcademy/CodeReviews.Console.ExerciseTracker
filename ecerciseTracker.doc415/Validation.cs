@@ -1,11 +1,5 @@
-﻿using Spectre.Console;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace exerciseTracker.doc415;
+﻿namespace exerciseTracker.doc415;
+using Spectre.Console;
 
 internal class Validation
 {

@@ -1,17 +1,18 @@
-﻿using Spectre.Console;
+﻿using exerciseTracker.doc415.Service;
+using Spectre.Console;
 using static exerciseTracker.doc415.Enums;
 
-using exerciseTracker.doc415.Service;
 namespace exerciseTracker.doc415.Controller;
 
-internal class ExerciseController { 
+internal class ExerciseController
+{
 
     private ExerciseService _service;
 
     public ExerciseController()
-{
-    _service = new();
-}
+    {
+        _service = new();
+    }
 
     public void MainMenu()
     {
@@ -56,7 +57,7 @@ internal class ExerciseController {
         DateTime startDate = DateTime.MinValue;
         DateTime endDate = DateTime.MaxValue;
         TimeSpan duration = TimeSpan.Zero;
-       
+
         var type = UserInput.GetModelType();
         var dates = UserInput.GetDates();
         startDate = dates.Item1;
@@ -80,11 +81,11 @@ internal class ExerciseController {
         try
         {
             var table = new Table();
-            table.AddColumns("Id", "Type", "Start Time", "End Time", "Duration (minutes)","Comments");
+            table.AddColumns("Id", "Type", "Start Time", "End Time", "Duration (minutes)", "Comments");
             var exercises = _service.GetExerciseList();
             foreach (var exercise in exercises)
             {
-                table.AddRow(exercise.Id.ToString(), exercise.Type, exercise.DateStart.ToString(), exercise.DateEnd.ToString(), exercise.Duration.Minutes.ToString(), exercise.Comments);
+                table.AddRow(exercise.Id.ToString(), exercise.Type, exercise.DateStart.ToString(), exercise.DateEnd.ToString(), exercise.Duration.TotalMinutes.ToString(), exercise.Comments);
             }
             AnsiConsole.Write(table);
             if (clear) EndOperation();
@@ -120,7 +121,7 @@ internal class ExerciseController {
 
         try
         {
-           
+
             DateTime startDate = DateTime.MinValue;
             DateTime endDate = DateTime.MaxValue;
             TimeSpan duration = TimeSpan.Zero;
@@ -129,7 +130,7 @@ internal class ExerciseController {
             var dates = UserInput.GetDates();
             startDate = dates.Item1;
             endDate = dates.Item2;
-            duration=endDate-startDate;
+            duration = endDate - startDate;
             string comments = UserInput.GetComments();
 
 
@@ -149,8 +150,8 @@ internal class ExerciseController {
             int id = UserInput.GetId("to view");
             var exercise = _service.GetExerciseById(id);
             var table = new Table();
-            table.AddColumns("Id", "Type", "Start Date", "End Date", "Duration (minutes)","Comments");
-            table.AddRow(exercise.Id.ToString(), exercise.Type, exercise.DateStart.ToString(), exercise.DateEnd.ToString(), exercise.Duration.Minutes.ToString(),exercise.Comments);
+            table.AddColumns("Id", "Type", "Start Date", "End Date", "Duration (minutes)", "Comments");
+            table.AddRow(exercise.Id.ToString(), exercise.Type, exercise.DateStart.ToString(), exercise.DateEnd.ToString(), exercise.Duration.Minutes.ToString(), exercise.Comments);
             AnsiConsole.Write(table);
             EndOperation();
         }
@@ -160,7 +161,7 @@ internal class ExerciseController {
             EndOperation();
             return;
         }
-    }   
+    }
 
     private void EndOperation()
     {

@@ -1,5 +1,4 @@
-﻿using exerciseTracker.doc415.context;
-using exerciseTracker.doc415.Models;
+﻿using exerciseTracker.doc415.Models;
 using exerciseTracker.doc415.Repository;
 
 namespace exerciseTracker.doc415.Service;
@@ -7,8 +6,13 @@ namespace exerciseTracker.doc415.Service;
 internal class ExerciseService
 {
     IExerciseRepository _repository;
+    IExerciseRepository _repositoryDapper;
 
-
+    public ExerciseService()
+    {
+        _repository = new ExerciseRepository();
+        _repositoryDapper = new ExerciseRepositoryDapper();
+    }
 
     public void AddExercise(string type, DateTime dateStart, DateTime dateEnd, TimeSpan duration, string comments)
     {
@@ -21,23 +25,19 @@ internal class ExerciseService
             Type = type
         };
         if (type == "Cardio")
-            _repository = new ExerciseRepository(new ExerciseDbContext());
+            _repository.Insert(newExercise);
         else
-            _repository = new ExerciseRepositoryDapper();
-        _repository.Insert(newExercise);
+            _repositoryDapper.Insert(newExercise);
+
     }
 
     public IEnumerable<Exercise> GetExerciseList()
     {
-        _repository= new ExerciseRepository(new ExerciseDbContext());
-        // _repository = new ExerciseRepositoryDapper(); since it is view operation either of them can be used
         return _repository.GetAll();
     }
 
     public void DeleteExercise(int id)
     {
-        _repository = new ExerciseRepository(new ExerciseDbContext());
-        // _repository = new ExerciseRepositoryDapper();since it is delete operation either of them can be used
         _repository.Delete(id);
     }
 
@@ -53,17 +53,14 @@ internal class ExerciseService
             Type = type
         };
         if (type == "Cardio")
-            _repository = new ExerciseRepository(new ExerciseDbContext());
+            _repository.Update(newExercise);
         else
-            _repository = new ExerciseRepositoryDapper();
-        _repository.Update(newExercise);
+            _repositoryDapper.Update(newExercise);
+
     }
 
     public Exercise GetExerciseById(int id)
     {
-        _repository = new ExerciseRepository(new ExerciseDbContext());
-        // _repository = new ExerciseRepositoryDapper();since it is view operation either of them can be used  
-
         return _repository.GetById(id);
     }
 }

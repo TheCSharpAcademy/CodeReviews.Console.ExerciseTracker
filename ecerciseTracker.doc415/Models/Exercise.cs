@@ -7,5 +7,5 @@ internal class Exercise
     public DateTime DateEnd { get; set; }
     public TimeSpan Duration { get; set; }
     public string Comments { get; set; }
-    public string Type {  get; set; }
+    public string Type { get; set; }
 }

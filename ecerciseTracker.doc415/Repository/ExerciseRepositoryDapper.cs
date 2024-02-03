@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using exerciseTracker.doc415.context;
 using exerciseTracker.doc415.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -60,46 +61,48 @@ internal class ExerciseRepositoryDapper : IExerciseRepository
 
     public void Insert(Exercise exercise)
     {
-        var task= TInsert(exercise);
+        var task = TInsert(exercise);
         task.Wait();
     }
     private async Task TInsert(Exercise exercise)
     {
         using var connection = new SqlConnection(_connectionString);
-        string insertDataQuery = $"INSERT INTO Exercies(Id,DateStart,DateEnd,Duration,Comments) values({0},{1},{2},{3},{4})";
+        string insertDataQuery = "INSERT INTO Exercies(Type,DateStart,DateEnd,Duration,Comments) VALUES (@Type,@DateStart, @DateEnd, @Duration, @Comments )";
         var affectedRows = await connection.ExecuteAsync(insertDataQuery, new
         {
-            Id = exercise.Id,
             DateStart = exercise.DateStart,
             DateEnd = exercise.DateEnd,
             Duration = exercise.Duration,
-            Comments = exercise.Comments
+            Comments = exercise.Comments,
+            Type = exercise.Type
         });
         Console.Error.WriteLine(affectedRows);
     }
 
     public void Update(Exercise exercise)
     {
-        var task = TUpdate(exercise);
+        using var context = new ExerciseDbContext();
+        var task = TUpdate(exercise, context);
         task.Wait();
-    }
-    private async Task TUpdate(Exercise exercise)
-    {
-        var updateDataQuery = @"UPDATE Exercies SET (DateStart,DateEnd,Duration,Comments) VALUES ({1},{2},{3},{4}) WHERE Id = {0}";
-        using var connection = new SqlConnection(_connectionString);
+        context.ChangeTracker.DetectChanges();
+        context.SaveChanges();
 
-        var affectedRows = connection.Execute(updateDataQuery, new
+    }
+    private async Task TUpdate(Exercise exercise, ExerciseDbContext _context)
+    {
+        var updateDataQuery = "UPDATE Exercies SET Type=@Type,DateStart=@DateStart,DateEnd=@DateEnd,Duration=@Duration,Comments=@Comments WHERE Id = @Id";
+        var connection = _context.Database.GetDbConnection();
+        await connection.ExecuteAsync(updateDataQuery, new
         {
             Id = exercise.Id,
             DateStart = exercise.DateStart,
             DateEnd = exercise.DateEnd,
             Duration = exercise.Duration,
-            Comments = exercise.Comments
+            Comments = exercise.Comments,
+            Type = exercise.Type
         });
 
-        Console.WriteLine($"Affected Rows: {affectedRows}");
     }
-
 }
 
 

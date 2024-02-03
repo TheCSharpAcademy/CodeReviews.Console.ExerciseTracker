@@ -6,36 +6,38 @@ namespace exerciseTracker.doc415.Repository;
 
 internal class ExerciseRepository : IExerciseRepository
 {
-    private readonly ExerciseDbContext _context;
 
-    public ExerciseRepository(ExerciseDbContext context)
-    {
-        _context = context;
-    }
+
+
     public IEnumerable<Exercise> GetAll()
     {
+        using var _context = new ExerciseDbContext();
         var exerciseList = _context.Exercies.ToList();
         return exerciseList;
     }
     public Exercise GetById(int id)
     {
+        using var _context = new ExerciseDbContext();
         Exercise exercise = _context.Exercies.Find(id);
         return exercise;
     }
     public void Delete(int id)
     {
+        using var _context = new ExerciseDbContext();
         var exerciseToDelete = _context.Exercies.Single(x => x.Id == id);
         if (exerciseToDelete != null)
             _context.Remove(exerciseToDelete);
-        Save();
+        _context.SaveChanges();
     }
     public void Insert(Exercise exercise)
     {
+        using var _context = new ExerciseDbContext();
         _context.Exercies.Add(exercise);
-        Save();
+        _context.SaveChanges();
     }
     public void Update(Exercise exercise)
     {
+        using var _context = new ExerciseDbContext();
         var exerciseToUpdate = _context.Exercies.Find(exercise.Id);
         if (exerciseToUpdate != null)
         {
@@ -44,13 +46,10 @@ internal class ExerciseRepository : IExerciseRepository
             exerciseToUpdate.Duration = exercise.Duration;
             exerciseToUpdate.Comments = exercise.Comments;
         }
-        _context.Exercies.Update(exercise);
+        _context.Exercies.Update(exerciseToUpdate);
         _context.Entry(exerciseToUpdate).State = EntityState.Modified;
-        Save();
+        _context.SaveChanges();
 
     }
-    public void Save()
-    {
-        _context.SaveChanges();
-    }
+
 }

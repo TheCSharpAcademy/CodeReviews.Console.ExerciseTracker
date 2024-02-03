@@ -1,6 +1,4 @@
-﻿using exerciseTracker.doc415.Controller;
-using Spectre.Console;
-using static exerciseTracker.doc415.Enums;
+﻿using Spectre.Console;
 
 namespace exerciseTracker.doc415;
 
@@ -12,9 +10,9 @@ internal class UserInput
                                                                       .AddChoices("Cardio",
                                                                                   "Weight Lifting"));
         return type;
-    } 
+    }
 
-    static public (DateTime,DateTime) GetDates()
+    static public (DateTime, DateTime) GetDates()
     {
         DateTime startDate = new();
         DateTime endDate = new();
@@ -25,9 +23,9 @@ internal class UserInput
             endDate = Validation.GetDate("end");
             var difference = (endDate - startDate).TotalMinutes;
             //duration = String.Format("{0:0.00}", difference);
-            if (difference > 0) valid = true;
+            if (difference >= 0) valid = true;
             else
-                Console.WriteLine("Exercise duration can't be negative. Check your date-times.");
+                Console.WriteLine("Exercise duration can't be negative or zero. Check your date-times.");
         } while (!valid);
         return (startDate, endDate);
     }
@@ -40,18 +38,18 @@ internal class UserInput
 
     static public int GetId(string title)
     {
-       return AnsiConsole.Prompt(new TextPrompt<int>($"Enter record id to {title}: ").
-                                                      ValidationErrorMessage("Enter a valid number.").
-                                                      Validate(_id =>
-                                                      {
-                                                          return _id switch
-                                                          {
-                                                              < 0 => ValidationResult.Error("Id can't be negative number"),
-                                                              _ => ValidationResult.Success()
-                                                          };
-                                                      }));
+        return AnsiConsole.Prompt(new TextPrompt<int>($"Enter record id to {title}: ").
+                                                       ValidationErrorMessage("Enter a valid number.").
+                                                       Validate(_id =>
+                                                       {
+                                                           return _id switch
+                                                           {
+                                                               < 0 => ValidationResult.Error("Id can't be negative number"),
+                                                               _ => ValidationResult.Success()
+                                                           };
+                                                       }));
     }
-    
+
 }
 
 

@@ -9,4 +9,4 @@ internal interface IExerciseRepository
     void Delete(int id);
     void Insert(Exercise exercise);
     void Update(Exercise exercise);
- }
+}
