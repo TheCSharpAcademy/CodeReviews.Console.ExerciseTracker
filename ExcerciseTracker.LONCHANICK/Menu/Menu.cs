@@ -5,7 +5,7 @@ namespace ExerciseTracker.LONCHANICK.Menu;
 
 public class Menu : IMenu
 {
-    private readonly IExerciseController ExController; // = new();
+    private readonly IExerciseController ExController;
     
     public Menu(IExerciseController _ExerciseController)
     {
