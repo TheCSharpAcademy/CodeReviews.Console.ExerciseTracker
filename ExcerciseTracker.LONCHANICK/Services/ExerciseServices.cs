@@ -1,5 +1,6 @@
 
 using ExerciseTracker.LONCHANICK.Models;
+using ExerciseTracker.LONCHANICK.Repository;
 using ExerciseTracker.LONCHANICK.Services;
 using Spectre.Console;
 
@@ -7,23 +8,24 @@ namespace ExerciseTracker.LONCHANICK.Services;
 
 public class ExerciseServices : IExerciseServices
 {
-    public ExerciseRecord NewExerciseRecord()
-    {
-        ExerciseRecord newSession = new(){DateStart = DateTime.Now};
-        Write("New Session has been initialized, Press ENTER to finish.. ");
-        ReadLine();
-        newSession.DateEnd=DateTime.Now;
-        Write("\nSession finished!");
-        ReadLine();
-        return newSession;
-    }
-    public ExerciseRecord DeleteExerciseRecord(IEnumerable<ExerciseRecord> options)
-    {
-        var r = Helpers.ExerciseRecordMenuPickable(options.ToList());
-        WriteLine("Record to Delete:\n"+r);
-        ReadLine();
+    private readonly IExerciseRepository ExerciseRepository; //= new();//dependency
 
-        return r;
+    public ExerciseServices(IExerciseRepository ExcerciseRepositoryInjected)
+    {
+        ExerciseRepository=ExcerciseRepositoryInjected;
+    }
+    public void Add(ExerciseRecord exerciceRecord)
+    {
+        ExerciseRepository.Add(exerciceRecord);
+    }
+    public IEnumerable<ExerciseRecord> Get()
+    {
+        return ExerciseRepository.Get();
+    }
+
+    public void Delete(ExerciseRecord exerciceRecord)
+    {
+        ExerciseRepository.Delete(exerciceRecord);
     }
 }
 

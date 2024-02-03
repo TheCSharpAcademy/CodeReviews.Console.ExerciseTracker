@@ -1,34 +1,36 @@
-using System.Data.Common;
 using ExerciseTracker.LONCHANICK.Services;
-using ExerciseTracker.LONCHANICK.Repository;
+using Spectre.Console;
+using ExerciseTracker.LONCHANICK.Models;
 
 namespace ExerciseTracker.LONCHANICK.Controllers;
 
 public class ExerciseController : IExerciseController
 {
-    private readonly IExerciseRepository ExerciseRepository; //= new();//dependency
     private readonly IExerciseServices ExerciseServices; //= new ();//dependency
 
-    public ExerciseController(IExerciseRepository _ExerciseRepository,  IExerciseServices _ExerciseServices)
+    public ExerciseController(IExerciseServices _ExerciseServices)
     {
-        ExerciseRepository = _ExerciseRepository;
         ExerciseServices = _ExerciseServices;
     }
 
     public void Add()
     {
-        var newExerciseRecord = ExerciseServices.NewExerciseRecord();
-        ExerciseRepository.Add(newExerciseRecord);
+        ExerciseRecord newExer = new(){DateStart = DateTime.Now};
+        Write("\tNew Session has been initialized, Press ENTER When finished.. ");
+        ReadLine();
+        newExer.DateEnd=DateTime.Now;
+
+        newExer.Duration = CtrHelper.TimeSpanCalculator(newExer.DateStart, newExer.DateEnd);
+        CtrHelper.PrintTimeSpan(newExer.Duration);
+        ExerciseServices.Add(newExer);
+        Console.ReadLine();
     }
 
     public void Delete()
     {
-        var allExRecords = ExerciseRepository.Get();
-
-        var r = ExerciseServices.DeleteExerciseRecord(allExRecords);
-
-        ExerciseRepository.Delete(r);
-        ReadLine();
+        var allExRecords = ExerciseServices.Get();
+        var recordToDelete = CtrHelper.ExercMenuPickable(allExRecords);
+        ExerciseServices.Delete(recordToDelete);
     }
     public void Update()
     {
@@ -37,11 +39,54 @@ public class ExerciseController : IExerciseController
     }
     public void GetAll()
     {
-        var allExRecords = ExerciseRepository.Get();
-
-        foreach(var record in allExRecords)
-            WriteLine(record+"\n");
-
+        var allExRecords = ExerciseServices.Get();
+        CtrHelper.PrintExerciseRecords(allExRecords);
         ReadLine();
+    }
+}
+
+public class CtrHelper()
+{
+    public static TimeSpan TimeSpanCalculator(DateTime init, DateTime final)=>(final-init);
+
+    public static void PrintTimeSpan(TimeSpan timeSpan)
+    {
+        var panel = new Panel
+        ($"Hours: {timeSpan.Hours}\nMinutes: {timeSpan.Minutes}\nSeconds: {timeSpan.Seconds}")
+        {
+            Header = new PanelHeader("Total Span"),
+            Padding = new Padding(1, 1, 1, 1)
+        };
+
+        AnsiConsole.Write(panel);
+    }
+    public static void PrintExerciseRecords(IEnumerable<ExerciseRecord> ExRecords)
+    {
+        var table = new Table();
+        table.AddColumn("Id");
+        table.AddColumn("Init");
+        table.AddColumn("End");
+        table.AddColumn("Span");
+        table.AddColumn("Comments");
+
+        foreach (var exRecord in ExRecords)
+        {
+            TimeSpan aux = exRecord.Duration;
+            table.AddRow
+                (exRecord.ID.ToString(),
+                exRecord.DateStart.ToString(),
+                exRecord.DateEnd.ToString(),
+                $"Hours: {aux.Hours} - Minutes: {aux.Minutes} - Seconds: {aux.Seconds}",
+                exRecord.Comments??"No Comments");
+        }
+
+        AnsiConsole.Write(table);
+        
+    }
+    public static ExerciseRecord ExercMenuPickable(IEnumerable<ExerciseRecord> ExerRecords)
+    {
+        return AnsiConsole.Prompt(new SelectionPrompt<ExerciseRecord>()
+            .Title("Choose any Record")
+            .AddChoices(ExerRecords));
     }
 }

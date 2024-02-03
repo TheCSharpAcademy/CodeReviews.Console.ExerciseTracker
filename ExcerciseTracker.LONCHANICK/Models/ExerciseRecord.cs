@@ -13,6 +13,6 @@ public class ExerciseRecord
 
     public override string ToString()
     {
-        return $"{ID}\n{DateStart}\n{DateEnd}\n{Duration}\n{Comments}\n";
+        return $"{ID} {DateStart} {DateEnd} {Duration} {Comments} ";
     }
 }

@@ -12,13 +12,13 @@ public class Menu : IMenu
         ExController = _ExerciseController;
     }
 
-    public async Task MainMenu()
+    public void MainMenu()
     {
         AnsiConsole.Status()
             .Start("Loading...", ctx =>
             {
                 ctx.SpinnerStyle(Style.Parse("green"));
-                Thread.Sleep(600);
+                Thread.Sleep(1000);
             });
 
         bool AppIsRunningYet = true;
@@ -71,7 +71,7 @@ public class Menu : IMenu
 
  public interface IMenu
  {
-     Task MainMenu();
+     void MainMenu();
  }
 
 public enum MainMenuOptions

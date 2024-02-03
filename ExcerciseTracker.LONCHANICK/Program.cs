@@ -1,30 +1,4 @@
-﻿// using ExerciseTracker.LONCHANICK.Menu;
-
-/*
-    revisa bien como hacer dependency injection en console aplications
-*/
-// Menu menu = new();
-// await menu.MainMenu();
-
-
-// using ExerciseTracker.LONCHANICK.Services;
-// using ExerciseTracker.LONCHANICK.Controllers;
-// using ExerciseTracker.LONCHANICK.Menu;
-// using Microsoft.Extensions.DependencyInjection;
-// using Microsoft.Extensions.Hosting;
-// using ExerciseTracker.LONCHANICK.Repository;
-
-// HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
-
-// // builder.Services.AddHostedService<Worker>();
-// builder.Services.AddTransient<IMenu, Menu>();
-// builder.Services.AddTransient<IExerciseController, ExerciseController>();
-// builder.Services.AddTransient<IExerciseServices, ExerciseServices>();
-// builder.Services.AddTransient<IExerciseRepository, ExerciseRepository>();
-
-// using IHost host = builder.Build();
-
-// host.Run();
+﻿ 
 
 using ExerciseTracker.LONCHANICK.Controllers;
 using ExerciseTracker.LONCHANICK.Data;
@@ -41,8 +15,8 @@ internal static class Program
         using IHost host = CreateHostBuilder(args).Build();
 
         var serviceProvider = host.Services;
-        var exerciseController = serviceProvider.GetService<IMenu>();
-        exerciseController!.MainMenu();
+        var MainMenu = serviceProvider.GetService<IMenu>();
+        MainMenu!.MainMenu();
     }
     
     static IHostBuilder CreateHostBuilder(string[] args)
