@@ -5,7 +5,7 @@ namespace ExerciseTracker.LONCHANICK.Repository;
 
 public class ExerciseRepository : IExerciseRepository
 {
-    private readonly ExerciseDbContext _db;// = new();
+    private readonly ExerciseDbContext _db;
     
 
     public ExerciseRepository(ExerciseDbContext db)

@@ -6,7 +6,7 @@ namespace ExerciseTracker.LONCHANICK.Controllers;
 
 public class ExerciseController : IExerciseController
 {
-    private readonly IExerciseServices ExerciseServices; //= new ();//dependency
+    private readonly IExerciseServices ExerciseServices;
 
     public ExerciseController(IExerciseServices _ExerciseServices)
     {
