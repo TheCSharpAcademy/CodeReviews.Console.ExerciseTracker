@@ -22,7 +22,6 @@ internal class UserInput
             startDate = Validation.GetDate("start");
             endDate = Validation.GetDate("end");
             var difference = (endDate - startDate).TotalMinutes;
-            //duration = String.Format("{0:0.00}", difference);
             if (difference >= 0) valid = true;
             else
                 Console.WriteLine("Exercise duration can't be negative or zero. Check your date-times.");
