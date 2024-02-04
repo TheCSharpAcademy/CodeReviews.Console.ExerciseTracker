@@ -6,7 +6,6 @@ internal class Validation
     static public DateTime GetDate(string input)
     {
         DateTime result = DateTime.Now;
-        string dump;
         bool valid = false;
         do
         {
