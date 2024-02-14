@@ -3,17 +3,15 @@ using ExerciseTracker.Models;
 
 namespace ExerciseTracker.Repositories;
 
-public class RunningRepository: IExerciseRepository<Running>
+public class RunningRepository(ExerciseTrackerContext dbContext) : IExerciseRepository<Running>
 {
-    private readonly ExerciseTrackerContext DbContext;
-    public RunningRepository(ExerciseTrackerContext dbContext)
-    {
-        DbContext = dbContext;
-    }
-    public void Insert(Running model)
+    private readonly ExerciseTrackerContext DbContext = dbContext;
+
+    public bool Insert(Running model)
     {
         DbContext.RunningExercise.Add(model);
         DbContext.SaveChanges();
+        return true;
     }
     public IEnumerable<Running>? GetAll()
     {
@@ -24,13 +22,25 @@ public class RunningRepository: IExerciseRepository<Running>
         return DbContext.RunningExercise.Find(id);
     }
 
-    public void Update(Running model)
+    public bool Update(Running model)
     {
+        var runningToUpdate = GetById(model.Id);
+        if ( runningToUpdate == null)
+            return false;
 
+        DbContext.Entry(runningToUpdate).CurrentValues.SetValues(model);
+        DbContext.SaveChanges();
+        return true;
     }
 
-    public void Delete(Running model)
+    public bool Delete(Running model)
     {
+        var runningToDelete = DbContext.RunningExercise.Where(p => p.Id == model.Id).First();
+        if ( runningToDelete == null)
+            return false;
 
+        DbContext.Remove(runningToDelete);
+        DbContext.SaveChanges();
+        return true;
     }
 }

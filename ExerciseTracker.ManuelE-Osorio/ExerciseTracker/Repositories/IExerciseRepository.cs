@@ -2,9 +2,9 @@ namespace ExerciseTracker.Repositories;
 
 public interface IExerciseRepository<T> where T: class
 {
-    void Insert(T model);
+    bool Insert(T model);
     IEnumerable<T>? GetAll();
     T? GetById(int id);
-    void Update(T model);
-    void Delete(T model);
+    bool Update(T model);
+    bool Delete(T model);
 }
