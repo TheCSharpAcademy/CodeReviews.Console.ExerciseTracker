@@ -82,17 +82,20 @@ internal class UserInput
 
         if (training is not null)
         {
-            (var startTime, var endTime) = GetExerciseTimes();
-            var exerciseType = GetExerciseType();
+            if (AnsiConsole.Confirm("Update Exercise Times?", false))
+            {
+                (training.StartTime, training.EndTime) = GetExerciseTimes();
+                training.Duration = (training.EndTime - training.StartTime).Ticks;
+            }
 
-            Console.Write("Comments: ");
-            var comments = Console.ReadLine() ?? "";
+            if (AnsiConsole.Confirm("Update Exercise Type?", false))
+                training.Type = GetExerciseType();
 
-            training.Type = exerciseType;
-            training.StartTime = startTime;
-            training.EndTime = endTime;
-            training.Duration = (endTime - startTime).Ticks;
-            training.Comments = comments;
+            if (AnsiConsole.Confirm("Update Comments?", false))
+            {
+                Console.Write("Comments: ");
+                training.Comments = Console.ReadLine() ?? "";
+            }
 
             try
             {
@@ -130,7 +133,7 @@ internal class UserInput
         try
         {
             Console.Clear();
-            PrintAllExercises(_ExerciseController.GetAll().ToArray());
+            PrintAllExercises(_ExerciseController.GetAll().OrderBy(e => e.StartTime).ToArray());
             Helpers.PrintAndWait("Press Any Key To Return");
         }
         catch (Exception ex)
@@ -156,8 +159,8 @@ internal class UserInput
             var duration = TimeSpan.FromTicks(exercise.Duration);
 
             table.AddRow(exercise.Type,
-                        exercise.StartTime.ToString("dd/MM/yyyy hh:mm"),
-                        exercise.EndTime.ToString("dd/MM/yyyy hh:mm"),
+                        exercise.StartTime.ToString("dd/MM/yyyy HH:mm"),
+                        exercise.EndTime.ToString("dd/MM/yyyy HH:mm"),
                         string.Format("{0} h {1} m", duration.Hours + duration.Days * 24, duration.Minutes));
 
             var commentsPanel = new Panel(exercise.Comments)
@@ -263,7 +266,7 @@ internal class UserInput
 
     private Exercise? GetExercise()
     {
-        var trainings = _ExerciseController.GetAll().ToArray();
+        var trainings = _ExerciseController.GetAll().OrderBy(e => e.StartTime).ToArray();
 
         PrintAllExercises(trainings);
 
@@ -288,7 +291,7 @@ internal class UserInput
                         .AddColumns("[springgreen2_1]ID[/]", "[springgreen2_1]Type[/]", "[springgreen2_1]Start Time[/]", "[springgreen2_1]End Time[/]",
                          "[springgreen2_1]Duration[/]", "[springgreen2_1]Comments[/]");
 
-        var exercises = data.OrderBy(e => e.StartTime).ToArray().AsSpan();
+        var exercises = data.AsSpan();
 
         TimeSpan duration;
 
@@ -297,8 +300,8 @@ internal class UserInput
             duration = TimeSpan.FromTicks(exercises[i].Duration);
             table.AddRow((i + 1).ToString(),
                         exercises[i].Type,
-                        exercises[i].StartTime.ToString("dd/MM/yyyy hh:mm"),
-                        exercises[i].EndTime.ToString("dd/MM/yyyy hh:mm"),
+                        exercises[i].StartTime.ToString("dd/MM/yyyy HH:mm"),
+                        exercises[i].EndTime.ToString("dd/MM/yyyy HH:mm"),
                         string.Format("{0} h {1} m", duration.Hours + duration.Days * 24, duration.Minutes),
                         exercises[i].Comments.Length > 15 ? exercises[i].Comments[..12] + "..." : exercises[i].Comments);
         }
