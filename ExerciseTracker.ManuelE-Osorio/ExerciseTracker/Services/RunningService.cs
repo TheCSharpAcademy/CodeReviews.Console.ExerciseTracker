@@ -3,9 +3,21 @@ using ExerciseTracker.Repositories;
 
 namespace ExerciseTracker.Services;
 
-public class RunningService(RunningRepository runningRepository)
+public class RunningService(IExerciseRepository<Running> runningRepository) : IExerciseService<Running>
 {
-    private readonly RunningRepository RunningRepositoryInstance = runningRepository;
+    private readonly IExerciseRepository<Running> RunningRepositoryInstance = runningRepository;
+
+    public bool TryConnection()
+    {
+        try
+        {
+            return RunningRepositoryInstance.TryConnection();
+        }
+        catch
+        {
+            throw;
+        }
+    }
 
     public IEnumerable<Running>? GetAll()
     {

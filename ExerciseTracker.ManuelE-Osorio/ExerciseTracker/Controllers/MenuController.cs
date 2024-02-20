@@ -12,21 +12,25 @@ public class MenuController
 
     public static void MainMenu()
     {
-        var pressedKey = new ConsoleKey();
+        ConsoleKey pressedKey;
         bool runMainMenu = true;
         do
         {
-            MainUI.DisplayMainMenu();  //how to fix this?
+            MainUI.DisplayMainMenu();
             pressedKey = Console.ReadKey(false).Key;
-            switch(pressedKey)
+            switch (pressedKey)
             {
                 case(ConsoleKey.NumPad1):
+                    ListExerciseMenu();
                     break;
                 case(ConsoleKey.NumPad2):
+                    InsertExerciseMenu();
                     break;
                 case(ConsoleKey.NumPad3):
+                    UpdateMenu();
                     break;
                 case(ConsoleKey.NumPad4):
+                    DeleteMenu();
                     break;      
                 case(ConsoleKey.Escape):
                 case(ConsoleKey.Backspace):
@@ -35,6 +39,7 @@ public class MenuController
             }
         }
         while(runMainMenu);
+        MainUI.DisplayExitMessage();
     }
 
     public static void ListExerciseMenu()

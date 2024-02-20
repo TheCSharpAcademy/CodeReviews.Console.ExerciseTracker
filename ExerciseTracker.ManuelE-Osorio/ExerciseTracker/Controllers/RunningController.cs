@@ -3,9 +3,22 @@ using ExerciseTracker.Services;
 
 namespace ExerciseTracker.Controllers;
 
-public class RunningController(RunningService runningService)
+public class RunningController(IExerciseService<Running> runningService)
 {
-    private readonly RunningService RunningServiceInstance = runningService;
+    private readonly IExerciseService<Running> RunningServiceInstance = runningService;
+
+    public bool TryConnection()
+    {
+        try
+        {
+            return RunningServiceInstance.TryConnection();
+        }
+        catch
+        {
+            throw;
+        }
+    }
+
     public List<Running>? GetAll()
     {
         return RunningServiceInstance.GetAll()?.ToList();

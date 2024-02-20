@@ -1,12 +1,28 @@
 using System.Data.Common;
 using ExerciseTracker.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExerciseTracker.Repositories;
 
-public class RunningRepository(ExerciseTrackerContext dbContext) : IExerciseRepository<Running>
+public class RunningRepository(ExerciseTrackerContext dbContext): IExerciseRepository<Running>
 {
     private readonly ExerciseTrackerContext DbContext = dbContext;
 
+    public bool TryConnection()
+    {
+        try
+        {
+            DbContext.Database.EnsureCreated();
+            DbContext.Database.OpenConnection();
+            DbContext.Database.CanConnect();
+            return true;
+        }
+        catch 
+        {
+            throw new Exception("The app cannot connect to the Database. "+
+                "Please check your Connection String configuration in your appsettings.json");
+        }
+    }
     public bool Insert(Running model)
     {
         DbContext.RunningExercise.Add(model);

@@ -22,8 +22,8 @@ public class InputController
             switch(pressedKey.Key)
             {
                 case(ConsoleKey.Enter):
-                    if(InputValidation.IntValidation(idString))
-                        return Convert.ToInt32(idString);
+                    if(InputValidation.IntValidation(idString, out int id))
+                        return id;
 
                     errorMessage = "Please enter a valid ID";
                     break;
@@ -58,8 +58,8 @@ public class InputController
             switch(pressedKey.Key)
             {
                 case(ConsoleKey.Enter):
-                    if(InputValidation.DateValidation(dateString))
-                        return Convert.ToDateTime(dateString, CultureInfo.InvariantCulture);
+                    if(InputValidation.DateValidation(dateString, out DateTime date))
+                        return date;
 
                     errorMessage = "Please enter a valid date";
                     break;
@@ -94,8 +94,8 @@ public class InputController
             switch(pressedKey.Key)
             {
                 case(ConsoleKey.Enter):
-                    if(InputValidation.DateValidation(dateString, startDate))
-                        return Convert.ToDateTime(dateString, CultureInfo.InvariantCulture);
+                    if(InputValidation.DateValidation(dateString, startDate, out DateTime date))
+                        return date;
                     errorMessage = "Please enter a valid date or a date after the start date";
                     break;
                 

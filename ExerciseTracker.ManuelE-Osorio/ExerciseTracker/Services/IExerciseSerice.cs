@@ -1,13 +1,13 @@
 using ExerciseTracker.Models;
 
-namespace ExerciseTracker.Repositories;
+namespace ExerciseTracker.Services;
 
-public interface IExerciseRepository<T> where T : class
+public interface IExerciseService<T> where T : class
 {
     bool TryConnection();
-    bool Insert(T model);
     IEnumerable<T>? GetAll();
     T? GetById(int id);
+    bool Insert(T model);
     bool Update(T model);
     bool Delete(T model);
 }
