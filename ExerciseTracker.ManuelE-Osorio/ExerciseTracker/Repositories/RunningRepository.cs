@@ -1,4 +1,3 @@
-using System.Data.Common;
 using ExerciseTracker.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,16 +22,19 @@ public class RunningRepository(ExerciseTrackerContext dbContext): IExerciseRepos
                 "Please check your Connection String configuration in your appsettings.json");
         }
     }
+
     public bool Insert(Running model)
     {
         DbContext.RunningExercise.Add(model);
         DbContext.SaveChanges();
         return true;
     }
+
     public IEnumerable<Running>? GetAll()
     {
         return DbContext.RunningExercise.AsEnumerable();
     }
+    
     public Running? GetById(int id)
     {
         return DbContext.RunningExercise.Find(id);

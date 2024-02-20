@@ -1,5 +1,3 @@
-using ExerciseTracker.Models;
-
 namespace ExerciseTracker.Services;
 
 public interface IExerciseService<T> where T : class

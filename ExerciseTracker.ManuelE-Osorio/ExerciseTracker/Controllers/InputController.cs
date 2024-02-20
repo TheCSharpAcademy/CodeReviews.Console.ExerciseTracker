@@ -1,4 +1,3 @@
-using System.Globalization;
 using ExerciseTracker.Models;
 using ExerciseTracker.UserInterface;
 using ExerciseTracker.Validation;
@@ -7,7 +6,7 @@ namespace ExerciseTracker.Controllers;
 
 public class InputController
 {
-    public static int? GetId()
+    public static int? GetId<T>(List<T>? exerciseList) where T : class, IExerciseModel
     {
         string idString = "";
         string? errorMessage = null;
@@ -15,6 +14,8 @@ public class InputController
 
         while(true)
         {
+            if(exerciseList != null || exerciseList?.Count > 0)
+                MainUI.DisplayExerciseList(exerciseList);
             MainUI.DisplayEnterId(errorMessage);
             Console.Write(idString);
             pressedKey = Console.ReadKey();
@@ -22,10 +23,9 @@ public class InputController
             switch(pressedKey.Key)
             {
                 case(ConsoleKey.Enter):
-                    if(InputValidation.IntValidation(idString, out int id))
+                    errorMessage = InputValidation.IdValidation(idString, exerciseList ?? [], out int id);
+                    if(errorMessage == null)
                         return id;
-
-                    errorMessage = "Please enter a valid ID";
                     break;
                 
                 case(ConsoleKey.Backspace):
@@ -43,7 +43,7 @@ public class InputController
         }
     }
 
-    public static DateTime? GetDate(DateOptions dateType)
+    public static DateTime? GetDate(DateOptions dateType, ConfirmationOptions confirmationType)
     {
         string dateString = "";
         string? errorMessage = null;
@@ -51,17 +51,17 @@ public class InputController
 
         while(true)
         {
-            MainUI.DisplayEnterDate(dateType, errorMessage);
+            MainUI.DisplayEnterDate(dateType, confirmationType, errorMessage);
             Console.Write(dateString);
             pressedKey = Console.ReadKey();
             
             switch(pressedKey.Key)
             {
                 case(ConsoleKey.Enter):
-                    if(InputValidation.DateValidation(dateString, out DateTime date))
+                    errorMessage = InputValidation.DateValidation(dateString, out DateTime date);
+                    if(errorMessage == null)
                         return date;
 
-                    errorMessage = "Please enter a valid date";
                     break;
                 
                 case(ConsoleKey.Backspace):
@@ -79,7 +79,7 @@ public class InputController
         }
     }
 
-    public static DateTime? GetDate(DateOptions dateType, DateTime? startDate)
+    public static DateTime? GetDate(DateOptions dateType, ConfirmationOptions confirmationType, DateTime? existingDate)
     {
         string dateString = "";
         string? errorMessage = null;
@@ -87,16 +87,16 @@ public class InputController
 
         while(true)
         {
-            MainUI.DisplayEnterDate(dateType, errorMessage);
+            MainUI.DisplayEnterDate(dateType, confirmationType, errorMessage);
             Console.Write(dateString);
             pressedKey = Console.ReadKey();
             
             switch(pressedKey.Key)
             {
                 case(ConsoleKey.Enter):
-                    if(InputValidation.DateValidation(dateString, startDate, out DateTime date))
+                    errorMessage = InputValidation.DateValidation(dateString, existingDate, dateType, out DateTime date);
+                    if(errorMessage == null)
                         return date;
-                    errorMessage = "Please enter a valid date or a date after the start date";
                     break;
                 
                 case(ConsoleKey.Backspace):
@@ -114,26 +114,66 @@ public class InputController
         }
     }
 
-    public static string GetComments()
+    public static string? GetComments(ConfirmationOptions confirmationType)
     {
-        throw new NotImplementedException(); //Implement
+        string? comments = "";
+        string? errorMessage = null;
+        ConsoleKeyInfo pressedKey;
+
+        while(true)
+        {
+            MainUI.DisplayEnterComments(confirmationType, errorMessage);
+            Console.Write(comments);
+            pressedKey = Console.ReadKey();
+            
+            switch(pressedKey.Key)
+            {
+                case(ConsoleKey.Enter):
+                    errorMessage = InputValidation.CommentsValidation(comments);
+                    if(errorMessage == null)
+                        return comments;
+                    break;
+                
+                case(ConsoleKey.Backspace):
+                    if(comments.Length > 0)
+                        comments = comments.Remove(comments.Length-1);
+                    break;
+                
+                default:
+                    comments += pressedKey.KeyChar.ToString();
+                    break;
+
+                case(ConsoleKey.Escape):
+                    return null; 
+            }
+        }
     }
 
-    public static Running? GetRunningExercise()
+    public static T? GetExercise<T>(ConfirmationOptions confirmationType) where T : class, IExerciseModel, new()
     {
-        var startDate = GetDate(DateOptions.start);
+        var startDate = GetDate(DateOptions.start, confirmationType);
         if(startDate == null)
-            return null;
+            return default;
         
-        var endDate = GetDate(DateOptions.end, startDate);
+        var endDate = GetDate(DateOptions.end, confirmationType, startDate);
         if(endDate == null)
-            return null;
+            return default;
         
-        var comments = GetComments();
+        var comments = GetComments(confirmationType);
         if(comments == null)
-            return null;
+            return default;
         
-        var inputExercise = new Running{StartDate = (DateTime)startDate, EndDate = (DateTime)endDate, Comments = comments};
+        var inputExercise = new T{StartDate = (DateTime)startDate, 
+            EndDate = (DateTime)endDate, Duration = (TimeSpan)(endDate - startDate), Comments = comments};
         return inputExercise;
+    }
+
+    public static bool GetConfirmation(ConfirmationOptions confirmationType)
+    {
+        MainUI.DisplayConfirmationPromt(confirmationType);
+        var confirmation = Console.ReadLine() ?? "";
+        if(confirmation.Equals("y", StringComparison.InvariantCultureIgnoreCase))
+            return true;
+        return false;
     }
 }

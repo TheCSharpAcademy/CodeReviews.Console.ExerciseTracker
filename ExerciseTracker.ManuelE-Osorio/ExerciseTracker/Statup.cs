@@ -2,18 +2,20 @@ using ExerciseTracker.Controllers;
 using ExerciseTracker.Models;
 using ExerciseTracker.Repositories;
 using ExerciseTracker.Services;
+using ExerciseTracker.UserInterface;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
 
 namespace ExerciseTracker;
 
 public class StartUp
 {
     public static IHost AppInit()
-    {    // wait for configuration UI Messague;
+    {   
+        MainUI.DisplayLoadingMessage();
+        
         var appBuilder = new HostBuilder();
         appBuilder.ConfigureAppConfiguration(p =>
             p.AddJsonFile("appsettings.json").Build());
@@ -21,8 +23,7 @@ public class StartUp
         appBuilder.ConfigureServices((host, services) =>
         {
             services.AddDbContext<ExerciseTrackerContext>(options => options
-                .UseSqlServer(host.Configuration.GetConnectionString("DefaultConnection"))
-                .LogTo(Console.WriteLine));
+                .UseSqlServer(host.Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IExerciseRepository<Running>, RunningRepository>();
             services.AddScoped<IExerciseService<Running>, RunningService>();
             services.AddScoped<RunningController>();

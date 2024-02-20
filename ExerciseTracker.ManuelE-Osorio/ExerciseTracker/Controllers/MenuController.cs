@@ -1,36 +1,44 @@
+using ExerciseTracker.Models;
 using ExerciseTracker.UserInterface;
 
 namespace ExerciseTracker.Controllers;
 
-public class MenuController
+public class MenuController(RunningController runningController)
 {
-    public static void Start()
+    public RunningController RunningControllerInstance = runningController;
+
+    public void Start()
     {
         MainUI.DisplayWelcomeMessage();
         MainMenu();
     }
 
-    public static void MainMenu()
+    public void MainMenu()
     {
-        ConsoleKey pressedKey;
+        ConsoleKey? pressedKey = null;
         bool runMainMenu = true;
+        string? errorMessage = null;
         do
         {
-            MainUI.DisplayMainMenu();
-            pressedKey = Console.ReadKey(false).Key;
+            if(pressedKey != ConsoleKey.D1)
+                MainUI.ClearUI();
+            MainUI.DisplayMainMenu(errorMessage);
+            pressedKey = Console.ReadKey(true).Key;
             switch (pressedKey)
             {
-                case(ConsoleKey.NumPad1):
-                    ListExerciseMenu();
+                case(ConsoleKey.D1):
+                    errorMessage = ListExerciseMenu();
                     break;
-                case(ConsoleKey.NumPad2):
-                    InsertExerciseMenu();
+                case(ConsoleKey.D2):
+                    if(InsertExerciseMenu())
+                        MainUI.DisplaySuccessMessage();
+                    errorMessage = null;
                     break;
-                case(ConsoleKey.NumPad3):
-                    UpdateMenu();
+                case(ConsoleKey.D3):
+                    errorMessage = UpdateMenu();
                     break;
-                case(ConsoleKey.NumPad4):
-                    DeleteMenu();
+                case(ConsoleKey.D4):
+                    errorMessage = DeleteMenu();
                     break;      
                 case(ConsoleKey.Escape):
                 case(ConsoleKey.Backspace):
@@ -42,23 +50,66 @@ public class MenuController
         MainUI.DisplayExitMessage();
     }
 
-    public static void ListExerciseMenu()
+    public string? ListExerciseMenu()
     {
-        throw new NotImplementedException();
+        var exerciseList = RunningControllerInstance.GetAll();
+        if (exerciseList == null || exerciseList.Count == 0)
+        {
+            MainUI.ClearUI();
+            return "The log is empty";
+        }
+        else 
+            MainUI.DisplayExerciseList(exerciseList);
+        return null;
     }
 
-    public static void InsertExerciseMenu()
+    public bool InsertExerciseMenu()
     {
-        throw new NotImplementedException();
+        return RunningControllerInstance.Insert();
     }
 
-    public static void UpdateMenu()
+    public string? UpdateMenu()
     {
-        throw new NotImplementedException();
+        var exerciseToUpdate = RunningControllerInstance.GetById();
+        if(exerciseToUpdate == null)
+            return "The log is empty";
+
+        bool runUpdateMenu = true;
+        ConsoleKey pressedKey;
+
+        do
+        {
+            MainUI.DisplayModifyMenu<Running>(exerciseToUpdate);
+            pressedKey = Console.ReadKey(true).Key;
+            switch(pressedKey)
+            {
+                case(ConsoleKey.D1):
+                case(ConsoleKey.D2):
+                case(ConsoleKey.D3):
+                    if(RunningControllerInstance.Update((UpdateOptions) (Convert.ToInt32(pressedKey) - 49), 
+                        exerciseToUpdate))
+                        MainUI.DisplaySuccessMessage();
+                    break;
+                
+                case(ConsoleKey.Backspace):
+                case(ConsoleKey.Escape):
+                    runUpdateMenu = false;
+                    break;
+            }
+        }
+        while(runUpdateMenu);
+        return null;
     }
 
-    public static void DeleteMenu()
+    public string? DeleteMenu()
     {
-        throw new NotImplementedException();
+        var exerciseToDelete = RunningControllerInstance.GetById();
+        if(exerciseToDelete == null)
+            return "The log is empty";
+
+        if(InputController.GetConfirmation(ConfirmationOptions.delete) == true)
+            if(RunningControllerInstance.Delete(exerciseToDelete))
+                MainUI.DisplaySuccessMessage();
+        return null;
     }
 }
