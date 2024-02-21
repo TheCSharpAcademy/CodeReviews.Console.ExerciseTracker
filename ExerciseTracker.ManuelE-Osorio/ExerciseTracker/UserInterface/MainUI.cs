@@ -21,7 +21,7 @@ public class MainUI
             Console.WriteLine($"Error: {errorMessage}");
         Console.WriteLine("Please select one of the following options or press Esc to exit the app:\n"+
             "1) Display all running logs\n"+
-            "2) Insert a new runnig log\n"+
+            "2) Insert a new running log\n"+
             "3) Update an existing running log\n"+
             "4) Delete a running log\n");
     }
