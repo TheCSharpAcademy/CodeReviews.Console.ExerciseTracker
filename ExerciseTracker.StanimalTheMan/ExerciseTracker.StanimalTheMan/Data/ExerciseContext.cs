@@ -9,5 +9,5 @@ public class ExerciseContext : DbContext
 	{
 	}
 
-	public DbSet<Run> Runs { get; set; }
+	public DbSet<Run> RunEntries { get; set; }
 }

@@ -10,22 +10,33 @@ class Program
 {
 	static void Main(string[] args)
 	{
-		var connectionString = "Server=(LocalDb)\\LocalDBDemo;Database=Runs;Integrated Security=True;Encrypt=False";
+		var connectionString = "Server=(LocalDb)\\LocalDBDemo;Database=RunEntries;Integrated Security=True;Encrypt=False";
 
-		// Configure dependency injection container
+
 		var serviceProvider = new ServiceCollection()
 			.AddDbContext<ExerciseContext>(options =>
 				options.UseSqlServer(connectionString))
-			.AddSingleton<IExerciseRepository, ExerciseRepository>()
+			.AddTransient<IExerciseRepository, ExerciseRepository>()
 			.AddTransient<ExerciseService>()
 			.AddTransient<ExerciseController>()
 			.BuildServiceProvider();
 
+		using (var serviceScope = serviceProvider.CreateScope())
+		{
+			var dbContext = serviceScope.ServiceProvider.GetRequiredService<ExerciseContext>();
+			dbContext.Database.EnsureCreated();
+		}
+
 		var exerciseController = serviceProvider.GetService<ExerciseController>();
 
-		// Use exerciseController to interact with the application
-		UserInput.ShowMainMenu(exerciseController);
+		if (exerciseController != null)
+		{
+			UserInput.ShowMainMenu(exerciseController);
+		}
+		else
+		{
+			Console.WriteLine("Failed to retrieve ExerciseController.");
+		}
 	}
-
 
 }

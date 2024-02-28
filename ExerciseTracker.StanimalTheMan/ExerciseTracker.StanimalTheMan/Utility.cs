@@ -1,5 +1,4 @@
-﻿using ExerciseTracker.StanimalTheMan.Controllers;
-using System.Globalization;
+﻿using System.Globalization;
 
 namespace ExerciseTracker.StanimalTheMan;
 
