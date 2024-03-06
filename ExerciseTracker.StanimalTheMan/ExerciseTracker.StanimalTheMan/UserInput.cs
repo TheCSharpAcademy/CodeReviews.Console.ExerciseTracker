@@ -55,7 +55,6 @@ public class UserInput
 				case MenuOptions.AddExercise:
 					Console.WriteLine("Enter distance in miles (e.g. 1, 1.5, 2)");
 					double distance;
-					//Console.WriteLine("Enter an id of the exercise you want to fetch info of");
 					while (!double.TryParse(Console.ReadLine(), out distance))
 					{
 						Console.WriteLine("Invalid distance.  Enter an id of the run you want to fetch info of");
@@ -76,7 +75,7 @@ public class UserInput
 					string comments = Console.ReadLine();
 
 					TimeSpan duration = Utility.CalculateDuration(endTimeInfo.dateTime, startTimeInfo.dateTime);
-					exerciseController.AddExercise(new Run() { Distance = distance, DateStart = startTimeInfo.dateTime, DateEnd = endTimeInfo.dateTime, Duration = duration, Comments = comments }); ;
+					exerciseController.AddExercise(new Run() { Distance = distance, DateStart = startTimeInfo.dateTime, DateEnd = endTimeInfo.dateTime, Duration = duration, Comments = comments });
 					break;
 				case MenuOptions.UpdateExercise:
 					Console.WriteLine("Select id of exercise you want to update:");
@@ -107,7 +106,7 @@ public class UserInput
 					comments = Console.ReadLine();
 
 					duration = Utility.CalculateDuration(endTimeInfo.dateTime, startTimeInfo.dateTime);
-					exerciseController.UpdateExercise(new Run {Id = id,  Distance = distance, DateStart = startTimeInfo.dateTime, DateEnd = endTimeInfo.dateTime, Duration = duration, Comments = comments }); ;
+					exerciseController.UpdateExercise(new Run {Id = id,  Distance = distance, DateStart = startTimeInfo.dateTime, DateEnd = endTimeInfo.dateTime, Duration = duration, Comments = comments });
 					Console.WriteLine("Press any key to return to main menu.");
 					Console.ReadLine();
 					break;
