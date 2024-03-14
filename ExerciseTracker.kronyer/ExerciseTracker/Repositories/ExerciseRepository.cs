@@ -1,5 +1,6 @@
 ﻿using ExerciseTracker.Models;
 using ExerciseTracker.Repositories.Interfaces;
+using Spectre.Console;
 
 namespace ExerciseTracker.Repositories
 {
@@ -37,6 +38,10 @@ namespace ExerciseTracker.Repositories
         public void DeleteExercise(int id)
         {
             var exercise = _context.Exercises.Find(id);
+            if (exercise == null)
+            {
+                AnsiConsole.MarkupLine($"There is no exercise for id {id}");
+            }
             _context.Remove(exercise);
             _context.SaveChanges();
         }

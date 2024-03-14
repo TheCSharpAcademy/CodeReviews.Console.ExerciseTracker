@@ -31,30 +31,39 @@ internal class ExerciseService
 
     public void UpdateExercise()
     {
-        Exercise newExercise = new Exercise();
+        int exerciseId = GetChooseExercise("update");
+        var exercise = _exerciseRepository.GetById(exerciseId);
 
-        newExercise.DateStart = UserInput.GetDateInputs();
-        newExercise.DateEnd = UserInput.GetDateInputs();
-        newExercise.Comments = UserInput.GetCommentInput();
-        newExercise.Duration = newExercise.DateEnd - newExercise.DateStart;
-
-        _exerciseRepository.UpdateExercise(newExercise);
+        exercise.DateStart = UserInput.GetDateInputs();
+        exercise.DateEnd = UserInput.GetDateInputs();
+        exercise.Comments = UserInput.GetCommentInput();
+        exercise.Duration = exercise.DateEnd - exercise.DateStart;
+        
+        _exerciseRepository.UpdateExercise(exercise);
     }
 
     public void DeleteExercise()
     {
-        int exercise = UserInput.GetExercise("delete");
+        int exercise = GetChooseExercise("delete");
         _exerciseRepository.DeleteExercise(exercise);
     }
 
     public Exercise GetExercise()
     {
-        int exercise = UserInput.GetExercise("see");
+        int exercise = GetChooseExercise("see");
         return _exerciseRepository.GetById(exercise);
     }
 
     public List<Exercise> GetAllExercises()
     {
         return _exerciseRepository.GetAll();
+    }
+
+    internal int GetChooseExercise(string message)
+    {
+        var exercise = AnsiConsole.Prompt(new SelectionPrompt<Exercise>().Title($"Choose an exercise to {message}").AddChoices(GetAllExercises()));
+        
+        
+        return exercise.Id;
     }
 }

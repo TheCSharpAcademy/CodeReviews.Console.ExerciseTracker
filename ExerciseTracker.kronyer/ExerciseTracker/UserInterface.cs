@@ -16,7 +16,8 @@ internal class UserInterface
         GetExercise,
         GetAllExercises,
         UpdateExercise,
-        DeleteExercise
+        DeleteExercise,
+        Quit
     }
     public static void MainMenu()
     {
@@ -40,7 +41,8 @@ internal class UserInterface
                 MenuOptions.GetExercise,
                 MenuOptions.GetAllExercises,
                 MenuOptions.UpdateExercise,
-                MenuOptions.DeleteExercise));
+                MenuOptions.DeleteExercise,
+                MenuOptions.Quit));
 
             switch (option)
             {
@@ -58,6 +60,9 @@ internal class UserInterface
                     break;
                 case MenuOptions.GetAllExercises:
                     PrintAllExercises(controller.GetAll());
+                    break;
+                case MenuOptions.Quit:
+                    isRunning = false;
                     break;
             }
         }

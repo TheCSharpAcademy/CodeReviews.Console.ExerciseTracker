@@ -1,4 +1,5 @@
-﻿using Spectre.Console;
+﻿using ExerciseTracker.Models;
+using Spectre.Console;
 using System.Globalization;
 
 namespace ExerciseTracker;
@@ -10,7 +11,7 @@ internal class UserInput
         DateTime input;
         while (!DateTime.TryParseExact(AnsiConsole.Ask<string>("Enter a date (dd-mm-yy hh:mm)"), "dd-MM-yy HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out input))
         {
-            AnsiConsole.MarkupLine("Invalid date format (dd-mm-yy hh:mm");
+            AnsiConsole.MarkupLine("Invalid date format (dd-mm-yy hh:mm)");
         }
         return input;
     }
@@ -21,7 +22,7 @@ internal class UserInput
         return comment;
     }
 
-    internal static int GetExercise(string message)
+    internal static int GetExerciseId(string message)
     {
         int input;
         while (!int.TryParse(AnsiConsole.Ask<string>($"Enter the id of the exercise you want to {message}"), out input))
@@ -30,4 +31,6 @@ internal class UserInput
         }
         return input;
     }
+
+    
 }
