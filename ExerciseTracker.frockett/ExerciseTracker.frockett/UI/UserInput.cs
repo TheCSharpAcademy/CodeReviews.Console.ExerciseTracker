@@ -57,7 +57,6 @@ public class UserInput
 
     private string? GetComment() 
     {
-        // TODO make sure this can accept a null input
         return AnsiConsole.Prompt(new TextPrompt<string>("(Optional) Comments: ").AllowEmpty());
     }
 }

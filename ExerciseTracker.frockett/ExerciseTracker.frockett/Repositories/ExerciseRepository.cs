@@ -34,7 +34,7 @@ public class ExerciseRepository : IExerciseRepository
             }
             catch (Exception ex)
             {
-                //Console.WriteLine(ex.ToString());
+                Console.WriteLine(ex.ToString());
                 return null;
             }
         }
@@ -53,7 +53,7 @@ public class ExerciseRepository : IExerciseRepository
         }
         catch (Exception ex)
         {
-            //Console.WriteLine(ex.ToString());
+            Console.WriteLine(ex.ToString());
             return false;
         }
         return true;
@@ -67,7 +67,7 @@ public class ExerciseRepository : IExerciseRepository
         }
         catch (Exception ex)
         {
-            //Console.WriteLine(ex.ToString());
+            Console.WriteLine(ex.ToString());
             return false;
         }
         return true;

@@ -88,7 +88,6 @@ public class MenuHandler
         var session = tableEngine.SelectSession(controller.GetExerciseSessions());
         if (session == null)
         {
-            //AnsiConsole.WriteLine("There are currently no sessions in the database!");
             PauseForUser();
             return;
         }
