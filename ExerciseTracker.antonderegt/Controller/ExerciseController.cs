@@ -38,11 +38,11 @@ public class ExerciseController(IService service, IInput input) : IController
             }
         }
     }
-    public async Task<IEnumerable<Exercise>?> ShowAllExercisesAsync()
+    public async Task<List<Exercise>?> ShowAllExercisesAsync()
     {
-        IEnumerable<Exercise> exercises = await _service.GetAllExercisesAsync();
+        List<Exercise> exercises = await _service.GetAllExercisesAsync();
 
-        if (exercises == null || !exercises.Any())
+        if (exercises == null || exercises.Count == 0)
         {
             AnsiConsole.Markup("[red]No exercises[/] ");
             return null;
@@ -99,9 +99,9 @@ public class ExerciseController(IService service, IInput input) : IController
 
     public async Task DeleteExerciseByIdAsync()
     {
-        IEnumerable<Exercise>? exercises = await ShowAllExercisesAsync();
+        List<Exercise>? exercises = await ShowAllExercisesAsync();
 
-        if (exercises == null || !exercises.Any())
+        if (exercises == null || exercises.Count == 0)
         {
             AnsiConsole.MarkupLine("Press enter to return to menu...");
             Console.ReadLine();

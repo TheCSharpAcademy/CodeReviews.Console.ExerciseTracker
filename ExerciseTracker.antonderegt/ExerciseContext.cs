@@ -7,16 +7,15 @@ namespace ExerciseTracker;
 public class ExerciseContext : DbContext
 {
     public DbSet<Exercise> Exercises { get; set; }
-    public string ConnectionString { get; set; }
+    private string _connectionString { get; set; }
 
-    public ExerciseContext()
+    public ExerciseContext(IConfiguration configuration)
     {
-        IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        ConnectionString = configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
+        _connectionString = configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(ConnectionString);
+        optionsBuilder.UseSqlServer(_connectionString);
     }
 }

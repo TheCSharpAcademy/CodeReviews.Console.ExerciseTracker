@@ -7,7 +7,7 @@ public class ExerciseRepository(ExerciseContext context) : IRepository
 {
     private readonly ExerciseContext _context = context;
 
-    public async Task<IEnumerable<Exercise>> GetAllExercisesAsync()
+    public async Task<List<Exercise>> GetAllExercisesAsync()
     {
         return await _context.Exercises.ToListAsync();
     }
