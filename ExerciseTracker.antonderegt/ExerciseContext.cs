@@ -7,7 +7,7 @@ namespace ExerciseTracker;
 public class ExerciseContext : DbContext
 {
     public DbSet<Exercise> Exercises { get; set; }
-    private string _connectionString { get; set; }
+    private readonly string _connectionString;
 
     public ExerciseContext(IConfiguration configuration)
     {
