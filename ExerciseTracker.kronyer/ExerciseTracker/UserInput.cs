@@ -31,6 +31,4 @@ internal class UserInput
         }
         return input;
     }
-
-    
 }

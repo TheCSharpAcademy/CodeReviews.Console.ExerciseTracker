@@ -63,7 +63,6 @@ internal class ExerciseService
     {
         var exercise = AnsiConsole.Prompt(new SelectionPrompt<Exercise>().Title($"Choose an exercise to {message}").AddChoices(GetAllExercises()));
         
-        
         return exercise.Id;
     }
 }
