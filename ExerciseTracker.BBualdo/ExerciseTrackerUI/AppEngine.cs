@@ -1,6 +1,4 @@
-﻿using ExerciseTrackerUI.Helpers;
-using ExerciseTrackerUI.Models;
-using ExerciseTrackerUI.Services;
+﻿using ExerciseTrackerUI.Controllers;
 using Spectre.Console;
 
 namespace ExerciseTrackerUI;
@@ -27,19 +25,19 @@ internal class AppEngine
     switch (choice)
     {
       case "Show Exercises":
-        await ShowExercises();
+        await ExercisesController.ShowExercises(Client);
         PressAnyKey();
         break;
       case "Create Exercise":
-        await CreateExercise();
+        await ExercisesController.CreateExercise(Client);
         PressAnyKey();
         break;
       case "Update Exercise":
-        await UpdateExercise();
+        await ExercisesController.UpdateExercise(Client);
         PressAnyKey();
         break;
       case "Delete Exercise":
-        await DeleteExercise();
+        await ExercisesController.DeleteExercise(Client);
         PressAnyKey();
         break;
       case "Quit":
@@ -48,81 +46,6 @@ internal class AppEngine
         IsRunning = false;
         break;
     }
-  }
-
-  private async Task ShowExercises()
-  {
-    List<Exercise>? exercises = await ExercisesService.GetExercises(Client);
-    ConsoleEngine.ShowExercisesTable(exercises);
-  }
-
-  private async Task CreateExercise()
-  {
-    string exerciseName = UserInput.GetName();
-    if (exerciseName == "0") return;
-
-    string startDateStr = UserInput.GetStartDate(exerciseName);
-    if (startDateStr == "0") return;
-
-    string endDateStr = UserInput.GetEndDate(startDateStr, exerciseName);
-    if (endDateStr == "0") return;
-
-    string? comments = UserInput.GetComments(exerciseName);
-    if (comments == "0") return;
-
-    DateTime startDate = DateTimeParser.Parse(startDateStr);
-    DateTime endDate = DateTimeParser.Parse(endDateStr);
-
-    ExerciseInsertRequest exercise = new(exerciseName, startDate, endDate, comments);
-
-    await ExercisesService.CreateExercise(Client, exercise);
-  }
-
-  private async Task UpdateExercise()
-  {
-    List<Exercise>? exercises = await ExercisesService.GetExercises(Client);
-
-    bool rowsPresent = ConsoleEngine.ShowExercisesTable(exercises);
-
-    if (!rowsPresent || exercises == null) return;
-
-    int id = UserInput.GetExerciseId(exercises, "update");
-    if (id == 0) return;
-
-    Exercise exercise = exercises.First(exercise => exercise.Id == id);
-    ExerciseUpdateRequest updatedExercise = new(exercise.Id, exercise.Name, exercise.StartDate, exercise.EndDate, exercise.Comments);
-
-    string name = UserInput.GetName(exercise.Name);
-    if (name == "0") return;
-    updatedExercise.Name = name;
-
-    string startDate = UserInput.GetStartDate(name);
-    if (startDate == "0") return;
-    updatedExercise.StartDate = DateTimeParser.Parse(startDate);
-
-    string endDate = UserInput.GetEndDate(startDate, name);
-    if (endDate == "0") return;
-    updatedExercise.EndDate = DateTimeParser.Parse(endDate);
-
-    string? comments = UserInput.GetComments(name);
-    if (comments == "0") return;
-    updatedExercise.Comments = comments;
-
-    await ExercisesService.UpdateExercise(Client, id, updatedExercise);
-  }
-
-  private async Task DeleteExercise()
-  {
-    List<Exercise>? exercises = await ExercisesService.GetExercises(Client);
-
-    bool rowsPresent = ConsoleEngine.ShowExercisesTable(exercises);
-
-    if (!rowsPresent || exercises == null) return;
-
-    int id = UserInput.GetExerciseId(exercises, "delete");
-    if (id == 0) return;
-
-    await ExercisesService.DeleteExercise(Client, id);
   }
 
   private void PressAnyKey()
