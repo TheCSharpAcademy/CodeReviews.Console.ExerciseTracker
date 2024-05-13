@@ -12,7 +12,7 @@ namespace ExerciseTracker.samggannon.Data.Models
         public DateTime DateStart { get; set; }
         public DateTime DateEnd { get; set; }
         public TimeSpan Duration { get; set; }
-        public string Comments { get; set; }
+        public string? Comments { get; set; }
 
     }
 }
