@@ -1,7 +1,9 @@
 ﻿using static ExerciseTracker.samggannon.UserInterface.Enums;
 using Spectre.Console;
-using ExerciseTracker.samggannon.Controllers;
+using ExerciseTracker.samggannon.Services;
 using ExerciseTracker.samggannon.Validation;
+using ExerciseTracker.samggannon.Controllers;
+using ExerciseTracker.samggannon.Data.Repositories;
 
 namespace ExerciseTracker.samggannon.UserInterface;
 
@@ -9,6 +11,10 @@ internal class MainMenu
 {
     internal static void ShowMenu()
     {
+        IExerciseRepository exerciseRepository = new ExerciseRepository();
+        ExerciseService exerciseService = new ExerciseService(exerciseRepository);
+        ExerciseController exerciseController = new ExerciseController(exerciseService);
+
         bool appIsRunning = true;
 
         while (appIsRunning)
@@ -29,16 +35,16 @@ internal class MainMenu
             switch (option)
             {
                 case MenuOptions.AddSession:
-                    ExerciseController.InsertSession();
+                    exerciseController.InsertSession();
                     break;
                 case MenuOptions.ShowAllSessions:
-                    ExerciseController.GetAllSessions();
+                    exerciseController.GetAllSessions();
                     break;
                 case MenuOptions.EditSessionById:
-                    ExerciseController.EditSession();
+                    exerciseController.EditSession();
                     break;
                 case MenuOptions.DeleteSessionById:
-                    ExerciseController.DeleteSessionById();
+                    exerciseController.DeleteSessionById();
                     break;
                 case MenuOptions.DevelopersDisclaimer:
                     ConsoleMessages.DevelopersNote();

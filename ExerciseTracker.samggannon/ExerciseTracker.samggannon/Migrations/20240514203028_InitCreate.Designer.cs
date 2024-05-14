@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExerciseTracker.samggannon.Migrations
 {
     [DbContext(typeof(ExerciseContext))]
-    [Migration("20240513215501_init")]
-    partial class init
+    [Migration("20240514203028_InitCreate")]
+    partial class InitCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

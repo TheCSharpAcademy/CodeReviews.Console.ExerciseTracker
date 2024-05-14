@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ExerciseTracker.samggannon.Data.Models;
 
-namespace ExerciseTracker.samggannon.Data.Repositories
+namespace ExerciseTracker.samggannon.Data.Repositories;
+
+internal interface IExerciseRepository
 {
-    internal class IExerciseRepository
-    {
-    }
+    public void Add(Exercise entity);
+    public void Delete(Exercise entity);
+    public IEnumerable<Exercise> GetAll();
+    public Exercise GetById(int id);
+    public void Update(Exercise entity);
 }

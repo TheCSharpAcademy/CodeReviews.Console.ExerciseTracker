@@ -1,31 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ExerciseTracker.samggannon.Data.Repositories;
+using ExerciseTracker.samggannon.Services;
 
-namespace ExerciseTracker.samggannon.Controllers
+namespace ExerciseTracker.samggannon.Controllers;
+
+public class ExerciseController
 {
-    internal class ExerciseController
+    private readonly ExerciseService _exerciseService;
+
+    public ExerciseController(ExerciseService exerciseService)
     {
-        internal static void DeleteSessionById()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal static void EditSession()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal static void GetAllSessions()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal static void InsertSession()
-        {
-            throw new NotImplementedException();
-        }
+        _exerciseService = exerciseService;
     }
+
+    public void InsertSession()
+    {
+        _exerciseService.InsertSession();
+    }
+
+    public void DeleteSessionById()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void EditSession()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void GetAllSessions()
+    {
+        throw new NotImplementedException();
+    }
+
 }

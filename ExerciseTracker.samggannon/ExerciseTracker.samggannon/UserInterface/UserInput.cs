@@ -1,12 +1,77 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ExerciseTracker.samggannon.Data.Models;
 
-namespace ExerciseTracker.samggannon.UserInterface
+namespace ExerciseTracker.samggannon.UserInterface;
+
+internal class UserInput
 {
-    internal class UserInput
+    internal static Exercise GetSessionDetails()
     {
+        Exercise session = new Exercise();
+
+        while (true)
+        {
+            session.DateStart = GetDateTime("start");
+            session.DateEnd = GetDateTime("end");
+
+            if (session.DateEnd > session.DateStart)
+            {
+                break;
+            }
+
+            Console.WriteLine("End time must be after start time. Please enter the details again.");
+        }
+
+        session.Duration = CalculateDuration(session.DateStart, session.DateEnd);
+        session.Comments = GetComments();
+        return session;
+    }
+
+    private static string? GetComments()
+    {
+        Console.WriteLine("Enter any comments or notes you have about this workout");
+        string? comments = Console.ReadLine();
+
+        if (comments == null)
+        {
+            return "no notes or comments";
+        }
+
+        comments = comments.Trim();
+
+        if (string.IsNullOrEmpty(comments))
+        {
+            return "no notes or comments";
+        }
+
+        if (comments.Length > 500)
+        {
+            Console.WriteLine("Comments are too long. Please enter shorter comments (max 500 characters).");
+            return GetComments();
+        }
+
+        return comments;
+    }
+
+    private static TimeSpan CalculateDuration(DateTime dateStart, DateTime dateEnd)
+    {
+        return dateEnd - dateStart;
+    }
+
+    private static DateTime GetDateTime(string v)
+    {
+        Console.WriteLine($"Please enter the {v} time for your workout (format: yyyy-MM-dd HH:mm:ss):");
+        while (true)
+        {
+            if (DateTime.TryParseExact(Console.ReadLine(), "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out DateTime result))
+            {
+                return result;
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Please enter the date and time in the format\n" +
+                    "yyyy-MM-dd HH:mm:ss\n" +
+                    "Example 2024-05-14 13:15:00 - (1:15pm) ");
+            }
+        }
     }
 }
