@@ -17,6 +17,11 @@ public class ExerciseController
         _exerciseService.InsertSession();
     }
 
+    public void GetAllSessions()
+    {
+        _exerciseService.GetAllSessions();
+    }
+
     public void DeleteSessionById()
     {
         throw new NotImplementedException();
@@ -26,10 +31,4 @@ public class ExerciseController
     {
         throw new NotImplementedException();
     }
-
-    public void GetAllSessions()
-    {
-        throw new NotImplementedException();
-    }
-
 }

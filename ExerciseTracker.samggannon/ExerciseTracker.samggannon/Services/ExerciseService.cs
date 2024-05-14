@@ -25,7 +25,11 @@ public class ExerciseService
 
     internal void GetAllSessions()
     {
-        throw new NotImplementedException();
+        List<Exercise> exercises = _exerciseRepository.GetAllSessions();
+        Visualization.ShowTable(exercises);
+
+        Console.WriteLine("Press [enter] to continue");
+        Console.ReadLine();
     }
 
     internal void InsertSession()

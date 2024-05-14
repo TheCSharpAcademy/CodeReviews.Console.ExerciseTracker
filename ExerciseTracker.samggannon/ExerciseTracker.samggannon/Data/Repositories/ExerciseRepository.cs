@@ -11,9 +11,10 @@ internal class ExerciseRepository : IExerciseRepository
         _dbContext.SaveChanges();
     }
 
-    public IEnumerable<Exercise> GetAll()
+    public List<Exercise> GetAllSessions()
     {
-        
+        using var _dbContext = new ExerciseContext();
+        return _dbContext.ExerciseSet.ToList();
     }
 
     public void Delete(Exercise entity)
