@@ -17,17 +17,20 @@ internal class ExerciseRepository : IExerciseRepository
         return _dbContext.ExerciseSet.ToList();
     }
 
-    public void Delete(Exercise entity)
+    public Exercise GetSessionById(int sessionId)
     {
-        throw new NotImplementedException();
-    }
-
-    public Exercise GetById(int id)
-    {
-        throw new NotImplementedException();
+        using var _dbContext = new ExerciseContext();
+        return _dbContext.ExerciseSet.Find(sessionId);
     }
 
     public void Update(Exercise entity)
+    {
+        using var _dbContext = new ExerciseContext();
+        _dbContext.Update(entity);
+        _dbContext.SaveChanges();
+    }
+
+    public void Delete(Exercise entity)
     {
         throw new NotImplementedException();
     }

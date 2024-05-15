@@ -1,4 +1,9 @@
-﻿using ExerciseTracker.samggannon.Data.Models;
+﻿using ExerciseTracker.samggannon.Controllers;
+using ExerciseTracker.samggannon.Data.Models;
+using ExerciseTracker.samggannon.Validation;
+using Spectre.Console;
+using System.Transactions;
+using static ExerciseTracker.samggannon.UserInterface.Enums;
 
 namespace ExerciseTracker.samggannon.UserInterface;
 
@@ -26,7 +31,7 @@ internal class UserInput
         return session;
     }
 
-    private static string? GetComments()
+    public static string? GetComments()
     {
         Console.WriteLine("Enter any comments or notes you have about this workout");
         string? comments = Console.ReadLine();
@@ -52,12 +57,12 @@ internal class UserInput
         return comments;
     }
 
-    private static TimeSpan CalculateDuration(DateTime dateStart, DateTime dateEnd)
+    public static TimeSpan CalculateDuration(DateTime dateStart, DateTime dateEnd)
     {
         return dateEnd - dateStart;
     }
 
-    private static DateTime GetDateTime(string v)
+    public static DateTime GetDateTime(string v)
     {
         Console.WriteLine($"Please enter the {v} time for your workout (format: yyyy-MM-dd HH:mm:ss):");
         while (true)
@@ -73,5 +78,22 @@ internal class UserInput
                     "Example 2024-05-14 13:15:00 - (1:15pm) ");
             }
         }
+    }
+
+    internal static int GetIdInput()
+    {
+        Console.WriteLine("Enter the Session Id of the workout you wish to modify");
+        string sessionId = Console.ReadLine();
+        int intSessionId;
+
+        if (sessionId == null) { sessionId ="0"; }
+
+        while(!Int32.TryParse(sessionId, out intSessionId))
+        {
+            Console.WriteLine("You must enter a number for the session id");
+            sessionId = Console.ReadLine();
+        };
+
+        return intSessionId;
     }
 }

@@ -4,6 +4,7 @@ using ExerciseTracker.samggannon.Services;
 using ExerciseTracker.samggannon.Validation;
 using ExerciseTracker.samggannon.Controllers;
 using ExerciseTracker.samggannon.Data.Repositories;
+using ExerciseTracker.samggannon.Data.Models;
 
 namespace ExerciseTracker.samggannon.UserInterface;
 
@@ -56,5 +57,44 @@ internal class MainMenu
 
             }
         }
+    }
+
+    internal static Exercise UpdateMenu(Exercise exerciseSession)
+    {
+        bool isUpdating = true;
+
+        while(isUpdating)
+        {
+            Console.Clear();
+            var option = AnsiConsole.Prompt(
+                new SelectionPrompt<UpdateOptions>()
+                .Title("What would you like to update?")
+                .AddChoices(
+                    UpdateOptions.UpdateStartTime,
+                    UpdateOptions.UpdateEndTime,
+                    UpdateOptions.UpdateComments,
+                    UpdateOptions.Back
+                    ));
+
+            switch (option)
+            {
+                case UpdateOptions.UpdateStartTime:
+                    exerciseSession.DateStart = UserInput.GetDateTime("start");
+                    break;
+                case UpdateOptions.UpdateEndTime:
+                    exerciseSession.DateEnd = UserInput.GetDateTime("end");
+                    break;
+                case UpdateOptions.UpdateComments:
+                    exerciseSession.Comments = UserInput.GetComments();
+                    break;
+                case UpdateOptions.Back:
+                    isUpdating = false;
+                    exerciseSession.Duration = UserInput.CalculateDuration(exerciseSession.DateStart, exerciseSession.DateEnd);
+                    return exerciseSession;
+                    
+            }
+        }
+
+        return exerciseSession;
     }
 }

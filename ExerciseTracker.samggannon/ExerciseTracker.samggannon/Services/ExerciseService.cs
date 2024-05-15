@@ -20,7 +20,22 @@ public class ExerciseService
 
     internal void EditSession()
     {
-        throw new NotImplementedException();
+        GetAllSessions();
+
+        int sessionId = UserInput.GetIdInput();
+        var exerciseSession = _exerciseRepository.GetSessionById(sessionId);
+
+        if (exerciseSession == null)
+        {
+            Console.WriteLine($"No session found with the id: {sessionId}. Press [enter] to continue.");
+            Console.ReadLine();
+            return;
+        }
+
+        var updatedSession = MainMenu.UpdateMenu(exerciseSession);
+        updatedSession.Id = sessionId;
+
+        _exerciseRepository.Update(updatedSession);
     }
 
     internal void GetAllSessions()

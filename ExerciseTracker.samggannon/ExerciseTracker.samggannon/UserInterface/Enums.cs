@@ -18,5 +18,13 @@ namespace ExerciseTracker.samggannon.UserInterface
             Quit,
             DevelopersDisclaimer
         }
+
+        public enum UpdateOptions
+        {
+            UpdateStartTime,
+            UpdateEndTime,
+            UpdateComments,
+            Back
+        }
     }
 }

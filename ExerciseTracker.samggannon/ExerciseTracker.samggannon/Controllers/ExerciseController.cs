@@ -22,12 +22,12 @@ public class ExerciseController
         _exerciseService.GetAllSessions();
     }
 
-    public void DeleteSessionById()
+    public void EditSession()
     {
-        throw new NotImplementedException();
+        _exerciseService.EditSession();
     }
 
-    public void EditSession()
+    public void DeleteSessionById()
     {
         throw new NotImplementedException();
     }
