@@ -12,6 +12,99 @@ internal class MainMenu
 {
     internal static void ShowMenu()
     {
+        bool appIsRunning = true;
+
+        while (appIsRunning)
+        {
+            Console.Clear();
+            ConsoleMessages.WelcomeMessage();
+
+            var option = AnsiConsole.Prompt(
+                new SelectionPrompt<ExerciseOptions>()
+                .Title("What type of exercise would you like to track?")
+                .AddChoices(
+                    ExerciseOptions.CardioSession,
+                    ExerciseOptions.ResistanceTraining,
+                    ExerciseOptions.DevelopersDisclaimer,
+                    ExerciseOptions.Quit
+                    ));
+
+            switch (option)
+            {
+                case ExerciseOptions.CardioSession:
+                    ShowCardioMenu();
+                    break;
+                case ExerciseOptions.ResistanceTraining:
+                    ShowResistanceTrainingMenu();
+                    break;
+                case ExerciseOptions.DevelopersDisclaimer:
+                    ConsoleMessages.DevelopersNote();
+                    break;
+                case ExerciseOptions.Quit:
+                    appIsRunning = false;
+                    Environment.Exit(0);
+                    break;
+                default:
+                    Console.WriteLine("An unexpected and unresolved error has occcured. Press [enter] to terminate the program.");
+                    appIsRunning = false;
+                    Environment.Exit(1);
+                    break;
+            }
+        }
+    }
+
+    private static void ShowResistanceTrainingMenu()
+    {
+        IExerciseRepository exerciseRepository = new ResistanceRespository();
+        ExerciseService exerciseService = new ExerciseService(exerciseRepository);
+        ExerciseController exerciseController = new ExerciseController(exerciseService);
+
+        bool appIsRunning = true;
+
+        while (appIsRunning)
+        {
+            Console.Clear();
+            var option = AnsiConsole.Prompt(
+                new SelectionPrompt<ResistanceOptions>()
+                .Title("What would you like to do?")
+                .AddChoices(
+                    ResistanceOptions.AddWorkout,
+                    ResistanceOptions.ShowAllWorkouts,
+                    ResistanceOptions.EditWorkoutById,
+                    ResistanceOptions.DeleteWorkoutById,
+                    ResistanceOptions.Back
+                    ));
+
+            switch (option)
+            {
+                case ResistanceOptions.AddWorkout:
+                    exerciseController.InsertSession();
+                    break;
+                case ResistanceOptions.ShowAllWorkouts:
+                    exerciseController.GetAllSessions();
+                    break;
+                case ResistanceOptions.EditWorkoutById:
+                    exerciseController.EditSession();
+                    break;
+                case ResistanceOptions.DeleteWorkoutById:
+                    exerciseController.DeleteSessionById();
+                    break;
+                case ResistanceOptions.Back:
+                    appIsRunning = false;
+                    ShowMenu();
+                    break;
+                default:
+                    Console.WriteLine("An unexpected and unresolved error has occcured. Press [enter] to terminate the program.");
+                    appIsRunning = false;
+                    Environment.Exit(1);
+                    break;
+
+            }
+        }
+    }
+
+    internal static void ShowCardioMenu()
+    {
         IExerciseRepository exerciseRepository = new ExerciseRepository();
         ExerciseService exerciseService = new ExerciseService(exerciseRepository);
         ExerciseController exerciseController = new ExerciseController(exerciseService);
@@ -29,8 +122,7 @@ internal class MainMenu
                     MenuOptions.ShowAllSessions,
                     MenuOptions.EditSessionById,
                     MenuOptions.DeleteSessionById,
-                    MenuOptions.DevelopersDisclaimer,
-                    MenuOptions.Quit
+                    MenuOptions.Back
                     ));
 
             switch (option)
@@ -47,12 +139,14 @@ internal class MainMenu
                 case MenuOptions.DeleteSessionById:
                     exerciseController.DeleteSessionById();
                     break;
-                case MenuOptions.DevelopersDisclaimer:
-                    ConsoleMessages.DevelopersNote();
-                    break;
-                case MenuOptions.Quit:
+                case MenuOptions.Back:
                     appIsRunning = false;
-                    Environment.Exit(0);
+                    ShowMenu();
+                    break;
+                default:
+                    Console.WriteLine("An unexpected and unresolved error has occcured. Press [enter] to terminate the program.");
+                    appIsRunning = false;
+                    Environment.Exit(1);
                     break;
 
             }

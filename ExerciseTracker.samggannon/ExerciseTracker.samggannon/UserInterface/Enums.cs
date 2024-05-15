@@ -15,8 +15,7 @@ namespace ExerciseTracker.samggannon.UserInterface
             ShowSessionById,
             EditSessionById,
             DeleteSessionById,
-            Quit,
-            DevelopersDisclaimer
+            Back,
         }
 
         public enum UpdateOptions
@@ -25,6 +24,33 @@ namespace ExerciseTracker.samggannon.UserInterface
             UpdateEndTime,
             UpdateComments,
             Back
+        }
+
+        public enum ExerciseOptions
+        {
+            CardioSession,
+            ResistanceTraining,
+            DevelopersDisclaimer,
+            Quit
+        }
+
+        public enum ResistanceOptions
+        {
+            AddWorkout,
+            ShowAllWorkouts,
+            ShowworkoutById,
+            EditWorkoutById,
+            DeleteWorkoutById,
+            Back,
+        }
+
+        public enum ResistanceType
+        {
+            Pushups,
+            Situps,
+            PullUps,
+            DumbbellCurls,
+            None
         }
     }
 }

@@ -35,5 +35,6 @@ internal class ExerciseRepository : IExerciseRepository
         using var _dbContext = new ExerciseContext();
         _dbContext.Remove(entity);
         _dbContext.SaveChanges();
+        
     }
 }

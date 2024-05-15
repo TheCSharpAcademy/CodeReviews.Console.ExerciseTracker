@@ -12,5 +12,10 @@ namespace ExerciseTracker.samggannon.Validation
         {
             throw new NotImplementedException();
         }
+
+        internal static void WelcomeMessage()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
