@@ -88,9 +88,15 @@ internal class UserInput
 
         if (sessionId == null) { sessionId ="0"; }
 
-        while(!Int32.TryParse(sessionId, out intSessionId))
+        while(!Int32.TryParse(sessionId, out intSessionId) || intSessionId < 0)
         {
-            Console.WriteLine("You must enter a number for the session id");
+            if (sessionId == "0")
+            {
+                Console.WriteLine("Exiting...");
+                return 0;
+            }
+
+            Console.WriteLine("You must enter a number for the session id. Press zero [0] to exit.");
             sessionId = Console.ReadLine();
         };
 

@@ -91,7 +91,12 @@ internal class MainMenu
                     isUpdating = false;
                     exerciseSession.Duration = UserInput.CalculateDuration(exerciseSession.DateStart, exerciseSession.DateEnd);
                     return exerciseSession;
-                    
+                default:
+                    Console.WriteLine("An unexpeceted and unresolved error has occcured. Press [enter] to terminate the program.");
+                    isUpdating = false;
+                    Environment.Exit(1);
+                    break;
+                     
             }
         }
 

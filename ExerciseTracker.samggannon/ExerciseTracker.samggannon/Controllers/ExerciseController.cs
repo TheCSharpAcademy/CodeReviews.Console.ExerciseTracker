@@ -29,6 +29,6 @@ public class ExerciseController
 
     public void DeleteSessionById()
     {
-        throw new NotImplementedException();
+        _exerciseService.DeleteSessionById();
     }
 }

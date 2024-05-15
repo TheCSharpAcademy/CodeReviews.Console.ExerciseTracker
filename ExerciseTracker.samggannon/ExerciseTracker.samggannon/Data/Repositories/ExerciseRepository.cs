@@ -32,6 +32,8 @@ internal class ExerciseRepository : IExerciseRepository
 
     public void Delete(Exercise entity)
     {
-        throw new NotImplementedException();
+        using var _dbContext = new ExerciseContext();
+        _dbContext.Remove(entity);
+        _dbContext.SaveChanges();
     }
 }

@@ -15,7 +15,19 @@ public class ExerciseService
 
     internal void DeleteSessionById()
     {
-        throw new NotImplementedException();
+        GetAllSessions();
+
+        int sessionIdToDelete = UserInput.GetIdInput();
+        var exerciseSession = _exerciseRepository.GetSessionById(sessionIdToDelete);
+
+        if (exerciseSession == null)
+        {
+            Console.WriteLine($"No session found with the id: {sessionIdToDelete}. Press [enter] to continue.");
+            Console.ReadLine();
+            return;
+        }
+
+        _exerciseRepository.Delete(exerciseSession);
     }
 
     internal void EditSession()

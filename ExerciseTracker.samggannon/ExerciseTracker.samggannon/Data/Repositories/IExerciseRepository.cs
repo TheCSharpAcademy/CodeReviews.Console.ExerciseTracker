@@ -7,7 +7,6 @@ internal interface IExerciseRepository
     public void Add(Exercise entity);
     public void Delete(Exercise entity);
     public List<Exercise> GetAllSessions();
-    public Exercise GetById(int id);
     public Exercise GetSessionById(int sessionId);
     public void Update(Exercise entity);
 }
