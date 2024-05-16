@@ -7,6 +7,7 @@ internal class ExerciseRepository : IExerciseRepository
     public void Add(Exercise entity)
     {
         using var _dbContext = new ExerciseContext();
+        entity.Type = "Cardio";
         _dbContext.ExerciseSet.Add(entity);
         _dbContext.SaveChanges();
     }
@@ -26,6 +27,7 @@ internal class ExerciseRepository : IExerciseRepository
     public void Update(Exercise entity)
     {
         using var _dbContext = new ExerciseContext();
+        entity.Type = "Cardio";
         _dbContext.Update(entity);
         _dbContext.SaveChanges();
     }

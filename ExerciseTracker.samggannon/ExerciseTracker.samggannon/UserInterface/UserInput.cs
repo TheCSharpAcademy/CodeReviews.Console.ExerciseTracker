@@ -1,9 +1,4 @@
-﻿using ExerciseTracker.samggannon.Controllers;
-using ExerciseTracker.samggannon.Data.Models;
-using ExerciseTracker.samggannon.Validation;
-using Spectre.Console;
-using System.Transactions;
-using static ExerciseTracker.samggannon.UserInterface.Enums;
+﻿using ExerciseTracker.samggannon.Data.Models;
 
 namespace ExerciseTracker.samggannon.UserInterface;
 
@@ -73,9 +68,9 @@ internal class UserInput
             }
             else
             {
-                Console.WriteLine("Invalid input. Please enter the date and time in the format\n" +
+                Console.WriteLine("\n\nInvalid input. Please enter the date and time in the format\n" +
                     "yyyy-MM-dd HH:mm:ss\n" +
-                    "Example 2024-05-14 13:15:00 - (1:15pm) ");
+                    "Example 2024-05-14 13:15:00 - (1:15pm)\n\n ");
             }
         }
     }
@@ -86,9 +81,9 @@ internal class UserInput
         string sessionId = Console.ReadLine();
         int intSessionId;
 
-        if (sessionId == null) { sessionId ="0"; }
+        if (sessionId == null) { sessionId = "0"; }
 
-        while(!Int32.TryParse(sessionId, out intSessionId) || intSessionId < 0)
+        while (!Int32.TryParse(sessionId, out intSessionId) || intSessionId < 0)
         {
             if (sessionId == "0")
             {

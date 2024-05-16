@@ -17,7 +17,6 @@ internal class MainMenu
         while (appIsRunning)
         {
             Console.Clear();
-            ConsoleMessages.WelcomeMessage();
 
             var option = AnsiConsole.Prompt(
                 new SelectionPrompt<ExerciseOptions>()

@@ -19,11 +19,10 @@ internal class ResistanceRespository : IExerciseRepository
         {
             connection.Open();
             var command = new SqlCommand(
-                "INSERT INTO dbo.ExerciseTrackerDB (sessionType, dateStart, dateEnd, sessionDuration, sessionComments) " +
-                "VALUES (@Type, @DateStart, @DateEnd, @Duration, @Comments)",
+                "INSERT INTO ExerciseSet (Type, DateStart, DateEnd, Duration, Comments) " +
+                "VALUES ('Resistance Training', @DateStart, @DateEnd, @Duration, @Comments)",
                 connection);
 
-            command.Parameters.AddWithValue("@Type", entity.Type ?? (object)DBNull.Value);
             command.Parameters.AddWithValue("@DateStart", entity.DateStart);
             command.Parameters.AddWithValue("@DateEnd", entity.DateEnd);
             command.Parameters.AddWithValue("@Duration", entity.Duration);
@@ -40,7 +39,7 @@ internal class ResistanceRespository : IExerciseRepository
         using (var connection = new SqlConnection(_connectionString))
         {
             connection.Open();
-            var command = new SqlCommand("SELECT * FROM dbo.ExerciseTracker", connection);
+            var command = new SqlCommand("SELECT * FROM ExerciseSet", connection);
 
             using (var reader = command.ExecuteReader())
             {
@@ -49,11 +48,11 @@ internal class ResistanceRespository : IExerciseRepository
                     var exercise = new Exercise
                     {
                         Id = reader.GetInt32(0),
-                        Type = reader.GetString(1),
-                        DateStart = reader.GetDateTime(2),
-                        DateEnd = reader.GetDateTime(3),
-                        Duration = reader.GetTimeSpan(4),
-                        Comments = reader.GetString(5)
+                        DateStart = reader.GetDateTime(1),
+                        DateEnd = reader.GetDateTime(2),
+                        Duration = reader.GetTimeSpan(3),
+                        Comments = reader.IsDBNull(4) ? null : reader.GetString(4),
+                        Type = reader.IsDBNull(5) ? null : reader.GetString(5),
                     };
 
                     exercises.Add(exercise);
@@ -79,11 +78,11 @@ internal class ResistanceRespository : IExerciseRepository
                     return new Exercise
                     {
                         Id = reader.GetInt32(0),
-                        Type = reader.GetString(1),
-                        DateStart = reader.GetDateTime(2),
-                        DateEnd = reader.GetDateTime(3),
-                        Duration = reader.GetTimeSpan(4),
-                        Comments = reader.GetString(5)
+                        DateStart = reader.GetDateTime(1),
+                        DateEnd = reader.GetDateTime(2),
+                        Duration = reader.GetTimeSpan(3),
+                        Comments = reader.GetString(4),
+                        Type = reader.GetString(5),
                     };
                 }
             }
@@ -98,11 +97,10 @@ internal class ResistanceRespository : IExerciseRepository
         {
             connection.Open();
             var command = new SqlCommand(
-                "UPDATE dbo.ExerciseTrackerDB SET sessionType = @Type, dateStart = @DateStart, dateEnd = @DateEnd, sessionDuration = @Duration, sessionComments = @Comments WHERE Id = @Id",
+                "UPDATE dbo.ExerciseTrackerDB SET Type = 'Resistance Training', DateStart = @DateStart, DateEnd = @DateEnd, Duration = @Duration, Comments = @Comments WHERE Id = @Id",
                 connection);
 
             command.Parameters.AddWithValue("@Id", entity.Id);
-            command.Parameters.AddWithValue("@Type", entity.Type ?? (object)DBNull.Value);
             command.Parameters.AddWithValue("@DateStart", entity.DateStart);
             command.Parameters.AddWithValue("@DateEnd", entity.DateEnd);
             command.Parameters.AddWithValue("@Duration", entity.Duration);

@@ -9,6 +9,7 @@ internal class Visualization
     {
         var table = new Table();
         table.AddColumn("Id");
+        table.AddColumn("Exercise Type");
         table.AddColumn("start time");
         table.AddColumn("end time");
         table.AddColumn("duration");
@@ -18,6 +19,7 @@ internal class Visualization
         {
             table.AddRow(
                 exercise.Id.ToString(),
+                exercise.Type,
                 exercise.DateStart.ToString(),
                 exercise.DateEnd.ToString(),
                 exercise.Duration.ToString(),

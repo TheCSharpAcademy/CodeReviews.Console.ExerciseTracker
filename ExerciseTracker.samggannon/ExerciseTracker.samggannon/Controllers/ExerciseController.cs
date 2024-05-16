@@ -1,5 +1,4 @@
-﻿using ExerciseTracker.samggannon.Data.Repositories;
-using ExerciseTracker.samggannon.Services;
+﻿using ExerciseTracker.samggannon.Services;
 
 namespace ExerciseTracker.samggannon.Controllers;
 
