@@ -12,7 +12,7 @@ using STUDY.ConsoleProjects.ExerciseTrackerFour.Data;
 namespace STUDY.ConsoleProjects.ExerciseTrackerFour.Migrations
 {
     [DbContext(typeof(ExerciseDbContext))]
-    [Migration("20240505203824_Initial-Create")]
+    [Migration("20240519223411_Initial-Create")]
     partial class InitialCreate
     {
         /// <inheritdoc />
