@@ -33,7 +33,7 @@ public class Program
         {
             var services = scope.ServiceProvider;
             var controller = services.GetRequiredService<ExerciseController>();
-            controller.MainMenu();
+            await controller.MainMenu();
         }
     }
 }

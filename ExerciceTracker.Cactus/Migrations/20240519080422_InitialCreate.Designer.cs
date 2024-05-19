@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExerciseTracker.Cactus.Migrations
 {
     [DbContext(typeof(ExerciseDbContext))]
-    [Migration("20240517150631_init")]
-    partial class init
+    [Migration("20240519080422_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace ExerciseTracker.Cactus.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ExerciceTracker.Cactus.Exercise", b =>
+            modelBuilder.Entity("ExerciseTracker.Cactus.Model.Exercise", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -43,8 +43,8 @@ namespace ExerciseTracker.Cactus.Migrations
                     b.Property<DateTime>("DateStart")
                         .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("Duration")
-                        .HasColumnType("time");
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

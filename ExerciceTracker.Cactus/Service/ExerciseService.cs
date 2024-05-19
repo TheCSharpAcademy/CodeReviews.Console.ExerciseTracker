@@ -1,5 +1,6 @@
 ﻿using ExerciseTracker.Cactus.Data.Interfaces;
 using ExerciseTracker.Cactus.Model;
+using Spectre.Console;
 
 namespace ExerciseTracker.Cactus.Service
 {
@@ -22,19 +23,44 @@ namespace ExerciseTracker.Cactus.Service
             return await _exerciseRepository.GetByIdAsync(id);
         }
 
-        public async Task AddExerciseAsync(Exercise exercise)
+        public async Task<Exercise> AddExerciseAsync()
         {
+            Exercise exercise = ExerciseServiceHelper.InputExercise();
+
             await _exerciseRepository.AddAsync(exercise);
+
+            return exercise;
         }
 
-        public async Task UpdateExerciseAsync(Exercise exercise)
+        public async Task<Exercise> UpdateExerciseAsync()
         {
-            await _exerciseRepository.UpdateAsync(exercise);
+            var exercises = await _exerciseRepository.GetAllAsync();
+
+            if (exercises.Count() <= 0) { return null; }
+
+            Exercise selectedExercise = ExerciseServiceHelper.SelectExerciseById(exercises);
+
+            selectedExercise.DateStart = AnsiConsole.Confirm("Update start date?") ? ExerciseServiceHelper.GetValidDate() : selectedExercise.DateStart;
+            selectedExercise.DateEnd = AnsiConsole.Confirm("Update end date?") ? ExerciseServiceHelper.GetValidEndDate(selectedExercise.DateStart) : selectedExercise.DateEnd;
+            selectedExercise.Duration = AnsiConsole.Confirm("Update duarion?") ? AnsiConsole.Ask<int>("Please input duration:") : selectedExercise.Duration;
+            selectedExercise.Comments = AnsiConsole.Confirm("Update comments?") ? AnsiConsole.Ask<string>("Please input your comments:") : selectedExercise.Comments;
+
+            await _exerciseRepository.UpdateAsync(selectedExercise);
+
+            return selectedExercise;
         }
 
-        public async Task DeleteExerciseAsync(int id)
+        public async Task<Exercise> DeleteExerciseAsync()
         {
-            await _exerciseRepository.DeleteAsync(id);
+            var exercises = await _exerciseRepository.GetAllAsync();
+
+            if (exercises.Count() <= 0) { return null; }
+
+            var selectedExeercise = ExerciseServiceHelper.SelectExerciseById(exercises);
+
+            await _exerciseRepository.DeleteAsync(selectedExeercise.Id);
+
+            return selectedExeercise;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace ExerciseTracker.Cactus.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ExerciceTracker.Cactus.Exercise", b =>
+            modelBuilder.Entity("ExerciseTracker.Cactus.Model.Exercise", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -40,8 +40,8 @@ namespace ExerciseTracker.Cactus.Migrations
                     b.Property<DateTime>("DateStart")
                         .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("Duration")
-                        .HasColumnType("time");
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

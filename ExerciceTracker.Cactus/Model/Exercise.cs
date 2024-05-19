@@ -1,14 +1,19 @@
-﻿namespace ExerciseTracker.Cactus.Model
+﻿using Microsoft.Identity.Client;
+
+namespace ExerciseTracker.Cactus.Model
 {
     public class Exercise
     {
         public int Id { get; set; }
         public DateTime DateStart { get; set; }
         public DateTime DateEnd { get; set; }
-        public TimeSpan Duration { get; set; }
+        public int Duration { get; set; }
         public string Comments { get; set; }
 
-        public Exercise(DateTime dateStart, DateTime dateEnd, TimeSpan duration, string comments)
+        public Exercise()
+        { }
+
+        public Exercise(DateTime dateStart, DateTime dateEnd, int duration, string comments)
         {
             DateStart = dateStart;
             DateEnd = dateEnd;
