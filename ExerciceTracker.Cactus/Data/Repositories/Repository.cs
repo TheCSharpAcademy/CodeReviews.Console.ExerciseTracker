@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ExerciseTracker.Cactus.Data.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace ExerciceTracker.Cactus
+namespace ExerciseTracker.Cactus.Data.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {

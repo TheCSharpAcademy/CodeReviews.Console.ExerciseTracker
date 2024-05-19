@@ -1,6 +1,6 @@
-﻿using ExerciceTracker.Cactus;
+﻿using ExerciseTracker.Cactus.Service;
 
-namespace ExerciseTracker.Cactus
+namespace ExerciseTracker.Cactus.Controller
 {
     public class ExerciseController
     {

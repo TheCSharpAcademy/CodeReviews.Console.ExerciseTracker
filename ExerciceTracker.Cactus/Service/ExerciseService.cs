@@ -1,4 +1,7 @@
-﻿namespace ExerciceTracker.Cactus
+﻿using ExerciseTracker.Cactus.Data.Interfaces;
+using ExerciseTracker.Cactus.Model;
+
+namespace ExerciseTracker.Cactus.Service
 {
     public class ExerciseService
     {

@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ExerciseTracker.Cactus.Model;
+using Microsoft.EntityFrameworkCore;
 
-namespace ExerciceTracker.Cactus
+namespace ExerciseTracker.Cactus.Data
 {
     public class ExerciseDbContext : DbContext
     {

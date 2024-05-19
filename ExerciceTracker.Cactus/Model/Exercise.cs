@@ -1,4 +1,4 @@
-﻿namespace ExerciceTracker.Cactus
+﻿namespace ExerciseTracker.Cactus.Model
 {
     public class Exercise
     {

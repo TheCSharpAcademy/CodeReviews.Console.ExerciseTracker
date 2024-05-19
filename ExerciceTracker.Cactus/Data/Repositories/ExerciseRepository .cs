@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ExerciseTracker.Cactus.Data.Interfaces;
+using ExerciseTracker.Cactus.Model;
+using Microsoft.EntityFrameworkCore;
 
-namespace ExerciceTracker.Cactus
+namespace ExerciseTracker.Cactus.Data.Repositories
 {
     public class ExerciseRepository : Repository<Exercise>, IExerciseRepository
     {
