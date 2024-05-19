@@ -16,10 +16,10 @@ namespace ExerciseTracker.Cactus.UI
             var table = new Table();
             table.Title("Exercise Info");
             table.AddColumn("Id");
-            table.AddColumn("ShiftStartTime");
-            table.AddColumn("ShiftEndTime");
+            table.AddColumn("StartTime");
+            table.AddColumn("EndTime");
             table.AddColumn("Duration");
-            table.AddColumn("Comment");
+            table.AddColumn("Comments");
 
             foreach (Exercise exercise in exercises)
             {

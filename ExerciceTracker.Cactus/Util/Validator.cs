@@ -11,14 +11,5 @@
             }
             return false;
         }
-
-        public static bool IsValidTime(string timeString, out TimeSpan timeSpan)
-        {
-            if (TimeSpan.TryParseExact(timeString, "hh\\:mm\\:ss", null, out timeSpan))
-            {
-                return true;
-            }
-            return false;
-        }
     }
 }

@@ -18,11 +18,6 @@ namespace ExerciseTracker.Cactus.Service
             return await _exerciseRepository.GetAllAsync();
         }
 
-        public async Task<Exercise> GetExerciseByIdAsync(int id)
-        {
-            return await _exerciseRepository.GetByIdAsync(id);
-        }
-
         public async Task<Exercise> AddExerciseAsync()
         {
             Exercise exercise = ExerciseServiceHelper.InputExercise();
