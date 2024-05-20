@@ -22,7 +22,7 @@ internal class MainMenu
         var exerciseRepository = new ExerciseRepository(exerciseContext);
         var userInput = new UserInput();
         var exerciseService = new ExerciseService(exerciseRepository, userInput);
-        var exerciseController = new ExerciseController(exerciseService);
+        var exerciseController = new ExerciseController(exerciseService, exerciseRepository);
 
         while (true)
         {

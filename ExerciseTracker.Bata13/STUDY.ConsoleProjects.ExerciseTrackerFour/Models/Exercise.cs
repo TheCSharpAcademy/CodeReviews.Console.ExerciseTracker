@@ -1,5 +1,5 @@
 ﻿namespace STUDY.ConsoleProjects.ExerciseTrackerFour.Models;
-internal class Exercise
+public class Exercise
 {
     public int Id { get; set; }
     public DateTime StarTime { get; set; }

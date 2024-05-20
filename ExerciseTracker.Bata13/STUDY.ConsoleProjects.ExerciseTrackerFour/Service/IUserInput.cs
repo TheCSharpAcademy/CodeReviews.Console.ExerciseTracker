@@ -1,5 +1,5 @@
 ﻿namespace STUDY.ConsoleProjects.ExerciseTrackerFour.Service;
-internal interface IUserInput
+public interface IUserInput
 {
     (DateTime startTime, DateTime endTime, TimeSpan duration, string comments) GetUserInputForExcerciseEntry();
 

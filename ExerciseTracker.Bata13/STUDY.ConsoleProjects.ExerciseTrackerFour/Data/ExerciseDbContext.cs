@@ -2,7 +2,7 @@
 using STUDY.ConsoleProjects.ExerciseTrackerFour.Models;
 
 namespace STUDY.ConsoleProjects.ExerciseTrackerFour.Data;
-internal class ExerciseDbContext : DbContext
+public class ExerciseDbContext : DbContext
 {
     public DbSet<Exercise> Exercises { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

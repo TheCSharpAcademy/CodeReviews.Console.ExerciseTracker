@@ -1,7 +1,7 @@
 ﻿using STUDY.ConsoleProjects.ExerciseTrackerFour.Models;
 
 namespace STUDY.ConsoleProjects.ExerciseTrackerFour.Data.Repository;
-internal interface IExerciseRepository
+public interface IExerciseRepository
 {
     public Exercise ViewSpecificExerciseEntry(int exerciseId);
     void AddExerciseEntry(Exercise exercise);

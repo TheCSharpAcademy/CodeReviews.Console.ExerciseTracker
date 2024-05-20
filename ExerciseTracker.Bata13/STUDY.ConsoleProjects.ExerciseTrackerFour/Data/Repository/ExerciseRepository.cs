@@ -1,7 +1,7 @@
 ﻿using STUDY.ConsoleProjects.ExerciseTrackerFour.Models;
 
 namespace STUDY.ConsoleProjects.ExerciseTrackerFour.Data.Repository;
-internal class ExerciseRepository : IExerciseRepository
+public class ExerciseRepository : IExerciseRepository
 {
     private readonly ExerciseDbContext _context;
     public ExerciseRepository(ExerciseDbContext context)

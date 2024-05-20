@@ -1,13 +1,26 @@
 ﻿namespace STUDY.ConsoleProjects.ExerciseTrackerFour.Service;
-internal class UserInput : IUserInput
+public class UserInput : IUserInput
 {
     public (DateTime startTime, DateTime endTime, TimeSpan duration, string comments) GetUserInputForExcerciseEntry()
     {
-        Console.WriteLine("Enter the start time of the exercise (yyyy-MM-dd HH:mm:ss):");
-        DateTime startTime = DateTime.Parse(Console.ReadLine());
+        Console.WriteLine("Enter the new start time (yyyy-MM-dd HH:mm:ss):");
+        DateTime startTime;
+
+        while (!DateTime.TryParseExact(Console.ReadLine(), "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out startTime))
+        {
+            Console.WriteLine("Invalid input. Please enter a valid start time (yyyy-MM-dd HH:mm:ss):");
+        }
+
+        Console.WriteLine("Enter the new end time (yyyy-MM-dd HH:mm:ss):");
+
+        DateTime endTime;
+
+        while (!DateTime.TryParseExact(Console.ReadLine(), "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out endTime))
+        {
+            Console.WriteLine("Invalid input. Please enter a valid end time (yyyy-MM-dd HH:mm:ss):");
+        }
 
         Console.WriteLine("Enter the end time of the exercise (yyyy-MM-dd HH:mm:ss):");
-        DateTime endTime = DateTime.Parse(Console.ReadLine());
 
         Console.WriteLine("Enter Any Comments");
         string comments = Console.ReadLine();
@@ -57,7 +70,6 @@ internal class UserInput : IUserInput
         Validation.isPositiveNumber(newStartTime, newEndTime);
 
         return (newStartTime, newEndTime, newDuration, newComments, exerciseId);
-
     }
     public int GetUserInputToDelete()
     {
