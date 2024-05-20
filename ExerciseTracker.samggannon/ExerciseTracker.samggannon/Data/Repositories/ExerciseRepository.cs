@@ -24,7 +24,7 @@ internal class ExerciseRepository : IExerciseRepository
     {
         using var _dbContext = new ExerciseContext();
         return _dbContext.ExerciseSet
-                         .FirstOrDefault(e => e.Id == sessionId);
+                         .FirstOrDefault(e => e.Id == sessionId && e.Type == "Cardio");
     }
 
 
