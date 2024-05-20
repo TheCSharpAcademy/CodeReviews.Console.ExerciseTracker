@@ -39,7 +39,7 @@ internal class ResistanceRespository : IExerciseRepository
         using (var connection = new SqlConnection(_connectionString))
         {
             connection.Open();
-            var command = new SqlCommand("SELECT * FROM ExerciseSet", connection);
+            var command = new SqlCommand("SELECT * FROM ExerciseSet WHERE Type = 'Resistance Training'", connection);
 
             using (var reader = command.ExecuteReader())
             {
@@ -68,7 +68,7 @@ internal class ResistanceRespository : IExerciseRepository
         using (var connection = new SqlConnection(_connectionString))
         {
             connection.Open();
-            var command = new SqlCommand("SELECT * FROM dbo.ExerciseTrackerDB WHERE Id = @Id", connection);
+            var command = new SqlCommand("SELECT * FROM ExerciseSet WHERE Type = 'Resistance Training' AND Id = @Id", connection);
             command.Parameters.AddWithValue("@Id", sessionId);
 
             using (var reader = command.ExecuteReader())

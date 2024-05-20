@@ -15,14 +15,18 @@ internal class ExerciseRepository : IExerciseRepository
     public List<Exercise> GetAllSessions()
     {
         using var _dbContext = new ExerciseContext();
-        return _dbContext.ExerciseSet.ToList();
+        return _dbContext.ExerciseSet
+            .Where(e => e.Type == "Cardio")
+            .ToList();
     }
 
     public Exercise GetSessionById(int sessionId)
     {
         using var _dbContext = new ExerciseContext();
-        return _dbContext.ExerciseSet.Find(sessionId);
+        return _dbContext.ExerciseSet
+                         .FirstOrDefault(e => e.Id == sessionId);
     }
+
 
     public void Update(Exercise entity)
     {

@@ -1,6 +1,7 @@
 ﻿using ExerciseTracker.samggannon.Data.Models;
 using ExerciseTracker.samggannon.Data.Repositories;
 using ExerciseTracker.samggannon.UserInterface;
+using ExerciseTracker.samggannon.Validation;
 
 namespace ExerciseTracker.samggannon.Services;
 
@@ -45,9 +46,14 @@ public class ExerciseService
         }
 
         var updatedSession = MainMenu.UpdateMenu(exerciseSession);
-        updatedSession.Id = sessionId;
 
-        _exerciseRepository.Update(updatedSession);
+        bool editTimeWasvalid = InputValidation.ValidateTime(updatedSession.DateStart, updatedSession.DateEnd);
+
+        if(editTimeWasvalid)
+        {
+            updatedSession.Id = sessionId;
+            _exerciseRepository.Update(updatedSession);
+        }
     }
 
     internal void GetAllSessions()

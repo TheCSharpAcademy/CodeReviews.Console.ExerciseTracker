@@ -173,9 +173,11 @@ internal class MainMenu
             {
                 case UpdateOptions.UpdateStartTime:
                     exerciseSession.DateStart = UserInput.GetDateTime("start");
+                    InputValidation.VaidateEditTime(exerciseSession.DateStart, exerciseSession.DateEnd);
                     break;
                 case UpdateOptions.UpdateEndTime:
                     exerciseSession.DateEnd = UserInput.GetDateTime("end");
+                    InputValidation.VaidateEditTime(exerciseSession.DateStart, exerciseSession.DateEnd);
                     break;
                 case UpdateOptions.UpdateComments:
                     exerciseSession.Comments = UserInput.GetComments();

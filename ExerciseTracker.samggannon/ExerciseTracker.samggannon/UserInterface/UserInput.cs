@@ -1,5 +1,6 @@
 ﻿using ExerciseTracker.samggannon.Data.Models;
-
+using ExerciseTracker.samggannon.Validation;
+    
 namespace ExerciseTracker.samggannon.UserInterface;
 
 internal class UserInput
@@ -13,7 +14,9 @@ internal class UserInput
             session.DateStart = GetDateTime("start");
             session.DateEnd = GetDateTime("end");
 
-            if (session.DateEnd > session.DateStart)
+            bool isValidTimeInput = InputValidation.ValidateTime(session.DateStart, session.DateEnd);
+
+            if (isValidTimeInput)
             {
                 break;
             }
