@@ -1,6 +1,6 @@
 ﻿namespace ExerciseTracker.samggannon.Data.Models
 {
-    internal class Exercise
+    public class Exercise
     {
         public int Id { get; set; }
         public string? Type { get; set; }

@@ -2,7 +2,7 @@
 
 namespace ExerciseTracker.samggannon.Data.Repositories;
 
-internal class ExerciseRepository : IExerciseRepository
+public class ExerciseRepository : IExerciseRepository
 {
     public void Add(Exercise entity)
     {

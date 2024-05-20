@@ -1,16 +1,23 @@
-﻿using static ExerciseTracker.samggannon.UserInterface.Enums;
-using Spectre.Console;
+﻿using ExerciseTracker.samggannon.Controllers;
+using ExerciseTracker.samggannon.Data.Models;
 using ExerciseTracker.samggannon.Services;
 using ExerciseTracker.samggannon.Validation;
-using ExerciseTracker.samggannon.Controllers;
-using ExerciseTracker.samggannon.Data.Repositories;
-using ExerciseTracker.samggannon.Data.Models;
+using Microsoft.Extensions.DependencyInjection;
+using Spectre.Console;
+using static ExerciseTracker.samggannon.UserInterface.Enums;
 
 namespace ExerciseTracker.samggannon.UserInterface;
 
-internal class MainMenu
+public class MainMenu
 {
-    internal static void ShowMenu()
+    private ServiceProvider _serviceProvider;
+
+    public MainMenu(ServiceProvider serviceProvider)
+    {
+        _serviceProvider = serviceProvider;
+    }
+
+    internal void ShowMenu()
     {
         bool appIsRunning = true;
 
@@ -52,11 +59,10 @@ internal class MainMenu
         }
     }
 
-    private static void ShowResistanceTrainingMenu()
+    private void ShowResistanceTrainingMenu()
     {
-        IExerciseRepository exerciseRepository = new ResistanceRespository();
-        ExerciseService exerciseService = new ExerciseService(exerciseRepository);
-        ExerciseController exerciseController = new ExerciseController(exerciseService);
+        var exerciseService = _serviceProvider.GetRequiredService<IExerciseService>();
+        var exerciseController = new ExerciseController(exerciseService, true);
 
         bool appIsRunning = true;
 
@@ -102,11 +108,10 @@ internal class MainMenu
         }
     }
 
-    internal static void ShowCardioMenu()
+    internal void ShowCardioMenu()
     {
-        IExerciseRepository exerciseRepository = new ExerciseRepository();
-        ExerciseService exerciseService = new ExerciseService(exerciseRepository);
-        ExerciseController exerciseController = new ExerciseController(exerciseService);
+        var exerciseService = _serviceProvider.GetRequiredService<IExerciseService>();
+        var exerciseController = new ExerciseController(exerciseService, false);
 
         bool appIsRunning = true;
 
@@ -156,7 +161,7 @@ internal class MainMenu
     {
         bool isUpdating = true;
 
-        while(isUpdating)
+        while (isUpdating)
         {
             Console.Clear();
             var option = AnsiConsole.Prompt(
@@ -191,7 +196,7 @@ internal class MainMenu
                     isUpdating = false;
                     Environment.Exit(1);
                     break;
-                     
+
             }
         }
 

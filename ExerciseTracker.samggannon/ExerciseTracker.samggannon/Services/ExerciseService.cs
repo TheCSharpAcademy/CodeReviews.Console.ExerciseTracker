@@ -5,21 +5,29 @@ using ExerciseTracker.samggannon.Validation;
 
 namespace ExerciseTracker.samggannon.Services;
 
-public class ExerciseService
+public class ExerciseService : IExerciseService
 {
-    private readonly IExerciseRepository _exerciseRepository;
+    private readonly IExerciseRepository _cardioRepository;
+    private readonly IExerciseRepository _resistanceRepository;
+    private IExerciseRepository? _currentRepository;
 
-    internal ExerciseService(IExerciseRepository exerciseRepository)
+    public ExerciseService(ExerciseRepository exerciseRepository, ResistanceRespository resistanceRepository)
     {
-        _exerciseRepository = exerciseRepository;
+        _cardioRepository = exerciseRepository;
+        _resistanceRepository = resistanceRepository;
     }
 
-    internal void DeleteSessionById()
+    public void SetRepository(bool isResistanceTraining)
+    {
+        _currentRepository = isResistanceTraining ? (IExerciseRepository)_resistanceRepository : _cardioRepository;
+    }
+
+    public void DeleteSessionById()
     {
         GetAllSessions();
 
         int sessionIdToDelete = UserInput.GetIdInput();
-        var exerciseSession = _exerciseRepository.GetSessionById(sessionIdToDelete);
+        var exerciseSession = _currentRepository.GetSessionById(sessionIdToDelete);
 
         if (exerciseSession == null)
         {
@@ -27,16 +35,14 @@ public class ExerciseService
             Console.ReadLine();
             return;
         }
-
-        _exerciseRepository.Delete(exerciseSession);
     }
 
-    internal void EditSession()
+    public void EditSession()
     {
         GetAllSessions();
 
         int sessionId = UserInput.GetIdInput();
-        var exerciseSession = _exerciseRepository.GetSessionById(sessionId);
+        var exerciseSession = _currentRepository.GetSessionById(sessionId);
 
         if (exerciseSession == null)
         {
@@ -47,27 +53,34 @@ public class ExerciseService
 
         var updatedSession = MainMenu.UpdateMenu(exerciseSession);
 
-        bool editTimeWasvalid = InputValidation.ValidateTime(updatedSession.DateStart, updatedSession.DateEnd);
+        bool editTimeWasValid = InputValidation.ValidateTime(updatedSession.DateStart, updatedSession.DateEnd);
 
-        if(editTimeWasvalid)
+        if(editTimeWasValid)
         {
             updatedSession.Id = sessionId;
-            _exerciseRepository.Update(updatedSession);
+            _currentRepository.Update(updatedSession);
+        }
+        else
+        {
+            Console.WriteLine("Start time must be before end time. No changes were made. Press [enter] to continue.");
+            Console.ReadLine();
         }
     }
 
-    internal void GetAllSessions()
+    public void GetAllSessions()
     {
-        List<Exercise> exercises = _exerciseRepository.GetAllSessions();
+       // defaulted EF Core repo
+        List<Exercise> exercises = _cardioRepository.GetAllSessions();
         Visualization.ShowTable(exercises);
-
+    
         Console.WriteLine("Press [enter] to continue");
         Console.ReadLine();
     }
 
-    internal void InsertSession()
+    public void InsertSession()
     {
         Exercise exerciseSession = UserInput.GetSessionDetails();
-        _exerciseRepository.Add(exerciseSession);
+
+       _currentRepository.Add(exerciseSession);
     }
 }

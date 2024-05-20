@@ -71,10 +71,14 @@ internal class UserInput
             }
             else
             {
-                Console.WriteLine("\n\nInvalid input. Please enter the date and time in the format\n" +
-                    "yyyy-MM-dd HH:mm:ss\n" +
-                    "Example 2024-05-14 13:15:00 - (1:15pm)\n\n ");
+                Console.WriteLine("\n\nInvalid input. Please enter the date and time in the format\n " +
+                    "yyyy-MM-dd HH:mm:ss\n " +
+                    "Example 2024-05-14 13:15:00 - (1:15pm)\n " +
+                    "Press Q to quit the application\n\n");
             }
+
+            string? userQuit = Console.ReadLine();
+            if (userQuit.Trim().ToUpper() == "Q") Environment.Exit(0);
         }
     }
 

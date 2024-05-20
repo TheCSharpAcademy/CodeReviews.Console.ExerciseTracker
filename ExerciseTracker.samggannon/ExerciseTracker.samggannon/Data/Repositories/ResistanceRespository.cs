@@ -4,7 +4,7 @@ using System.Configuration;
 
 namespace ExerciseTracker.samggannon.Data.Repositories;
 
-internal class ResistanceRespository : IExerciseRepository
+public class ResistanceRespository : IExerciseRepository
 {
     private readonly string _connectionString;
 

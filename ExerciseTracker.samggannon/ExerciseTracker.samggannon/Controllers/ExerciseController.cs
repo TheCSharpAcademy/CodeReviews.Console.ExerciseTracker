@@ -4,11 +4,12 @@ namespace ExerciseTracker.samggannon.Controllers;
 
 public class ExerciseController
 {
-    private readonly ExerciseService _exerciseService;
+    private readonly IExerciseService _exerciseService;
 
-    public ExerciseController(ExerciseService exerciseService)
+    public ExerciseController(IExerciseService exerciseService, bool isResistanceTraining)
     {
         _exerciseService = exerciseService;
+        _exerciseService.SetRepository(isResistanceTraining);
     }
 
     public void InsertSession()
