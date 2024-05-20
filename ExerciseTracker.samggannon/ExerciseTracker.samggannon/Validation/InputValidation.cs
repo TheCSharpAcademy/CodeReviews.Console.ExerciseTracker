@@ -1,11 +1,4 @@
-﻿using ExerciseTracker.samggannon.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ExerciseTracker.samggannon.Validation;
+﻿namespace ExerciseTracker.samggannon.Validation;
 
 internal class InputValidation
 {
@@ -26,7 +19,7 @@ internal class InputValidation
 
     internal static bool ValidateTime(DateTime StartTime, DateTime EndTime)
     {
-        if(EndTime > StartTime)
+        if (EndTime > StartTime)
         {
             return true;
         }
