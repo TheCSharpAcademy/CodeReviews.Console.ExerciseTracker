@@ -11,10 +11,12 @@ namespace ExerciseTracker.samggannon.UserInterface;
 public class MainMenu
 {
     private ServiceProvider _serviceProvider;
+    private ExerciseController _exerciseController;
 
     public MainMenu(ServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
+        _exerciseController = _serviceProvider.GetRequiredService<ExerciseController>();
     }
 
     internal void ShowMenu()
@@ -61,8 +63,7 @@ public class MainMenu
 
     private void ShowResistanceTrainingMenu()
     {
-        var exerciseService = _serviceProvider.GetRequiredService<IExerciseService>();
-        var exerciseController = new ExerciseController(exerciseService, true);
+        _exerciseController.SetRepository(true);
 
         bool appIsRunning = true;
 
@@ -83,16 +84,16 @@ public class MainMenu
             switch (option)
             {
                 case ResistanceOptions.AddWorkout:
-                    exerciseController.InsertSession();
+                    _exerciseController.InsertSession();
                     break;
                 case ResistanceOptions.ShowAllWorkouts:
-                    exerciseController.GetAllSessions();
+                    _exerciseController.GetAllSessions();
                     break;
                 case ResistanceOptions.EditWorkoutById:
-                    exerciseController.EditSession();
+                    _exerciseController.EditSession();
                     break;
                 case ResistanceOptions.DeleteWorkoutById:
-                    exerciseController.DeleteSessionById();
+                    _exerciseController.DeleteSessionById();
                     break;
                 case ResistanceOptions.Back:
                     appIsRunning = false;
@@ -110,8 +111,7 @@ public class MainMenu
 
     internal void ShowCardioMenu()
     {
-        var exerciseService = _serviceProvider.GetRequiredService<IExerciseService>();
-        var exerciseController = new ExerciseController(exerciseService, false);
+        _exerciseController.SetRepository(false);
 
         bool appIsRunning = true;
 
@@ -132,16 +132,16 @@ public class MainMenu
             switch (option)
             {
                 case MenuOptions.AddSession:
-                    exerciseController.InsertSession();
+                    _exerciseController.InsertSession();
                     break;
                 case MenuOptions.ShowAllSessions:
-                    exerciseController.GetAllSessions();
+                    _exerciseController.GetAllSessions();
                     break;
                 case MenuOptions.EditSessionById:
-                    exerciseController.EditSession();
+                    _exerciseController.EditSession();
                     break;
                 case MenuOptions.DeleteSessionById:
-                    exerciseController.DeleteSessionById();
+                    _exerciseController.DeleteSessionById();
                     break;
                 case MenuOptions.Back:
                     appIsRunning = false;

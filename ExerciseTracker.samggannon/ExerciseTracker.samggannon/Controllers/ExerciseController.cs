@@ -4,7 +4,12 @@ namespace ExerciseTracker.samggannon.Controllers;
 
 public class ExerciseController
 {
-    private readonly IExerciseService _exerciseService;
+    private readonly IExerciseService? _exerciseService;
+
+    public ExerciseController()
+    {
+        _exerciseService = new ExerciseService();
+    }
 
     public ExerciseController(IExerciseService exerciseService, bool isResistanceTraining)
     {
@@ -30,5 +35,10 @@ public class ExerciseController
     public void DeleteSessionById()
     {
         _exerciseService.DeleteSessionById();
+    }
+
+    internal void SetRepository(bool isResistanceTraining)
+    {
+        _exerciseService.SetRepository(isResistanceTraining);
     }
 }

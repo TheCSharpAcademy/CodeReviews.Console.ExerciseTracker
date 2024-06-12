@@ -11,6 +11,12 @@ public class ExerciseService : IExerciseService
     private readonly IExerciseRepository _resistanceRepository;
     private IExerciseRepository? _currentRepository;
 
+    public ExerciseService()
+    {
+        _cardioRepository = new ExerciseRepository();
+        _resistanceRepository = new ExerciseRepository();
+    }
+
     public ExerciseService(ExerciseRepository exerciseRepository, ResistanceRespository resistanceRepository)
     {
         _cardioRepository = exerciseRepository;

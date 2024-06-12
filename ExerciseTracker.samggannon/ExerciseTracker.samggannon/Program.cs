@@ -5,9 +5,9 @@ using ExerciseTracker.samggannon.UserInterface;
 using Microsoft.Extensions.DependencyInjection;
 
 var serviceProvider = new ServiceCollection()
-    .AddSingleton<ExerciseRepository>()
-    .AddSingleton<ResistanceRespository>()
-    .AddSingleton<IExerciseService, ExerciseService>()
+    .AddScoped<ExerciseRepository>()
+    .AddScoped<ResistanceRespository>()
+    .AddScoped<IExerciseService, ExerciseService>()
     .AddScoped<ExerciseController>()
     .BuildServiceProvider();
 
