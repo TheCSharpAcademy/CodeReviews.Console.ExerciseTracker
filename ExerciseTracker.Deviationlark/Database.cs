@@ -1,0 +1,17 @@
+using System.Configuration;
+using Microsoft.EntityFrameworkCore;
+
+namespace ExerciseTracker;
+public class ExerciseDatabase : DbContext
+{
+    public ExerciseDatabase(DbContextOptions<ExerciseDatabase> options)
+    : base(options)
+    {
+    }
+    public DbSet<Exercise> Exercise { get; set; }
+
+    /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString);
+    }*/
+}
