@@ -1,4 +1,3 @@
-using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExerciseTracker;
@@ -9,9 +8,4 @@ public class ExerciseDatabase : DbContext
     {
     }
     public DbSet<Exercise> Exercise { get; set; }
-
-    /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString);
-    }*/
 }

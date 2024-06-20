@@ -55,7 +55,7 @@ public class ExerciseRepositoryDapper : IExerciseRepository
 
     public void Save()
     {
-        
+        // unused for dapper.
     }
 
     public void UpdateExercise(Exercise exercise)
@@ -64,8 +64,9 @@ public class ExerciseRepositoryDapper : IExerciseRepository
         {
             connection.Open();
             string sql = $@"UPDATE Exercise SET 
-            StartDate = {exercise.StartDate}, EndDate = {exercise.EndDate}, Duration = {exercise.Duration},
-            Comments = {exercise.Comments}";
+            StartDate = @StartDate, EndDate = @EndDate, Duration = @Duration,
+            Comments = @Comments WHERE Id = @Id";
+            connection.Execute(sql, exercise);
         }
     }
 }

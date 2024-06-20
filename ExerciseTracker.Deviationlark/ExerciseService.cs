@@ -112,5 +112,6 @@ Comments: {exercise.Comments}");
         exercise.Duration = updatedInfo.Duration;
         exercise.Comments = updatedInfo.Comments;
         _exerciseController.UpdateExercise(exercise);
+        Console.WriteLine("Successfully updated.");
     }
 }

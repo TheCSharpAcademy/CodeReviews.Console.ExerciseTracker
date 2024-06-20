@@ -1,7 +1,6 @@
 ﻿using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 namespace ExerciseTracker;
 public class Program
