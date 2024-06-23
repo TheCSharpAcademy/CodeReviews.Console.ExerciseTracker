@@ -26,13 +26,9 @@ var host = Host.CreateDefaultBuilder(args)
     {
         var connectionString = context.Configuration.GetConnectionString("DefaultConnection");
 
-        services.AddDbContext<JoggingDbContext>(options =>
-        {
-            options.UseSqlServer(connectionString);
-            options.LogTo(Console.WriteLine, LogLevel.Warning); // Configure EF Core to log at Warning level
-        });
+        services.AddSingleton(new JoggingDapperDbContext(connectionString));
 
-        services.AddScoped<IJoggingRepository, JoggingRepository>();
+        services.AddScoped<IJoggingRepository, JoggingDapperRepository>();
         services.AddScoped<IJoggingService, JoggingService>();
         services.AddScoped<JoggingController>();
 

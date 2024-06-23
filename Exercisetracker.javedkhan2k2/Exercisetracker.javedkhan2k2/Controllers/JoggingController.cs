@@ -95,11 +95,12 @@ public class JoggingController
 
         if(await _joggingService.DeleteJogging(jogging) == 0)
         {
-            VisualizationEngine.DisplayFailureMessage("Jogging is not updated.");
+            VisualizationEngine.DisplayFailureMessage("Jogging is not deleted.");
         }
         else
         {
-            VisualizationEngine.DisplaySuccessMessage("Jogging is updated.");
+            VisualizationEngine.DisplaySuccessMessage("Jogging is deleted.");
         }
     }
+
 }
