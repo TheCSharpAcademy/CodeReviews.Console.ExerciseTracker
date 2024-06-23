@@ -8,7 +8,7 @@ public class Jogging
     [Required]
     public DateTime DateStart { get; set; }
     [Required]
-    public DateTime EndTime {get;set;}
+    public DateTime DateEnd {get;set;}
     [Required]
     public TimeSpan Duration {get;set;}
     [Required]

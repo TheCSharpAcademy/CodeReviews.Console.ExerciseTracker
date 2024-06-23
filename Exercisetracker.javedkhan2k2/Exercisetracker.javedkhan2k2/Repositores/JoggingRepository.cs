@@ -2,10 +2,11 @@ using Exercisetacker.Data;
 using Exercisetacker.DTOs;
 using Exercisetacker.Entities;
 using Exercisetacker.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Exercisetacker.Repositories;
 
-public class JoggingRepository : JoggingRepositoryInterface
+public class JoggingRepository : IJoggingRepository
 {
     private readonly JoggingDbContext _context;
 
@@ -14,28 +15,28 @@ public class JoggingRepository : JoggingRepositoryInterface
         _context = context;
     }
 
-    public Task<Jogging> AddJogging(JoggingAddDto jogging)
+    public async Task<Jogging> AddJogging(Jogging jogging)
     {
-        throw new NotImplementedException();
+        _context.Add(jogging);
+        await _context.SaveChangesAsync();
+        return jogging;
     }
 
-    public Task DeleteJoggingById(int id)
+    public async Task<int> UpdateJogging(Jogging jogging)
     {
-        throw new NotImplementedException();
+        _context.Update(jogging);
+        return await _context.SaveChangesAsync();
     }
 
-    public Task<List<Jogging>?> GetAllJogging()
+    public async Task<int> DeleteJogging(Jogging jogging)
     {
-        throw new NotImplementedException();
+        _context.Remove(jogging);
+        return await _context.SaveChangesAsync();
+        
     }
 
-    public Task<Jogging> GetJoggingById(int id)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<List<Jogging>?> GetAllJogging() => await _context.Joggings.ToListAsync();
 
-    public Task UpdateJogging(Jogging jogging)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<Jogging?> GetJoggingById(int id) => await _context.Joggings.FirstOrDefaultAsync(j => j.Id == id);
+    
 }

@@ -1,17 +1,24 @@
 using System.ComponentModel.DataAnnotations;
+using Exercisetacker.Entities;
 
 namespace Exercisetacker.DTOs;
 
 public class JoggingAddDto
 {
-    [Required]
     public DateTime DateStart { get; set; }
-    [Required]
-    public DateTime EndTime {get;set;}
-    [Required]
+    public DateTime DateEnd {get;set;}
     public TimeSpan Duration {get;set;}
-    [Required]
-    [MaxLength(255)]
     public string Comments {get;set;}
+
+    public Jogging ToJogging()
+    {
+        return new Jogging
+        {
+            DateStart = this.DateStart,
+            DateEnd = this.DateEnd,
+            Duration = this.Duration,
+            Comments = this.Comments
+        };
+    }
 
 }

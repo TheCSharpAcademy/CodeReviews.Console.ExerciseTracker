@@ -1,5 +1,7 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
+using Exercisetacker.Entities;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Exercisetacker.Validators;
 
@@ -37,4 +39,19 @@ public static class ValidatorHelper
         return true;
     }
 
+    internal static bool IsValidComment(string? userInput)
+    {
+        if (userInput != null && userInput == "0")
+        {
+            return true;
+        }
+        if(userInput.IsNullOrEmpty() || userInput.Length > 255)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    internal static bool isValidDateTimeInputs(Jogging jogging) => DateTime.Compare(jogging.DateEnd, jogging.DateStart) > 0 ? true : false;
+    
 }

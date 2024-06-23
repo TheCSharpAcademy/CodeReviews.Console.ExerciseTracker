@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+using Exercisetacker.Entities;
 using Spectre.Console;
 namespace Exercisetacker.UI;
 
@@ -36,6 +38,28 @@ internal class VisualizationEngine
     {
         AnsiConsole.Markup($"[green]{message}[/]");
         DisplayContinueMessage();
+    }
+
+    internal static void DisplayDateTimeError()
+    {
+        AnsiConsole.Markup("[maroon]The End Date Time should be later than Start Date Time.[/]\n");
+        DisplayContinueMessage();
+    }
+
+    internal static void DisplayAllJoggings(List<Jogging>? joggings, [AllowNull] string title)
+    {
+        //AnsiConsole.Clear();
+        if (title == null)
+        {
+            title = "";
+        }
+        var table = CreateTable(title, $"[yellow]Displaying [blue]{joggings.Count()}[/] records[/]");
+        table.AddColumns(["[green]Id[/]", "[green]Start Time[/]", "[green]End Time[/]", "[green]Duration[/]", "[green]Comments[/]"]);
+        foreach (var jogging in joggings)
+        {
+            table.AddRow(jogging.Id.ToString(), jogging.DateStart.ToString(), jogging.DateEnd.ToString(), jogging.Duration.ToString(), jogging.Comments);
+        }
+        AnsiConsole.Write(table);
     }
 
 }
