@@ -7,17 +7,17 @@ namespace Exercisetacker.Data;
 
 public class JoggingDapperDbContext
 {
-    private string _connectionString { get; init; }
+    private string ConnectionString { get; init; }
 
     public JoggingDapperDbContext(string connectionString)
     {
-        _connectionString = connectionString;
+        ConnectionString = connectionString;
         CreateTable();
     }
 
     private SqlConnection? GetConnection()
     {
-        return new SqlConnection(_connectionString);
+        return new SqlConnection(ConnectionString);
     }
 
     private void CreateTable()
@@ -70,7 +70,6 @@ public class JoggingDapperDbContext
         {
             connection.Open();
             var newId = await connection.ExecuteScalarAsync<int>(sql, parameters);
-            //var sqlSelect = @$"SELECT * FROM Joggings WHERE Id = @Id;";
             var addedJogging = await FirstOrDefaultAsync(newId);
             return addedJogging;
         }
