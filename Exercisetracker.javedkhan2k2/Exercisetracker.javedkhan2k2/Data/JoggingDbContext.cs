@@ -5,7 +5,7 @@ namespace Exercisetacker.Data;
 
 public class JoggingDbContext : DbContext
 {
-    public DbSet<Jogging> Joggings {get;set;}
+    public DbSet<Excercise> Excercises {get;set;}
 
     public JoggingDbContext(DbContextOptions<JoggingDbContext> options)
         : base(options)

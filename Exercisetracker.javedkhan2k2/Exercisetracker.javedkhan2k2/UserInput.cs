@@ -11,43 +11,43 @@ namespace Exercisetacker;
 
 internal class UserInput
 {
-    internal static JoggingAddDto? GetNewJogging()
+    internal static ExerciseAddDto? GetNewExercise()
     {
-        JoggingAddDto jogging = new JoggingAddDto();
+        ExerciseAddDto exercise = new ExerciseAddDto();
         do
         {
-            jogging.DateStart = GetDateInput("Enter Start date and time in [bold green](yyyy-MM-dd HH:mm:ss)[/] format.", "yyyy-MM-dd HH:mm:ss");
-            if (jogging.DateStart == DateTime.MinValue) return null;
+            exercise.DateStart = GetDateInput("Enter Start date and time in [bold green](yyyy-MM-dd HH:mm:ss)[/] format.", "yyyy-MM-dd HH:mm:ss");
+            if (exercise.DateStart == DateTime.MinValue) return null;
 
-            jogging.DateEnd = GetDateInput("Enter End date and time in [bold green](yyyy-MM-dd HH:mm:ss)[/] format.", "yyyy-MM-dd HH:mm:ss");
-            if (jogging.DateEnd == DateTime.MinValue) return null;
+            exercise.DateEnd = GetDateInput("Enter End date and time in [bold green](yyyy-MM-dd HH:mm:ss)[/] format.", "yyyy-MM-dd HH:mm:ss");
+            if (exercise.DateEnd == DateTime.MinValue) return null;
 
-            if (ValidatorHelper.IsValidDateTimeInputs(jogging.ToJogging()))
+            if (ValidatorHelper.IsValidDateTimeInputs(exercise.ToExercise()))
             {
-                jogging.Duration = jogging.DateEnd.Subtract(jogging.DateStart);
+                exercise.Duration = exercise.DateEnd.Subtract(exercise.DateStart);
                 break;
             }
 
         } while (true);
-        jogging.Comments = GetStringInput("Enter Comments for the Jogging Session");
-        if(jogging.Comments == "") return null;
+        exercise.Comments = GetStringInput("Enter Comments for the Exercise Session");
+        if(exercise.Comments == "") return null;
 
-        return jogging;
+        return exercise;
     }
 
-    internal static bool GetUpdateJogging(Jogging jogging)
+    internal static bool GetUpdateExercise(Excercise exercise)
     {
         do
         {
-            jogging.DateStart = AnsiConsole.Confirm($"{Messages.GetStartDateUpdate(jogging.DateStart)}") ? GetDateInput(Messages.StartTime, Messages.TimeFormat) : jogging.DateStart;
-            if (jogging.DateStart == DateTime.MinValue) return false;
+            exercise.DateStart = AnsiConsole.Confirm($"{Messages.GetStartDateUpdate(exercise.DateStart)}") ? GetDateInput(Messages.StartTime, Messages.TimeFormat) : exercise.DateStart;
+            if (exercise.DateStart == DateTime.MinValue) return false;
 
-            jogging.DateEnd = AnsiConsole.Confirm($"{Messages.GetEndDateUpdate(jogging.DateEnd)}") ? GetDateInput(Messages.EndTime, Messages.TimeFormat) : jogging.DateEnd;
-            if (jogging.DateEnd == DateTime.MinValue) return false;
+            exercise.DateEnd = AnsiConsole.Confirm($"{Messages.GetEndDateUpdate(exercise.DateEnd)}") ? GetDateInput(Messages.EndTime, Messages.TimeFormat) : exercise.DateEnd;
+            if (exercise.DateEnd == DateTime.MinValue) return false;
 
-            if (ValidatorHelper.IsValidDateTimeInputs(jogging))
+            if (ValidatorHelper.IsValidDateTimeInputs(exercise))
             {
-                jogging.Duration = jogging.DateEnd.Subtract(jogging.DateStart);
+                exercise.Duration = exercise.DateEnd.Subtract(exercise.DateStart);
                 break;
             }
             else
@@ -56,8 +56,8 @@ internal class UserInput
             }
 
         } while (true);
-        jogging.Comments = AnsiConsole.Confirm(Messages.GetCommentsUpdate(jogging.Comments)) ? GetStringInput(Messages.Comments) : jogging.Comments;
-        if(jogging.Comments == "") return false;
+        exercise.Comments = AnsiConsole.Confirm(Messages.GetCommentsUpdate(exercise.Comments)) ? GetStringInput(Messages.Comments) : exercise.Comments;
+        if(exercise.Comments == "") return false;
 
         return true;
     }

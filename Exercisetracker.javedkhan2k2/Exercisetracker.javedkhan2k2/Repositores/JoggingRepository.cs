@@ -15,28 +15,28 @@ public class JoggingRepository : IJoggingRepository
         _context = context;
     }
 
-    public async Task<Jogging> AddJogging(Jogging jogging)
+    public async Task<Excercise> AddExercise(Excercise exercise)
     {
-        _context.Add(jogging);
+        _context.Add(exercise);
         await _context.SaveChangesAsync();
-        return jogging;
+        return exercise;
     }
 
-    public async Task<int> UpdateJogging(Jogging jogging)
+    public async Task<int> UpdateExercise(Excercise exercise)
     {
-        _context.Update(jogging);
+        _context.Update(exercise);
         return await _context.SaveChangesAsync();
     }
 
-    public async Task<int> DeleteJogging(Jogging jogging)
+    public async Task<int> DeleteExercise(Excercise exercise)
     {
-        _context.Remove(jogging);
+        _context.Remove(exercise);
         return await _context.SaveChangesAsync();
         
     }
 
-    public async Task<List<Jogging>?> GetAllJogging() => await _context.Joggings.ToListAsync();
+    public async Task<List<Excercise>?> GetAllExercise() => await _context.Excercises.ToListAsync();
 
-    public async Task<Jogging?> GetJoggingById(int id) => await _context.Joggings.FirstOrDefaultAsync(j => j.Id == id);
+    public async Task<Excercise?> GetExerciseById(int id) => await _context.Excercises.FirstOrDefaultAsync(j => j.Id == id);
     
 }

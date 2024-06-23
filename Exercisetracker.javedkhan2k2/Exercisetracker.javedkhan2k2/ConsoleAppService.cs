@@ -22,6 +22,7 @@ public class ConsoleAppService : IHostedService
         using (var scope = _serviceProvider.CreateScope())
         {
             var joggingController = scope.ServiceProvider.GetRequiredService<JoggingController>();
+            var cardioController = scope.ServiceProvider.GetRequiredService<CardioController>();
 
             var menu = new Menu();
             var runApplication = true;
@@ -31,17 +32,11 @@ public class ConsoleAppService : IHostedService
                 var choice = menu.GetMainMenu();
                 switch (choice)
                 {
-                    case "View All Sessions":
-                        await joggingController.DisplayAllJoggingSessions();
+                    case "Joggings":
+                        await DisplayJoggingMenu(joggingController, menu);
                         break;
-                    case "Add Jogging Session":
-                        await joggingController.AddJogging();
-                        break;
-                    case "Update Jogging Session":
-                        await joggingController.UpdateJogging();
-                        break;
-                    case "Delete Jogging Session":
-                        await joggingController.DeleteJogging();
+                    case "Cardios":
+                        await DisplayCardioMenu(cardioController, menu);
                         break;
                     case "Exit":
                         runApplication = false;
@@ -53,6 +48,62 @@ public class ConsoleAppService : IHostedService
             }
         }
         await Task.CompletedTask;
+    }
+
+    private async Task DisplayJoggingMenu(JoggingController joggingController, Menu menu)
+    {
+        while (true)
+        {
+            Console.Clear();
+            var choice = menu.GetJoggingsMenu();
+            switch (choice)
+            {
+                case "View All Jogging Sessions":
+                    await joggingController.DisplayAllExerciseSessions();
+                    break;
+                case "Add Jogging Session":
+                    await joggingController.AddExercise();
+                    break;
+                case "Update Jogging Session":
+                    await joggingController.UpdateExercise();
+                    break;
+                case "Delete Jogging Session":
+                    await joggingController.DeleteExercise();
+                    break;
+                case $"[maroon]Go Back[/]":
+                    return;
+                default:
+                    break;
+            }
+        }
+    }
+
+    private async Task DisplayCardioMenu(CardioController cardioController, Menu menu)
+    {
+        while (true)
+        {
+            Console.Clear();
+            var choice = menu.GetCardiosMenu();
+            switch (choice)
+            {
+                case "View All Cardio Sessions":
+                    await cardioController.DisplayAllExerciseSessions();
+                    break;
+                case "Add Cardio Session":
+                    await cardioController.AddExercise();
+                    break;
+                case "Update Cardio Session":
+                    await cardioController.UpdateExercise();
+                    break;
+                case "Delete Cardio Session":
+                    await cardioController.DeleteExercise();
+                    break;
+                case $"[maroon]Go Back[/]":
+                    return;
+                default:
+                    break;
+            }
+        }
     }
 
     public Task StopAsync(CancellationToken cancellationToken)

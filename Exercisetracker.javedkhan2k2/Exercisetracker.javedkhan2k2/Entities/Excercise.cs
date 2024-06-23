@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Exercisetacker.Entities;
 
-public class Jogging
+public class Excercise
 {
     public int Id { get; set; }
     [Required]

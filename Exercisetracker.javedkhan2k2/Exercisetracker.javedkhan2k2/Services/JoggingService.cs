@@ -14,16 +14,16 @@ public class JoggingService : IJoggingService
         _joggingRepository = joggingRepository;
     }
 
-    public async Task<Jogging> AddJogging(JoggingAddDto jogging)
+    public async Task<Excercise> AddExercise(ExerciseAddDto exercise)
     {
-        return await _joggingRepository.AddJogging(jogging.ToJogging());
+        return await _joggingRepository.AddExercise(exercise.ToExercise());
     }
 
-    public async Task<int> DeleteJogging(Jogging jogging) => await _joggingRepository.DeleteJogging(jogging);
+    public async Task<int> DeleteExercise(Excercise exercise) => await _joggingRepository.DeleteExercise(exercise);
 
-    public async Task<List<Jogging>?> GetAllJoggings() => await _joggingRepository.GetAllJogging();
+    public async Task<List<Excercise>?> GetAllExercises() => await _joggingRepository.GetAllExercise();
 
-    public async Task<Jogging?> GetJoggingById(int id) => await _joggingRepository.GetJoggingById(id);
+    public async Task<Excercise?> GetExerciseById(int id) => await _joggingRepository.GetExerciseById(id);
 
-    public async Task<int> UpdateJogging(Jogging jogging) => await _joggingRepository.UpdateJogging(jogging);
+    public async Task<int> UpdateExercise(Excercise exercise) => await _joggingRepository.UpdateExercise(exercise);
 }

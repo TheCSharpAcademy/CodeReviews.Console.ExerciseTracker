@@ -52,6 +52,6 @@ public static class ValidatorHelper
         return true;
     }
 
-    internal static bool IsValidDateTimeInputs(Jogging jogging) => DateTime.Compare(jogging.DateEnd, jogging.DateStart) > 0 ? true : false;
+    internal static bool IsValidDateTimeInputs(Excercise jogging) => DateTime.Compare(jogging.DateEnd, jogging.DateStart) > 0 ? true : false;
     
 }

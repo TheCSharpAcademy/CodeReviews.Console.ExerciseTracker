@@ -46,7 +46,7 @@ internal class VisualizationEngine
         DisplayContinueMessage();
     }
 
-    internal static void DisplayAllJoggings(List<Jogging>? joggings, [AllowNull] string title)
+    internal static void DisplayAllExercises(List<Excercise>? joggings, [AllowNull] string title)
     {
         if (title == null)
         {

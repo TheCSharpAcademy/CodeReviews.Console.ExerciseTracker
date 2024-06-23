@@ -31,10 +31,14 @@ var host = Host.CreateDefaultBuilder(args)
             options.UseSqlServer(connectionString);
             options.LogTo(Console.WriteLine, LogLevel.Warning); // Configure EF Core to log at Warning level
         });
+        services.AddSingleton(new CardioDbContext(connectionString));
 
         services.AddScoped<IJoggingRepository, JoggingRepository>();
         services.AddScoped<IJoggingService, JoggingService>();
+        services.AddScoped<ICardioRepository, CardioRepository>();
+        services.AddScoped<ICardioService, CardioService>();
         services.AddScoped<JoggingController>();
+        services.AddScoped<CardioController>();
 
         services.AddHostedService<ConsoleAppService>();
     })
