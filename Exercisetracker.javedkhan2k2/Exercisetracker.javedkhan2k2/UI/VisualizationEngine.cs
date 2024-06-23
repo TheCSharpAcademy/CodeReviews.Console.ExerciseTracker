@@ -48,7 +48,6 @@ internal class VisualizationEngine
 
     internal static void DisplayAllJoggings(List<Jogging>? joggings, [AllowNull] string title)
     {
-        //AnsiConsole.Clear();
         if (title == null)
         {
             title = "";

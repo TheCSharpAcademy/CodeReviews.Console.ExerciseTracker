@@ -22,7 +22,7 @@ internal class UserInput
             jogging.DateEnd = GetDateInput("Enter End date and time in [bold green](yyyy-MM-dd HH:mm:ss)[/] format.", "yyyy-MM-dd HH:mm:ss");
             if (jogging.DateEnd == DateTime.MinValue) return null;
 
-            if (ValidatorHelper.isValidDateTimeInputs(jogging.ToJogging()))
+            if (ValidatorHelper.IsValidDateTimeInputs(jogging.ToJogging()))
             {
                 jogging.Duration = jogging.DateEnd.Subtract(jogging.DateStart);
                 break;
@@ -35,7 +35,7 @@ internal class UserInput
         return jogging;
     }
 
-    internal static bool UpdateJogging(Jogging jogging)
+    internal static bool GetUpdateJogging(Jogging jogging)
     {
         do
         {
@@ -45,7 +45,7 @@ internal class UserInput
             jogging.DateEnd = AnsiConsole.Confirm($"{Messages.GetEndDateUpdate(jogging.DateEnd)}") ? GetDateInput(Messages.EndTime, Messages.TimeFormat) : jogging.DateEnd;
             if (jogging.DateEnd == DateTime.MinValue) return false;
 
-            if (ValidatorHelper.isValidDateTimeInputs(jogging))
+            if (ValidatorHelper.IsValidDateTimeInputs(jogging))
             {
                 jogging.Duration = jogging.DateEnd.Subtract(jogging.DateStart);
                 break;

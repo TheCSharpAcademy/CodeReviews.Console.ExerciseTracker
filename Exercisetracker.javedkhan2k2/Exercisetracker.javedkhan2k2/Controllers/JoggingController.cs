@@ -59,7 +59,7 @@ public class JoggingController
             return;
         }
 
-        if(!UserInput.UpdateJogging(jogging))
+        if(!UserInput.GetUpdateJogging(jogging))
         {
             VisualizationEngine.DisplayCancelOperation();
             return;
