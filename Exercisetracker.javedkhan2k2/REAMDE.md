@@ -26,14 +26,13 @@ from the controller.
 ## How to run the Application
 
 Microsoft [Secret Manager](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-8.0&tabs=windows)
-is used to store and retrieve Database Connection. To run the
-application set the ConnectionStrings:DefaultConnection in your Project.  
-e.g. dotnet user-secrets ConnectionStrings:DefaultConnection
-= Server=localhost;Database=Exercisetracker;
-User Id=YourUserID;Password=YourPassword;TrustServerCertificate=True;  
-First run the Shiftlogger.javedkhan2k2 Project. This act as the API.  
-Now run the Shiftlogger.UI to interact with the APIs.
+is used to store and retrieve Database Connection.  
+To run the application set the ConnectionStrings:DefaultConnection
+in your Project. e.g. dotnet user-secrets ConnectionStrings:DefaultConnection
+= Server=localhost;Database=Exercisetracker;User Id=YourUserID;
+Password=YourPassword;TrustServerCertificate=True;  
 
 ## Application Usage
 
-Users can add/delete/edit/update Jogging Session from the Main menu.
+Users can add/delete/edit/update Joggings and Cardios
+Session from the Main menu.
