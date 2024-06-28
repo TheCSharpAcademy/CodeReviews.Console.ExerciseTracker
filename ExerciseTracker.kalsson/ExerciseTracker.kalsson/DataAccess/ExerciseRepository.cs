@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExerciseTracker.kalsson.DataAccess;
 
-public class ExerciseRepository
+public class ExerciseRepository : IExerciseRepository
 {
     private readonly ExerciseDbContext _context;
 
