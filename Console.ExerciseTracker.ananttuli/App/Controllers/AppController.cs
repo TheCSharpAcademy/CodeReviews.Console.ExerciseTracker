@@ -1,13 +1,13 @@
 using App.Util;
 using Spectre.Console;
 
-namespace App.UserInterface;
+namespace App.Controllers;
 
 public class AppController
 {
-    private readonly LogsController LogsController;
+    private readonly ExerciseController LogsController;
 
-    public AppController(LogsController logsController)
+    public AppController(ExerciseController logsController)
     {
         LogsController = logsController;
     }

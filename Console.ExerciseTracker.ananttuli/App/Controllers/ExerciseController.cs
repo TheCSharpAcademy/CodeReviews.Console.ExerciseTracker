@@ -4,13 +4,13 @@ using App.ExerciseLogs.Models;
 using App.Util;
 using Spectre.Console;
 
-namespace App.UserInterface;
+namespace App.Controllers;
 
-public class LogsController
+public class ExerciseController
 {
-    private readonly ExerciseLogsService ExerciseLogsService;
+    private readonly ExerciseService ExerciseLogsService;
 
-    public LogsController(ExerciseLogsService exerciseLogsService)
+    public ExerciseController(ExerciseService exerciseLogsService)
     {
         ExerciseLogsService = exerciseLogsService;
     }

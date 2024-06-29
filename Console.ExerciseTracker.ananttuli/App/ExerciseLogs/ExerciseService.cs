@@ -4,11 +4,11 @@ using App.Util;
 
 namespace App.ExerciseLogs;
 
-public class ExerciseLogsService
+public class ExerciseService
 {
     private readonly IRepositoryBase<ExerciseLog> ExerciseLogsRepo;
 
-    public ExerciseLogsService(IRepositoryBase<ExerciseLog> exerciseLogsRepo)
+    public ExerciseService(IRepositoryBase<ExerciseLog> exerciseLogsRepo)
     {
         ExerciseLogsRepo = exerciseLogsRepo;
     }
