@@ -6,8 +6,10 @@ Log exercise sessions and track progress.
 Run locally
 -----------
 
-1. ``dotnet ef database update``
-2. ``dotnet run``
+1. Clone this repository
+2. ``cd <Root>/App``
+3. ``dotnet ef database update``
+4. ``dotnet run``
 
 Configuration (optional)
 ------------------------
