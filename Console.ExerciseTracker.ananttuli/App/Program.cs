@@ -6,7 +6,6 @@ using App.ExerciseLogs.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Spectre.Console;
 
-
 namespace App;
 
 public class Program
@@ -15,7 +14,7 @@ public class Program
     {
         var serviceProvider = BuildServiceProvider();
 
-        AppController? userInterface = serviceProvider?.GetService<AppController>();
+        var userInterface = serviceProvider?.GetService<AppController>();
 
         if (userInterface is null)
         {
@@ -37,6 +36,6 @@ public class Program
         serviceCollection.AddTransient(typeof(AppController));
         serviceCollection.AddTransient(typeof(ExerciseController));
 
-        return serviceCollection.BuildServiceProvider(); ;
+        return serviceCollection.BuildServiceProvider();
     }
 }

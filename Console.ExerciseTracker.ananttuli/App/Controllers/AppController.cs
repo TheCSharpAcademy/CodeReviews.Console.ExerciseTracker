@@ -15,15 +15,13 @@ public class AppController
     public async Task Run()
     {
         var keepRunning = true;
-        while (keepRunning)
-        {
-            keepRunning = await ShowMenu();
-        };
+        while (keepRunning) keepRunning = await ShowMenu();
     }
 
     public async Task<bool> ShowMenu()
     {
-        string[] menuItems = [
+        string[] menuItems =
+        [
             "Create log", "View logs",
             "Update log", "Delete log", "[red]Exit[/]"
         ];
@@ -65,12 +63,12 @@ public class AppController
         return true;
     }
 
-    static char PrintMainMenu(string[] menuItems)
+    private static char PrintMainMenu(string[] menuItems)
     {
         Console.Clear();
         AnsiConsole.MarkupLine("\n\nE X E R C I S E     T R A C K E R\n");
         AnsiConsole.Write(new Rows(
-           menuItems.Select((menuItem, i) => new Markup($"{i + 1,-3} {menuItem,-3}"))
+            menuItems.Select((menuItem, i) => new Markup($"{i + 1,-3} {menuItem,-3}"))
         ));
 
         AnsiConsole.Write("\n\nEnter option? ");

@@ -1,4 +1,3 @@
-using System.Configuration;
 using App.ExerciseLogs.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,8 +9,8 @@ public class ExercisesDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
     {
-        string dbPath = ConfigurationManager.AppSettings["DbPath"] ??
-                throw new ConfigurationErrorsException("DbPath configuration must be defined in App.config");
+        var dbPath = System.Configuration.ConfigurationManager.AppSettings["DbPath"] ??
+                     throw new System.Configuration.ConfigurationErrorsException("DbPath configuration must be defined in App.config");
 
         builder.UseSqlite($"Data Source={dbPath}");
     }
