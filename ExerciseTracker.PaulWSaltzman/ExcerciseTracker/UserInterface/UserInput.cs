@@ -1,5 +1,4 @@
 ﻿using ExerciseTracker.Models;
-using Microsoft.EntityFrameworkCore.Update.Internal;
 using Spectre.Console;
 
 namespace ExerciseTracker.UserInterface;
@@ -64,7 +63,7 @@ internal class UserInput
     internal static Exercise UpdateSession(Exercise exerciseToUpdate)
     {
         var exitMenu = false;
-        while (!exitMenu) 
+        while (!exitMenu)
         {
             exerciseToUpdate.DateStart = AnsiConsole.Confirm("Change the start time?")
                 ? exerciseToUpdate.DateStart = DTValidEntry.GetDateTime()

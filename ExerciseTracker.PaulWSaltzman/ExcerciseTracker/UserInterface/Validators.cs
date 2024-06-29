@@ -7,7 +7,7 @@ internal class Validators
     internal static Exercise CalculateSessionLength(Exercise exercise)
     {
         TimeSpan maxDuration = TimeSpan.FromHours(23);
-        TimeSpan calculateDuration = (TimeSpan)(exercise.DateEnd  - exercise.DateStart);
+        TimeSpan calculateDuration = (TimeSpan)(exercise.DateEnd - exercise.DateStart);
         exercise.Duration = calculateDuration <= maxDuration ? calculateDuration : maxDuration;
 
         return exercise;
@@ -21,7 +21,7 @@ internal class Validators
             Console.ReadKey();
             return false;
         }
-        else 
+        else
         {
             return true;
         }
