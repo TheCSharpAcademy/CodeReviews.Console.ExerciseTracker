@@ -23,11 +23,7 @@ namespace ExerciseTracker.kalsson.Controllers
 
                 foreach (var exercise in exercises)
                 {
-                    if (exercise.ExerciseComment != null)
-                        table.AddRow(exercise.Id.ToString(),
-                            exercise.StartExercise.ToString(CultureInfo.CurrentCulture),
-                            exercise.EndExercise.ToString(CultureInfo.CurrentCulture),
-                            exercise.DurationExercise.ToString(), exercise.ExerciseComment);
+                    table.AddRow(exercise.Id.ToString(), exercise.StartExercise.ToString("yyyyMMdd HH:mm"), exercise.EndExercise.ToString("yyyyMMdd HH:mm"), exercise.DurationExercise.ToString(@"hh\:mm"), exercise.ExerciseComment);
                 }
 
                 AnsiConsole.Write(table);
@@ -38,82 +34,51 @@ namespace ExerciseTracker.kalsson.Controllers
             }
         }
 
-        public async Task AddExerciseAsync()
+        public async Task AddExerciseAsync(DateTime startExercise, DateTime endExercise, string comments)
         {
-            try
+            var exercise = new ExerciseModel
             {
-                var startExercise = AnsiConsole.Ask<DateTime>("Enter the start time like this --> 2020-06-01 12:00:");
-                var endExercise = AnsiConsole.Ask<DateTime>("Enter the end time like this --> 2020-06-01 13:00:");
-                var comments = AnsiConsole.Ask<string>("Enter any comments:");
+                StartExercise = startExercise,
+                EndExercise = endExercise,
+                DurationExercise = endExercise - startExercise, // Ensure this is within a day
+                ExerciseComment = comments
+            };
 
-                var exercise = new ExerciseModel
-                {
-                    StartExercise = startExercise,
-                    EndExercise = endExercise,
-                    DurationExercise = endExercise - startExercise,
-                    ExerciseComment = comments
-                };
-
-                await _service.AddExerciseAsync(exercise);
-                AnsiConsole.MarkupLine("[green]Exercise added successfully![/]");
+            if (exercise.DurationExercise.TotalHours >= 24)
+            {
+                throw new ArgumentOutOfRangeException("Duration must be less than 24 hours.");
             }
-            catch (Exception ex)
+
+            await _service.AddExerciseAsync(exercise);
+        }
+
+        public async Task<ExerciseModel> GetExerciseByIdAsync(int id)
+        {
+            return await _service.GetExerciseByIdAsync(id);
+        }
+
+        public async Task UpdateExerciseAsync(int id, DateTime startExercise, DateTime endExercise, string comments)
+        {
+            var exercise = await _service.GetExerciseByIdAsync(id);
+            if (exercise != null)
             {
-                AnsiConsole.MarkupLine($"[red]Error adding exercise: {ex.Message}[/]");
+                exercise.StartExercise = startExercise;
+                exercise.EndExercise = endExercise;
+                exercise.DurationExercise = endExercise - startExercise;
+                exercise.ExerciseComment = comments;
+
+                if (exercise.DurationExercise.TotalHours >= 24)
+                {
+                    throw new ArgumentOutOfRangeException("Duration must be less than 24 hours.");
+                }
+
+                await _service.UpdateExerciseAsync(exercise);
             }
         }
 
-        public async Task UpdateExerciseAsync()
+        public async Task DeleteExerciseAsync(int id)
         {
-            try
-            {
-                await DisplayAllExercisesAsync();
-                var id = AnsiConsole.Ask<int>("Enter the ID of the exercise to update:");
-                var exercise = await _service.GetExerciseByIdAsync(id);
-
-                if (exercise != null)
-                {
-                    exercise.StartExercise = AnsiConsole.Ask<DateTime>("Enter the new start time like this --> 2020-06-01 12:00:", exercise.StartExercise);
-                    exercise.EndExercise = AnsiConsole.Ask<DateTime>("Enter the new end time like this --> 2020-06-01 13:00:", exercise.EndExercise);
-                    exercise.ExerciseComment = AnsiConsole.Ask<string>("Enter new comments:", exercise.ExerciseComment);
-                    exercise.DurationExercise = exercise.EndExercise - exercise.StartExercise;
-
-                    await _service.UpdateExerciseAsync(exercise);
-                    AnsiConsole.MarkupLine("[green]Exercise updated successfully![/]");
-                }
-                else
-                {
-                    AnsiConsole.MarkupLine("[red]Exercise not found![/]");
-                }
-            }
-            catch (Exception ex)
-            {
-                AnsiConsole.MarkupLine($"[red]Error updating exercise: {ex.Message}[/]");
-            }
-        }
-
-        public async Task DeleteExerciseAsync()
-        {
-            try
-            {
-                await DisplayAllExercisesAsync();
-                var id = AnsiConsole.Ask<int>("Enter the ID of the exercise to delete:");
-                var exercise = await _service.GetExerciseByIdAsync(id);
-
-                if (exercise != null)
-                {
-                    await _service.DeleteExerciseAsync(id);
-                    AnsiConsole.MarkupLine("[green]Exercise deleted successfully![/]");
-                }
-                else
-                {
-                    AnsiConsole.MarkupLine("[red]Exercise not found![/]");
-                }
-            }
-            catch (Exception ex)
-            {
-                AnsiConsole.MarkupLine($"[red]Error deleting exercise: {ex.Message}[/]");
-            }
+            await _service.DeleteExerciseAsync(id);
         }
     }
 }
