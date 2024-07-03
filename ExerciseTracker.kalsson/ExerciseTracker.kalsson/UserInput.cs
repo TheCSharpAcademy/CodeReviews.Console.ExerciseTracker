@@ -1,5 +1,5 @@
-using ExerciseTracker.kalsson.Controllers;
 using Spectre.Console;
+using ExerciseTracker.kalsson.Controllers;
 
 namespace ExerciseTracker.kalsson;
 
@@ -44,7 +44,7 @@ public class UserInput
 
             if (!exit)
             {
-                AnsiConsole.MarkupLine("[yellow]Press any key to continue...[/]");
+                Console.WriteLine("Press any key to continue...");
                 Console.ReadKey();
             }
         }
@@ -56,15 +56,22 @@ public class UserInput
         {
             var startExercise = ParseDateTime("Enter the start time (format: yyyyMMdd HH:mm):");
             var endExercise = ParseDateTime("Enter the end time (format: yyyyMMdd HH:mm):");
+
+            if (endExercise <= startExercise)
+            {
+                Console.WriteLine("End time must be after start time.");
+                return;
+            }
+
             var comments = AnsiConsole.Ask<string>("Enter any comments:");
 
             await _controller.AddExerciseAsync(startExercise, endExercise, comments);
-            AnsiConsole.MarkupLine("[green]Exercise added successfully![/]");
+            Console.WriteLine("Exercise added successfully!");
         }
         catch (Exception ex)
         {
-            var errorMessage = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
-            AnsiConsole.MarkupLine($"[red]Error adding exercise: {errorMessage}[/]");
+            var errorMessage = ex.InnerException?.Message ?? ex.Message;
+            Console.WriteLine($"Error adding exercise: {errorMessage}");
         }
     }
 
@@ -78,24 +85,29 @@ public class UserInput
 
             if (exercise != null)
             {
-                var startExercise = ParseDateTime("Enter the new start time (format: yyyyMMdd HH:mm):",
-                    exercise.StartExercise);
-                var endExercise = ParseDateTime("Enter the new end time (format: yyyyMMdd HH:mm):",
-                    exercise.EndExercise);
+                var startExercise = ParseDateTime("Enter the new start time (format: yyyyMMdd HH:mm):", exercise.StartExercise);
+                var endExercise = ParseDateTime("Enter the new end time (format: yyyyMMdd HH:mm):", exercise.EndExercise);
+
+                if (endExercise <= startExercise)
+                {
+                    Console.WriteLine("End time must be after start time.");
+                    return;
+                }
+
                 var comments = AnsiConsole.Ask<string>("Enter new comments:", exercise.ExerciseComment);
 
                 await _controller.UpdateExerciseAsync(id, startExercise, endExercise, comments);
-                AnsiConsole.MarkupLine("[green]Exercise updated successfully![/]");
+                Console.WriteLine("Exercise updated successfully!");
             }
             else
             {
-                AnsiConsole.MarkupLine("[red]Exercise not found![/]");
+                Console.WriteLine("Exercise not found!");
             }
         }
         catch (Exception ex)
         {
-            var errorMessage = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
-            AnsiConsole.MarkupLine($"[red]Error updating exercise: {errorMessage}[/]");
+            var errorMessage = ex.InnerException?.Message ?? ex.Message;
+            Console.WriteLine($"Error updating exercise: {errorMessage}");
         }
     }
 
@@ -110,17 +122,17 @@ public class UserInput
             if (exercise != null)
             {
                 await _controller.DeleteExerciseAsync(id);
-                AnsiConsole.MarkupLine("[green]Exercise deleted successfully![/]");
+                Console.WriteLine("Exercise deleted successfully!");
             }
             else
             {
-                AnsiConsole.MarkupLine("[red]Exercise not found![/]");
+                Console.WriteLine("Exercise not found!");
             }
         }
         catch (Exception ex)
         {
-            var errorMessage = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
-            AnsiConsole.MarkupLine($"[red]Error deleting exercise: {errorMessage}[/]");
+            var errorMessage = ex.InnerException?.Message ?? ex.Message;
+            Console.WriteLine($"Error deleting exercise: {errorMessage}");
         }
     }
 
@@ -129,19 +141,27 @@ public class UserInput
         DateTime result;
         while (true)
         {
-            var input = defaultValue.HasValue
-                ? AnsiConsole.Ask<string>(prompt + $" [default: {defaultValue.Value:yyyyMMdd HH:mm}]",
-                    defaultValue.Value.ToString("yyyyMMdd HH:mm"))
-                : AnsiConsole.Ask<string>(prompt);
+            string input;
+            if (defaultValue.HasValue)
+            {
+                Console.WriteLine($"{prompt} [default: {defaultValue.Value:yyyyMMdd HH:mm}]");
+                input = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(input))
+                {
+                    return defaultValue.Value;
+                }
+            }
+            else
+            {
+                input = AnsiConsole.Ask<string>(prompt);
+            }
 
-            if (DateTime.TryParseExact(input, "yyyyMMdd HH:mm", null, System.Globalization.DateTimeStyles.None,
-                    out result))
+            if (DateTime.TryParseExact(input, "yyyyMMdd HH:mm", null, System.Globalization.DateTimeStyles.None, out result))
             {
                 return result;
             }
 
-            AnsiConsole.MarkupLine(
-                "[red]Invalid format. Please enter the date and time in the format: yyyyMMdd HH:mm[/]");
+            Console.WriteLine("Invalid format. Please enter the date and time in the format: yyyyMMdd HH:mm");
         }
     }
 }

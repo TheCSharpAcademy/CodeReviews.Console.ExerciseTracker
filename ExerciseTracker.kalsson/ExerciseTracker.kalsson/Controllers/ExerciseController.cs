@@ -1,4 +1,3 @@
-using System.Globalization;
 using Spectre.Console;
 using ExerciseTracker.kalsson.Services;
 using ExerciseTracker.kalsson.Models;
@@ -30,7 +29,7 @@ namespace ExerciseTracker.kalsson.Controllers
             }
             catch (Exception ex)
             {
-                AnsiConsole.MarkupLine($"[red]Error displaying exercises: {ex.Message}[/]");
+                Console.WriteLine($"Error displaying exercises: {ex.Message}");
             }
         }
 
@@ -43,11 +42,6 @@ namespace ExerciseTracker.kalsson.Controllers
                 DurationExercise = endExercise - startExercise, // Ensure this is within a day
                 ExerciseComment = comments
             };
-
-            if (exercise.DurationExercise.TotalHours >= 24)
-            {
-                throw new ArgumentOutOfRangeException("Duration must be less than 24 hours.");
-            }
 
             await _service.AddExerciseAsync(exercise);
         }
@@ -66,11 +60,6 @@ namespace ExerciseTracker.kalsson.Controllers
                 exercise.EndExercise = endExercise;
                 exercise.DurationExercise = endExercise - startExercise;
                 exercise.ExerciseComment = comments;
-
-                if (exercise.DurationExercise.TotalHours >= 24)
-                {
-                    throw new ArgumentOutOfRangeException("Duration must be less than 24 hours.");
-                }
 
                 await _service.UpdateExerciseAsync(exercise);
             }

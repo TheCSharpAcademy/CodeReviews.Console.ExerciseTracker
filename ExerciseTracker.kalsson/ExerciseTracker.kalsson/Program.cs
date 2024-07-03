@@ -4,7 +4,6 @@ using ExerciseTracker.kalsson.DataAccess;
 using ExerciseTracker.kalsson.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Spectre.Console;
 
 var host = CreateHostBuilder(args).Build();
 var userInput = host.Services.GetRequiredService<UserInput>();
