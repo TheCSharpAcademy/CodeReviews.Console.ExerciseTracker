@@ -42,8 +42,8 @@ namespace ExerciseTracker.kalsson.Controllers
         {
             try
             {
-                var startExercise = AnsiConsole.Ask<DateTime>("Enter the start time:");
-                var endExercise = AnsiConsole.Ask<DateTime>("Enter the end time:");
+                var startExercise = AnsiConsole.Ask<DateTime>("Enter the start time like this --> 2020-06-01 12:00:");
+                var endExercise = AnsiConsole.Ask<DateTime>("Enter the end time like this --> 2020-06-01 13:00:");
                 var comments = AnsiConsole.Ask<string>("Enter any comments:");
 
                 var exercise = new ExerciseModel
@@ -73,8 +73,8 @@ namespace ExerciseTracker.kalsson.Controllers
 
                 if (exercise != null)
                 {
-                    exercise.StartExercise = AnsiConsole.Ask<DateTime>("Enter the new start time:", exercise.StartExercise);
-                    exercise.EndExercise = AnsiConsole.Ask<DateTime>("Enter the new end time:", exercise.EndExercise);
+                    exercise.StartExercise = AnsiConsole.Ask<DateTime>("Enter the new start time like this --> 2020-06-01 12:00:", exercise.StartExercise);
+                    exercise.EndExercise = AnsiConsole.Ask<DateTime>("Enter the new end time like this --> 2020-06-01 13:00:", exercise.EndExercise);
                     exercise.ExerciseComment = AnsiConsole.Ask<string>("Enter new comments:", exercise.ExerciseComment);
                     exercise.DurationExercise = exercise.EndExercise - exercise.StartExercise;
 
