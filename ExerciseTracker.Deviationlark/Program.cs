@@ -12,7 +12,7 @@ public class Program
         var serviceProvider = serviceCollection.BuildServiceProvider();
         var menu = serviceProvider.GetRequiredService<IExerciseService>();
         bool appRunning = true;
-        while (appRunning) menu.MainMenu();
+        // while (appRunning) menu.MainMenu();
     }
     private static void ConfigureServices(IServiceCollection services)
     {
