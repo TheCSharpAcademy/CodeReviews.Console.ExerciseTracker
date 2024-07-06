@@ -66,19 +66,30 @@ public class ExerciseService : IExerciseService
     public void GetExerciseById()
     {
         var exercises = _exerciseController.GetExercises();
-        var id = _userInput.GetExerciseId("Enter the id of the record you want to view:", exercises);
-        var exercise = _exerciseController.GetExerciseById(id);
-        var panel = new Panel($@"
+        if (exercises.Count() < 1)
+        {
+            Console.WriteLine("No records in database. Add a record first!");
+            Console.WriteLine("Press enter to go back to main menu.");
+            Console.ReadLine();
+            MainMenu();
+        }
+        else
+        {
+            var id = _userInput.GetExerciseId("Enter the id of the record you want to view:", exercises);
+            var exercise = _exerciseController.GetExerciseById(id);
+            var panel = new Panel($@"
 Id: {exercise.Id}
 Start Date: {exercise.StartDate}
 End Date: {exercise.EndDate}
 Duration: {exercise.Duration}
 Comments: {exercise.Comments}");
-        panel.Header("Exercise");
-        panel.Padding(2, 2, 2, 2);
-        AnsiConsole.Write(panel);
-        Console.WriteLine("Press enter to go back to main menu.");
-        Console.ReadLine();
+            panel.Header("Exercise");
+            panel.Padding(2, 2, 2, 2);
+            AnsiConsole.Write(panel);
+            Console.WriteLine("Press enter to go back to main menu.");
+            Console.ReadLine();
+        }
+
     }
 
     public void GetExercises(int num = 0)
@@ -97,9 +108,6 @@ Comments: {exercise.Comments}");
             Console.ReadLine();
         }
     }
-
-
-
     public void UpdateExercise()
     {
         var exercise = new Exercise();

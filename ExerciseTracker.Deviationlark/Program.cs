@@ -12,12 +12,10 @@ public class Program
         var serviceProvider = serviceCollection.BuildServiceProvider();
         var menu = serviceProvider.GetRequiredService<IExerciseService>();
         bool appRunning = true;
-        // while (appRunning) menu.MainMenu();
+        while (appRunning) menu.MainMenu();
     }
     private static void ConfigureServices(IServiceCollection services)
     {
-        services.AddDbContext<ExerciseDatabase>(options =>
-            options.UseSqlServer(ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString));
         services.AddTransient<ExerciseController>();
         services.AddTransient<IExerciseRepository, ExerciseRepositoryDapper>();
         services.AddTransient<IUserInput, UserInput>();

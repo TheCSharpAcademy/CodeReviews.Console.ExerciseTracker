@@ -3,22 +3,21 @@ using Spectre.Console;
 namespace ExerciseTracker;
 public class UserInput : IUserInput
 {
-
     public Exercise GetExerciseInfo()
     {
         var exercise = new Exercise();
-        string startDate = AnsiConsole.Ask<string>("Enter the date you started the exercise(format: dd-MM-yyyy): ");
+        string startDate = AnsiConsole.Ask<string>("Enter the date you started the exercise(format: dd-MM-yyyy hh:mm:ss): ");
         while (!Validation.ValidateStartDate(startDate))
         {
             Console.WriteLine("Invalid date! Try again.");
-            startDate = AnsiConsole.Ask<string>("Enter the date you started the exercise(format: dd-MM-yyyy): ");
+            startDate = AnsiConsole.Ask<string>("Enter the date you started the exercise(format: dd-MM-yyyy hh:mm:ss): ");
         }
 
-        string endDate = AnsiConsole.Ask<string>("Enter the date you ended the exercise(format: dd-MM-yyyy): ");
+        string endDate = AnsiConsole.Ask<string>("Enter the date you ended the exercise(format: dd-MM-yyyy hh:mm:ss): ");
         while (!Validation.ValidateEndDate(endDate, startDate))
         {
             Console.WriteLine("Invalid date! Try again.");
-            endDate = AnsiConsole.Ask<string>("Enter the date you ended the exercise(format: dd-MM-yyyy): ");
+            endDate = AnsiConsole.Ask<string>("Enter the date you ended the exercise(format: dd-MM-yyyy hh:mm:ss): ");
         }
         var duration = DateTime.Parse(endDate) - DateTime.Parse(startDate);
         var addComment = AnsiConsole.Confirm("Would you like to add a comment?");
@@ -29,7 +28,7 @@ public class UserInput : IUserInput
         else exercise.Comments = "No Comment";
         exercise.StartDate = DateTime.Parse(startDate);
         exercise.EndDate = DateTime.Parse(endDate);
-        exercise.Duration = $"{(int)duration.TotalHours} hours";
+        exercise.Duration = duration;
         return exercise;
     }
 

@@ -5,14 +5,14 @@ public class Validation
 {
     public static bool ValidateStartDate(string startDate)
     {
-        var parsedDate = DateTime.TryParseExact(startDate, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _);
+        var parsedDate = DateTime.TryParseExact(startDate, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out _);
         if (parsedDate == true) return true;
         else return false;
     }
 
     internal static bool ValidateEndDate(string endDate, string startDate)
     {
-        var parsedDate = DateTime.TryParseExact(endDate, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _);
+        var parsedDate = DateTime.TryParseExact(endDate, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out _);
         if (parsedDate == true && DateTime.Parse(endDate) > DateTime.Parse(startDate)) return true;
         else return false;
     }
