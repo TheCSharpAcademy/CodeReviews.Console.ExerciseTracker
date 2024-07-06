@@ -15,6 +15,11 @@ public class CardioController
     public async Task DisplayAllExerciseSessions()
     {
         var cardios = await _cardioService.GetAllExercises();
+        if (cardios?.Count == 0)
+        {
+            VisualizationEngine.DisplayFailureMessage("No Record found in database.");
+            return;
+        }
         VisualizationEngine.DisplayAllExercises(cardios, "Showing All Cardio Sessions");
         VisualizationEngine.DisplayContinueMessage();
     }
@@ -43,6 +48,11 @@ public class CardioController
     internal async Task UpdateExercise()
     {
         var cardios = await _cardioService.GetAllExercises();
+        if (cardios?.Count == 0)
+        {
+            VisualizationEngine.DisplayFailureMessage("No Record found in database.");
+            return;
+        }
         VisualizationEngine.DisplayAllExercises(cardios, "All Cardios Table");
         int cardioId = UserInput.GetIntInput();
         if(cardioId == 0)
@@ -77,6 +87,11 @@ public class CardioController
     internal async Task DeleteExercise()
     {
         var cardios = await _cardioService.GetAllExercises();
+        if (cardios?.Count == 0)
+        {
+            VisualizationEngine.DisplayFailureMessage("No Record found in database.");
+            return;
+        }
         VisualizationEngine.DisplayAllExercises(cardios, "All Cardios Table");
         int cardioId = UserInput.GetIntInput();
         if(cardioId == 0)

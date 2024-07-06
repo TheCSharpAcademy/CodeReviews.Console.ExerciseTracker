@@ -15,8 +15,15 @@ public class JoggingController
     public async Task DisplayAllExerciseSessions()
     {
         var joggings = await _joggingService.GetAllExercises();
-        VisualizationEngine.DisplayAllExercises(joggings, "Showing All Jogging Sessions");
-        VisualizationEngine.DisplayContinueMessage();
+        if (joggings?.Count > 0)
+        {
+            VisualizationEngine.DisplayAllExercises(joggings, "Showing All Jogging Sessions");
+            VisualizationEngine.DisplayContinueMessage();
+        }
+        else
+        {
+            VisualizationEngine.DisplayFailureMessage("No Record found in database.");
+        }
     }
 
     internal async Task AddExercise()
@@ -28,7 +35,7 @@ public class JoggingController
             VisualizationEngine.DisplayCancelOperation();
             return;
         }
-        
+
         var addedjogging = await _joggingService.AddExercise(jogging);
         if (addedjogging == null)
         {
@@ -43,28 +50,33 @@ public class JoggingController
     internal async Task UpdateExercise()
     {
         var joggings = await _joggingService.GetAllExercises();
+        if (joggings?.Count == 0)
+        {
+            VisualizationEngine.DisplayFailureMessage("No Record found in database.");
+            return;
+        }
         VisualizationEngine.DisplayAllExercises(joggings, "All Joggings Table");
         int joggingId = UserInput.GetIntInput();
-        if(joggingId == 0)
+        if (joggingId == 0)
         {
             VisualizationEngine.DisplayCancelOperation();
             return;
         }
 
         var jogging = await _joggingService.GetExerciseById(joggingId);
-        
-        if(jogging == null)
+
+        if (jogging == null)
         {
             VisualizationEngine.DisplayFailureMessage($"Jogging with id: [green]{joggingId}[/] not found.");
             return;
         }
 
-        if(!UserInput.GetUpdateExercise(jogging))
+        if (!UserInput.GetUpdateExercise(jogging))
         {
             VisualizationEngine.DisplayCancelOperation();
             return;
         }
-        if(await _joggingService.UpdateExercise(jogging) == 0)
+        if (await _joggingService.UpdateExercise(jogging) == 0)
         {
             VisualizationEngine.DisplayFailureMessage("Jogging is not updated.");
         }
@@ -77,23 +89,28 @@ public class JoggingController
     internal async Task DeleteExercise()
     {
         var joggings = await _joggingService.GetAllExercises();
+        if (joggings?.Count == 0)
+        {
+            VisualizationEngine.DisplayFailureMessage("No Record found in database.");
+            return;
+        }
         VisualizationEngine.DisplayAllExercises(joggings, "All Joggings Table");
         int joggingId = UserInput.GetIntInput();
-        if(joggingId == 0)
+        if (joggingId == 0)
         {
             VisualizationEngine.DisplayCancelOperation();
             return;
         }
 
         var jogging = await _joggingService.GetExerciseById(joggingId);
-        
-        if(jogging == null)
+
+        if (jogging == null)
         {
             VisualizationEngine.DisplayFailureMessage($"Jogging with id: [green]{joggingId}[/] not found.");
             return;
         }
 
-        if(await _joggingService.DeleteExercise(jogging) == 0)
+        if (await _joggingService.DeleteExercise(jogging) == 0)
         {
             VisualizationEngine.DisplayFailureMessage("Jogging is not updated.");
         }
@@ -102,5 +119,5 @@ public class JoggingController
             VisualizationEngine.DisplaySuccessMessage("Jogging is updated.");
         }
     }
-    
+
 }

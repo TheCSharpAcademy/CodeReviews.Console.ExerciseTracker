@@ -27,6 +27,10 @@ internal class UserInput
                 exercise.Duration = exercise.DateEnd.Subtract(exercise.DateStart);
                 break;
             }
+            else
+            {
+                VisualizationEngine.DisplayDateTimeError();
+            }
 
         } while (true);
         exercise.Comments = GetStringInput("Enter Comments for the Exercise Session");
