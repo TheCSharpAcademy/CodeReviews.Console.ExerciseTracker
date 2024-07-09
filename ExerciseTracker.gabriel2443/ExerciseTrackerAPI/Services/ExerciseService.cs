@@ -1,52 +1,39 @@
-﻿using ExerciseTracker.Data;
-using ExerciseTracker.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using ExerciseTracker.Models;
+using ExerciseTrackerAPI.Repository;
 
 namespace ExerciseTracker.Services;
 
 public class ExerciseService : IExerciseService
 {
-    private readonly DataContext _context;
+    private readonly IExerciseRepository _exerciseRepository;
 
-    public ExerciseService(DataContext context)
+    public ExerciseService(IExerciseRepository exerciseRepository)
     {
-        _context = context;
+        _exerciseRepository = exerciseRepository;
     }
 
     public async Task<List<Exercise>> GetAllExercises()
     {
-        return await _context.Exercises.ToListAsync();
+        return await _exerciseRepository.GetAllExercises();
     }
 
     public async Task<Exercise> GetExerciseById(int id)
     {
-        return await _context.Exercises.FindAsync(id);
+        return await _exerciseRepository.GetExerciseById(id);
     }
 
     public async Task CreateExercise(Exercise exercise)
     {
-        _context.Exercises.Add(exercise);
-        await _context.SaveChangesAsync();
+        await _exerciseRepository.CreateExercise(exercise);
     }
 
     public async Task UpdateExercise(int id, Exercise exerciseToUpdate)
     {
-        var exerciseDb = await _context.Exercises.FindAsync(id);
-
-        exerciseDb.ExerciseName = exerciseToUpdate.ExerciseName;
-        exerciseDb.StartTime = exerciseToUpdate.StartTime;
-        exerciseDb.EndTime = exerciseToUpdate.EndTime;
-        exerciseDb.Duration = exerciseToUpdate.EndTime - exerciseToUpdate.StartTime;
-        exerciseDb.Comments = exerciseToUpdate.Comments;
-
-        await _context.SaveChangesAsync();
+        await _exerciseRepository.UpdateExercise(id, exerciseToUpdate);
     }
 
     public async Task DeleteExercise(int id)
     {
-        var exerciseDb = await _context.Exercises.FindAsync(id);
-
-        if (exerciseDb is not null) _context.Exercises.Remove(exerciseDb);
-        await _context.SaveChangesAsync();
+        await _exerciseRepository.DeleteExercise(id);
     }
 }

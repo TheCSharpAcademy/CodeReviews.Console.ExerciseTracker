@@ -12,6 +12,7 @@ public class UserInput
         {
             Console.WriteLine("Shift menu\n");
             Console.WriteLine("----------------------------------");
+            Console.WriteLine("Press '0' to exit the application");
             Console.WriteLine("Press '1' to view all Exercises");
             Console.WriteLine("Press '2' to add a exercise");
             Console.WriteLine("Press '3' to update a exercise");
@@ -21,6 +22,11 @@ public class UserInput
 
             switch (input)
             {
+                case "0":
+                    isRunning = false;
+                    Environment.Exit(0);
+                    break;
+
                 case "1":
                     await ShowExercises();
                     break;
@@ -81,15 +87,11 @@ public class UserInput
 
         Console.WriteLine("Please enter the end date in the HH:mm format");
         var endDate = Console.ReadLine();
-
-        while (DateTime.Parse(endDate) <= DateTime.Parse(startDate))
+        while (string.IsNullOrEmpty(endDate) ||
+               !DateTime.TryParseExact(endDate, "HH:mm", null, System.Globalization.DateTimeStyles.None, out DateTime endTime) ||
+               DateTime.Parse(startDate) >= endTime)
         {
-            Console.WriteLine("End time can't be lower than start time");
-            endDate = Console.ReadLine();
-        }
-        while (!DateTime.TryParseExact(endDate, "HH:mm", null, System.Globalization.DateTimeStyles.None, out _) || string.IsNullOrEmpty(startDate))
-        {
-            Console.WriteLine("Invalid date time");
+            Console.WriteLine("End time can't be earlier than start time and must be in HH:mm format. Try again.");
             endDate = Console.ReadLine();
         }
 
@@ -108,21 +110,22 @@ public class UserInput
 
     {
         Console.Clear();
-        var exercises = ExerciseHtpp.GetAllExercises();
+        var exercises = await ExerciseHtpp.GetAllExercises();
         await ShowExercises();
         var exercise = new Exercise();
         Console.WriteLine("Please enter the exercise number you want to update or type 0  to go back to menu");
-        var exerciseId = Console.ReadLine();
-        if (exercises is null)
+        var inputId = Console.ReadLine();
+        if (!int.TryParse(inputId, out int exerciseId) ||
+               !exercises.Any(e => e.Id == exerciseId))
         {
             Console.WriteLine("Exercise does not exist");
             return;
         }
-        while (!int.TryParse(exerciseId, out _))
+        while (!int.TryParse(inputId, out _))
         {
             Console.WriteLine("Invalid exercise ID. Please enter a valid number.");
 
-            exerciseId = Console.ReadLine();
+            inputId = Console.ReadLine();
         }
         Console.WriteLine("Please enter the updated exercise  you want to update or type 0  to go back to menu");
         var name = Console.ReadLine();
@@ -147,9 +150,11 @@ public class UserInput
         Console.WriteLine("Please enter the updated end date in the HH:mm format");
         var endDate = Console.ReadLine();
 
-        while (DateTime.Parse(endDate) <= DateTime.Parse(startDate))
+        while (string.IsNullOrEmpty(endDate) ||
+                !DateTime.TryParseExact(endDate, "HH:mm", null, System.Globalization.DateTimeStyles.None, out DateTime endTime) ||
+                DateTime.Parse(startDate) >= endTime)
         {
-            Console.WriteLine("End time can't be lower than start time");
+            Console.WriteLine("End time can't be earlier than start time and must be in HH:mm format. Try again.");
             endDate = Console.ReadLine();
         }
         while (!DateTime.TryParseExact(endDate, "HH:mm", null, System.Globalization.DateTimeStyles.None, out _) || string.IsNullOrEmpty(startDate))
@@ -173,13 +178,15 @@ public class UserInput
     {
         Console.Clear();
         await ShowExercises();
+        var exercises = await ExerciseHtpp.GetAllExercises();
         Console.WriteLine("Please enter the number you want to delete");
         var input = Console.ReadLine();
-        while (string.IsNullOrEmpty(input))
+        if (!int.TryParse(input, out int exerciseId) ||
+            !exercises.Any(e => e.Id == exerciseId))
         {
-            Console.WriteLine("Input can not be empty please choose a number");
-            input = Console.ReadLine();
+            Console.WriteLine("Exercise does not exist");
+            return;
         }
-        await ExerciseHtpp.DeleteExercise(Convert.ToInt32(input));
+        await ExerciseHtpp.DeleteExercise(exerciseId);
     }
 }
