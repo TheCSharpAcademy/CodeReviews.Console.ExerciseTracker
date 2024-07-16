@@ -1,6 +1,7 @@
 ﻿using ExerciseTracker.Controllers;
 using ExerciseTracker.Data;
 using ExerciseTracker.Repositories;
+using ExerciseTracker.Services;
 using ExerciseTracker.UserInterface;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,6 +16,7 @@ public class Program
         var serviceProvider = new ServiceCollection()
             .AddDbContext<ExerciseTrackerContext>()
             .AddScoped<IExerciseRepository, ExerciseRepository>()
+            .AddScoped<IExerciseService, ExerciseService>()
             .AddScoped<ExerciseController>()
             .BuildServiceProvider();
 

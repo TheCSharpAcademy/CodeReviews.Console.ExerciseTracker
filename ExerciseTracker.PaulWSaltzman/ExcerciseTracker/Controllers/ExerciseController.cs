@@ -1,43 +1,37 @@
 ﻿using ExerciseTracker.Models;
 using ExerciseTracker.Repositories;
+using ExerciseTracker.Services;
 
 namespace ExerciseTracker.Controllers;
 
 public class ExerciseController
 {
 
-    private readonly IExerciseRepository _exerciseRepository;
+    private readonly IExerciseService _exerciseService;
 
-    public ExerciseController(IExerciseRepository excerciseRepository)
+    public ExerciseController(IExerciseService excerciseService)
     {
-        _exerciseRepository = excerciseRepository;
+        _exerciseService = excerciseService;
     }
 
     public Exercise AddExercise(Exercise exercise)
     {
-        exercise = _exerciseRepository.Insert(exercise);
-        _exerciseRepository.Save();
-        return exercise;
-
+        return _exerciseService.AddExercise(exercise);
     }
 
     public void DeleteExercise(Exercise exercise)
     {
-        _exerciseRepository.Delete(exercise);
-        _exerciseRepository.Save();
+        _exerciseService.DeleteExercise(exercise);
+
     }
 
     public List<Exercise> GetAllExercises()
     {
-
-        return _exerciseRepository.GetAll().ToList();
-
+        return _exerciseService.GetAllExercises();
     }
 
     public Exercise UpdateExercise(Exercise exercise)
     {
-        _exerciseRepository.Update(exercise);
-        _exerciseRepository.Save();
-        return exercise;
+        return _exerciseService.UpdateExercise(exercise);
     }
 }
