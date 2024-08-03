@@ -2,9 +2,7 @@ using dotenv.net;
 using ExerciseTracker.kwm0304.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.IO;
+
 namespace ExerciseTracker.kwm0304;
 public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<ExerciseDbContext>
 {

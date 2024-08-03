@@ -9,7 +9,7 @@ namespace ExerciseTracker.kwm0304;
 
 public class Program
 {
-    static async Task Main(string[] args)
+    static async Task Main()
     {
         DotEnv.Load();
         var services = new ServiceCollection();
