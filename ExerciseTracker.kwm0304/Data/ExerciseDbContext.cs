@@ -16,7 +16,7 @@ public class ExerciseDbContext : DbContext
     if (!optionsBuilder.IsConfigured)
     {
       var connectionString = Environment.GetEnvironmentVariable("DefaultConnection");
-      optionsBuilder.UseSqlServer(connectionString ?? "Server=localhost;Database=exercisetrackerdb;Trusted_Connection=True;TrustServerCertificate=True;");
+      optionsBuilder.UseSqlServer(connectionString);
     }
   }
 }

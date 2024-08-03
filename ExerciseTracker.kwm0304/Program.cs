@@ -22,10 +22,8 @@ public class Program
     private static void ConfigureServices(IServiceCollection services)
     {
         var connectionString = Environment.GetEnvironmentVariable("DefaultConnection");
-        Console.WriteLine($"Connection String: {connectionString}");
-
         services.AddDbContext<ExerciseDbContext>(options =>
-            options.UseSqlServer(connectionString ?? "Server=localhost;Database=exercisetrackerdb;Trusted_Connection=True;TrustServerCertificate=True;"));
+            options.UseSqlServer(connectionString));
         services.AddTransient<AppSession>();
         services.AddTransient<ExerciseRepository>();
         services.AddTransient<ExerciseService>();
