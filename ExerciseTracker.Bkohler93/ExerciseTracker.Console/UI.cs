@@ -1,6 +1,5 @@
 ﻿using System.Text.RegularExpressions;
 using Data.Entities;
-using Microsoft.IdentityModel.Tokens;
 using Spectre.Console;
 
 namespace ExerciseTracker;
@@ -49,23 +48,6 @@ public static class UI
             AnsiConsole.MarkupLine("[red]Invalid time.[/] [grey]Format as 'HH:mm'[/]");
         }
     } 
-
-    // public static TimeOnly TimeOnlyResponseWithDefault(string prompt, TimeOnly defaultTime)
-    // {
-    //     while (true)
-    //     {
-    //         AnsiConsole.Markup(prompt + $". [grey]Format as 'HH:mm'[/]. Press 'enter' to leave as [grey]{defaultTime.ToHourMinutes()}[/]: ");
-    //         var response = Console.ReadLine();
-
-    //         if (response==""){
-    //             return defaultTime;
-    //         } else if(TimeOnly.TryParseExact(response, "HH:mm", out TimeOnly time)){
-    //             return time;
-    //         }
-
-    //         AnsiConsole.MarkupLine("[red]Invalid time.[/] [grey]Format as 'HH:mm'[/]");
-    //     }
-    // }
 
     public static string StringResponseWithDefault(string question, string defaultResponse)
     {
@@ -145,23 +127,6 @@ public static class UI
         }
     }
 
-    // public static DateOnly DateOnlyResponseWithDefault(string prompt, DateOnly defaultDate)
-    // {
-    //     while (true)
-    //     {
-    //         AnsiConsole.Markup(prompt + $". [grey]Format as 'dd-MM-yyyy'[/]. Press 'enter' to leave as [grey]{defaultDate.ToDayMonthYear()}[/]: ");
-    //         var response = Console.ReadLine();
-
-    //         if (response==""){
-    //             return defaultDate;
-    //         } else if(DateOnly.TryParseExact(response, "dd-MM-yyyy", out DateOnly date)){
-    //             return date;
-    //         }
-
-    //         AnsiConsole.MarkupLine("[red]Invalid date.[/] [grey]Format as 'dd-MM-yyyy'[/]");
-    //     } 
-    // }
-
     public static void ConfirmationMessage(string message)
     {
         if (message != "") {
@@ -174,65 +139,6 @@ public static class UI
     }
 
     public static void InvalidationMessage(string message) => AnsiConsole.MarkupLine("[red]" + message + "[/]");
-
-    // public static void DisplayWorkers(IEnumerable<GetWorkerDto> workers)
-    // {
-    //     var table = new Table();
-
-    //     string[] columns = ["ID", "First Name", "Last Name", "Position"];
-    //     table.AddColumns(columns);
-
-    //     foreach (var worker in workers)
-    //     {
-    //         table.AddRow(
-    //             worker.Id.ToString(),
-    //             worker.FirstName,
-    //             worker.LastName,
-    //             worker.Position
-    //         );
-    //     }
-    //     AnsiConsole.Write(table); 
-    // }
-
-    // public static void DisplayShifts(IEnumerable<GetShiftDto> shifts)
-    // {
-    //     var table = new Table();
-
-    //     string[] columns = ["ID", "Name", "Start Time", "End Time"];
-    //     table.AddColumns(columns);
-
-    //     foreach(var shift in shifts)
-    //     {
-    //         table.AddRow(
-    //             shift.Id.ToString(),
-    //             shift.Name,
-    //             shift.StartTime.ToShortTimeString(),
-    //             shift.EndTime.ToShortTimeString()
-    //         );
-    //     }
-    //     AnsiConsole.Write(table);
-    // }
-
-    // public static void DisplayWorkerShifts(IEnumerable<GetWorkerShiftDto> workerShifts)
-    // {
-    //     var table = new Table();
-        
-    //     string[] columns = ["ID", "Worker ID", "Shift ID", "Shift Date", "Shift Name", "Worker Name"]; 
-    //     table.AddColumns(columns);
-
-    //     foreach(var workerShift in workerShifts)
-    //     {
-    //         table.AddRow(
-    //             workerShift.Id.ToString(),
-    //             workerShift.WorkerId.ToString(),
-    //             workerShift.ShiftId.ToString(),
-    //             workerShift.ShiftDate.ToDayMonthYear(),
-    //             workerShift.Shift.Name,
-    //             workerShift.Worker.FirstName + " " + workerShift.Worker.LastName
-    //         );
-    //     }
-    //     AnsiConsole.Write(table);
-    // }
 
     public static void DisplayExercises(IEnumerable<Exercise> exercises) {
         var table = new Table();

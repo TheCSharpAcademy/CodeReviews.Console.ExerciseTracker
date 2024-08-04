@@ -1,8 +1,5 @@
-using System.ComponentModel;
 using Data.Entities;
 using Data.Repositories;
-using Microsoft.Data.SqlClient;
-using Microsoft.Identity.Client;
 
 namespace ExerciseTracker.Services;
 
