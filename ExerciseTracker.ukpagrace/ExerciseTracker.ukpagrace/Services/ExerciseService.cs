@@ -26,5 +26,16 @@ namespace ExerciseTracker.ukpagrace.Services
         {
             return _exerciseRepository.GetExerciseById(id);
         }
+
+
+        public void UpdateExercise(T exercise)
+        {
+            _exerciseRepository.UpdateExercise(exercise);
+        }
+
+        public void DeleteExercise(T exercise)
+        {
+            _exerciseRepository.DeleteExercise(exercise);
+        }
     }
 }

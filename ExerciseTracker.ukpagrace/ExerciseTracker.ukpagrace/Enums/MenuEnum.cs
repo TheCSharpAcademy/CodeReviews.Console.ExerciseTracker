@@ -10,6 +10,10 @@ namespace ExerciseTracker.ukpagrace.Enums
         ViewExercises,
         [Description("Add An Exercise")]
         AddExercise,
+        [Description("Update An Exercise")]
+        UpdateExercise,
+        [Description("Delete An Exercise")]
+        DeleteExercise,
         [Description("Exit Application")]
         Exit
     }

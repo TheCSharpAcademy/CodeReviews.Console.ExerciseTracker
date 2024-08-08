@@ -111,6 +111,67 @@ namespace ExerciseTracker.ukpagrace.Controllers
 
         }
 
+        public void UpdateExercise()
+        {
+            try
+            {
+                AnsiConsole.Write(new FigletText("Get an Exercise")
+                .Color(Color.Green));
+
+                int id = userInput.GetNumberInput("Enter Id of Exercise");
+
+                var exercise = _exerciseService.GetExercise(id);
+                if (exercise == null)
+                {
+                    throw new Exception("Exercise with this Id does not exist");
+                }
+                var startDate = userInput.GetStartDate();
+                var endDate = userInput.GetEndDate();
+
+                if (validation.ValidateRange(startDate, endDate))
+                {
+                    throw new Exception("Start Date cannot be greater than endDate");
+                }
+                var duration = endDate - startDate;
+
+                var comment = userInput.GetStringInput();
+
+                exercise.StartDate = startDate;
+                exercise.EndDate = endDate;
+                exercise.Comment = comment;
+                exercise.Duration = duration;
+                _exerciseService.UpdateExercise(exercise);
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+        public void DeleteExercise()
+        {
+            try
+            {
+                AnsiConsole.Write(new FigletText("Get an Exercise")
+                .Color(Color.Green));
+
+                int id = userInput.GetNumberInput("Enter Id of Exercise");
+
+                var exercise = _exerciseService.GetExercise(id);
+                if (exercise == null)
+                {
+                    throw new Exception("Exercise with this Id does not exist");
+                }
+                _exerciseService.DeleteExercise(exercise);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
 
     }
 }

@@ -33,7 +33,7 @@ namespace ExerciseTracker.ukpagrace.Repository
 
         public void UpdateExercise(T entity)
         {
-            _dbContext.Entry(entity).State = EntityState.Modified;
+            _dbSet.Update(entity);
             _dbContext.SaveChanges();
         }
 

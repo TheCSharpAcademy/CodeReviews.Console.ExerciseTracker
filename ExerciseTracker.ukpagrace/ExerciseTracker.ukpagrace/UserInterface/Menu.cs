@@ -23,12 +23,13 @@ namespace ExerciseTracker.ukpagrace.UserInterface
 
             do
             {
-                Console.Clear();
                 var menuOption = new SelectionPrompt<MenuEnum>();
                 menuOption.Title("Choose a menu option");
                 menuOption.AddChoice(MenuEnum.AddExercise);
                 menuOption.AddChoice(MenuEnum.ViewExercises);
                 menuOption.AddChoice(MenuEnum.ViewExercise);
+                menuOption.AddChoice(MenuEnum.UpdateExercise);
+                menuOption.AddChoice(MenuEnum.DeleteExercise);
                 menuOption.AddChoice(MenuEnum.Exit);
                 menuOption.UseConverter(option => option.GetEnumDescription());
 
@@ -37,13 +38,24 @@ namespace ExerciseTracker.ukpagrace.UserInterface
                 switch (selectedOption) 
                 {
                     case MenuEnum.AddExercise:
+                        Console.Clear();
                         _exerciseController.AddExercise();
                         break;
                     case MenuEnum.ViewExercises:
+                        Console.Clear();
                         _exerciseController.GetExercises();
                         break;
                     case MenuEnum.ViewExercise:
+                        Console.Clear();
                         _exerciseController.GetExercise();
+                        break;
+                    case MenuEnum.UpdateExercise:
+                        Console.Clear();
+                        _exerciseController.UpdateExercise();
+                        break;
+                    case MenuEnum.DeleteExercise:
+                        Console.Clear();
+                        _exerciseController.DeleteExercise();
                         break;
                     case MenuEnum.Exit:
                         runApp = false;

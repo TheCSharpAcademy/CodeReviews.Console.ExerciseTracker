@@ -6,5 +6,9 @@
         public IEnumerable<T> GetExercises();
 
         public T GetExercise(int id);
+
+        public void UpdateExercise(T exercise);
+
+        public void DeleteExercise(T exercise);
     }
 }
