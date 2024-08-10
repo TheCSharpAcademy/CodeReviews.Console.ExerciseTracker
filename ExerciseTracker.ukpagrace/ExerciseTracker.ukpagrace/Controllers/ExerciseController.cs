@@ -60,6 +60,7 @@ namespace ExerciseTracker.ukpagrace.Controllers
                 table.AddColumn(new TableColumn("Id").Centered());
                 table.AddColumn(new TableColumn("StartTime").Centered());
                 table.AddColumn(new TableColumn("EndTime").Centered());
+                table.AddColumn(new TableColumn("Duration").Centered());
                 table.AddColumn(new TableColumn("Comment").Centered());
 
                 foreach (var exercise in exercises)
@@ -67,6 +68,7 @@ namespace ExerciseTracker.ukpagrace.Controllers
                     table.AddRow(new Markup($"[blue]{exercise.Id}[/]"),
                         new Markup($"[blue]{exercise.StartDate}[/]"),
                         new Markup($"[blue]{exercise.EndDate}[/]"),
+                        new Markup($"[blue]{exercise.Duration}[/]"),
                         new Markup($"[blue]{exercise.Comment}[/]")
                     );
                 }
@@ -95,11 +97,13 @@ namespace ExerciseTracker.ukpagrace.Controllers
                 table.AddColumn(new TableColumn("Id").Centered());
                 table.AddColumn(new TableColumn("StartTime").Centered());
                 table.AddColumn(new TableColumn("EndTime").Centered());
+                table.AddColumn(new TableColumn("Duration").Centered());
                 table.AddColumn(new TableColumn("Comment").Centered());
 
                 table.AddRow(new Markup($"[blue]{exercise.Id}[/]"),
                     new Markup($"[blue]{exercise.StartDate}[/]"),
                     new Markup($"[blue]{exercise.EndDate}[/]"),
+                    new Markup($"[blue]{exercise.Duration}[/]"),
                     new Markup($"[blue]{exercise.Comment}[/]")
                 );
                 AnsiConsole.Write(table);
