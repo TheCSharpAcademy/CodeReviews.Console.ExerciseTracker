@@ -32,21 +32,20 @@ public class MainMenu
                 case "View Weights":
                     await _weightsView.ShowAllWeights();
                     break;
-                // case "Add Weight":
-                //     AddWeight.ShowAddWeight();
-                //     break;
-                // case "Edit Weight":
-                //     EditWeight.ShowEditWeight();
-                //     break;
-                // case "Delete Weight":
-                //     DeleteWeight.ShowDeleteWeight();
-                //     break;
-                // case "Exit":
-                //     isAppRunning = false;
-                //     break;
-                // default:
-                //     AnsiConsole.Write(Color.Red, "Invalid choice. Please try again.");
-                //     break;
+                case "Add Weight":
+                    await _weightsView.AddWeight();
+                    break;
+                case "Edit Weight":
+                    await _weightsView.EditWeight();
+                    break;
+                case "Delete Weight":
+                    await _weightsView.DeleteWeight();
+                    break;
+                case "Exit":
+                    isAppRunning = false;
+                    AnsiConsole.MarkupLine("[bold][green]Exiting the application...[/][/]");
+                    Environment.Exit(0);
+                    break;
             }
         }
     }

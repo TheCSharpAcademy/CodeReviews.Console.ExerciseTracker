@@ -1,6 +1,7 @@
 using ExerciseTrackerAPI.Data;
 using ExerciseTrackerAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using Spectre.Console;
 
 namespace ExerciseTrackerAPI.Repositories;
 public class Repository : IRepository
@@ -12,7 +13,7 @@ public class Repository : IRepository
         _context = context;
     }
     
-    public async Task<Weight> CreateAsync(Weight weight)
+    public async Task<Weight?> CreateAsync(Weight weight)
     {
         ArgumentNullException.ThrowIfNull(weight);
 
@@ -24,7 +25,8 @@ public class Repository : IRepository
         }
         catch (Exception ex)
         {
-            throw new Exception($"{nameof(weight)} failed to create: {ex.Message}");
+            AnsiConsole.MarkupLine($"{nameof(weight)} failed to create: {ex.Message}");
+            return null;
         }
     }
 
@@ -45,7 +47,8 @@ public class Repository : IRepository
         }
         catch (Exception ex)
         {
-            throw new Exception($"Weight with id {id} failed to delete: {ex.Message}");
+            AnsiConsole.MarkupLine($"Weight with id {id} failed to delete: {ex.Message}");
+            return null;
         }
     }
 
@@ -60,7 +63,8 @@ public class Repository : IRepository
         }
         catch (Exception ex)
         {
-            throw new Exception($"Failed to get all weights: {ex.Message}");
+            AnsiConsole.MarkupLine($"Failed to get all weights: {ex.Message}");
+            return [];
         }
     }
 
@@ -75,7 +79,8 @@ public class Repository : IRepository
         }
         catch (Exception ex)
         {
-            throw new Exception($"Weight with id {id} failed to get: {ex.Message}");
+            AnsiConsole.MarkupLine($"Weight with id {id} failed to get: {ex.Message}");
+            return null;
         }
     }
 
@@ -103,7 +108,8 @@ public class Repository : IRepository
         }
         catch (Exception ex)
         {
-            throw new Exception($"{nameof(weight)} with id {id} failed to update: {ex.Message}");
+            AnsiConsole.MarkupLine($"{nameof(weight)} with id {id} failed to update: {ex.Message}");
+            return null;
         }
     }
 }

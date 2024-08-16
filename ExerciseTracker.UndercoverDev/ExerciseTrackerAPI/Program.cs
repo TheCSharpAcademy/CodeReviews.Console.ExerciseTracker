@@ -15,6 +15,8 @@ builder.Services.AddDbContext<ExerciseTrackerContext>(options =>
 builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<IExerciseTrackerService, ExerciseTrackerService>();
 builder.Services.AddScoped<IExerciseTrackerController, ExerciseTrackerController>();
+builder.Logging.ClearProviders();
+
 
 var app = builder.Build();
 
