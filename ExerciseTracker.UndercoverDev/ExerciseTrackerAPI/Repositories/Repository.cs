@@ -15,8 +15,6 @@ public class Repository : IRepository
     
     public async Task<Weight?> CreateAsync(Weight weight)
     {
-        ArgumentNullException.ThrowIfNull(weight);
-
         try
         {
             await _context.AddAsync(weight);
@@ -86,8 +84,6 @@ public class Repository : IRepository
 
     public async Task<Weight?> UpdateAsync(int id, Weight weight)
     {
-        ArgumentNullException.ThrowIfNull(weight);
-
         try
         {
             if (!_context.Weights.Any(e => e.Id == id))
