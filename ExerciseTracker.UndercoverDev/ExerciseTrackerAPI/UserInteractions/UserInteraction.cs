@@ -27,17 +27,17 @@ public class UserInteraction
         var now = DateTime.Now;
         const string timeFormat = "yyyy-MM-dd HH:mm";
 
-        var startTimeString = Validations.GetValidatedTimeInput("Enter shift start time", timeFormat, now);
+        var startTimeString = Validations.GetValidatedTimeInput("Enter start time", timeFormat, now);
         var startTime = DateTime.ParseExact(startTimeString, timeFormat, CultureInfo.InvariantCulture);
 
-        var endTimeString = Validations.GetValidatedTimeInput("Enter shift end time", timeFormat, now, startTime);
+        var endTimeString = Validations.GetValidatedTimeInput("Enter end time", timeFormat, now, startTime);
         var endTime = DateTime.ParseExact(endTimeString, timeFormat, CultureInfo.InvariantCulture);
 
         var duration = endTime - startTime;
 
         var comment = AnsiConsole.Prompt(
             new TextPrompt<string>("Enter comments (optional):")
-                .DefaultValue("")
+                .DefaultValue("No Comment")
         );
 
         return new Weight { DateStart = startTime, DateEnd = endTime, Duration = duration, Comments = comment };
