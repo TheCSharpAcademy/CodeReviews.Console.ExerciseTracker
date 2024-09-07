@@ -1,10 +1,5 @@
 ﻿using ExerciseTracker.kjanos89.Models;
 using ExerciseTracker.kjanos89.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ExerciseTracker.kjanos89.Services;
 
@@ -39,10 +34,11 @@ public class Service
         return repo.Read(id);
     }
 
-    public void UpdateExercise(DateTime start, DateTime end, TimeSpan duration, string comment)
+    public void UpdateExercise(int id, DateTime start, DateTime end, TimeSpan duration, string comment)
     {
         Exercise newExercise = new Exercise
         {
+            Id = id,
             Start = start,
             End = end,
             Duration = duration,
