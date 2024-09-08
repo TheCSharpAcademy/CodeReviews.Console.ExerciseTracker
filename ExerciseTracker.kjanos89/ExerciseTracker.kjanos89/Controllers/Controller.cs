@@ -1,4 +1,5 @@
-﻿using ExerciseTracker.kjanos89.Services;
+﻿using ExerciseTracker.kjanos89.Models;
+using ExerciseTracker.kjanos89.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,16 @@ namespace ExerciseTracker.kjanos89.Controllers;
 public class Controller
 {
     private readonly Service service;
+    public Input input;
 
     public Controller(Service _service)
     {
         service = _service;
+        input = new Input();
     }
     public void ShowMenu()
     {
+        Console.Clear();
         Console.WriteLine("Choose an option from below:");
         Console.WriteLine("1 - List every record");
         Console.WriteLine("2 - Add record");
@@ -40,19 +44,19 @@ public class Controller
                 Environment.Exit(0);
                 break;
             case '1':
-                service.ListAll();
+                GetAll();
                 break;
             case '2':
-                service.AddExercise();
+                Add();
                 break;
             case '3':
-                service.ReadExercise();
+                Read();
                 break;
             case '4':
-                service.UpdateExercise();
+                Update();
                 break;
             case '5':
-                service.DeleteExercise();
+                Delete();
                 break;
             default:
                 Console.WriteLine("Wrong input, try again!");
@@ -60,5 +64,52 @@ public class Controller
                 ShowMenu();
                 break;
         }
+    }
+
+    private void Delete()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void Update()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void Read()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void GetAll()
+    {
+        Console.Clear();
+        IEnumerable<Exercise> list = service.ListAll();
+        foreach (Exercise exercise in list)
+        {
+            Console.WriteLine($"Id: {exercise.Id}, Start date: {exercise.Start}, End date: {exercise.End}, Whole duration: {exercise.Duration}, Comment: {exercise.Comments}.");
+        }
+        Console.WriteLine("\nPressing any button will return to the menu.");
+        Console.ReadKey();
+        ShowMenu();
+        return;
+    }
+
+    public void Add()
+    {
+        Console.Clear();
+        var exercise = input.GetExerciseData();
+        if (exercise != null)
+        {
+            service.AddExercise(exercise.Start, exercise.End, exercise.Duration, exercise.Comments);
+        }
+        else
+        {
+            Console.WriteLine("Returned input not acceptable, returning to the menu.");
+            ShowMenu();
+            return;
+        }
+        ShowMenu();
+        return;
     }
 }

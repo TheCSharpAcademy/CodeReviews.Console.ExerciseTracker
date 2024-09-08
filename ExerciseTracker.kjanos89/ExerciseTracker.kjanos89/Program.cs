@@ -8,7 +8,7 @@ public static class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello world!");
+        Console.WriteLine("Loading, please wait.");
         var serviceProvider = new ServiceCollection()
         .AddDbContext<ExerciseDbContext>(options =>
          options.UseSqlServer("Server=localhost;Database=Exercises;Integrated Security=True;TrustServerCertificate=True;"))
@@ -17,9 +17,10 @@ public static class Program
         .AddScoped<Controller>()
         .BuildServiceProvider();
 
-        using (var context = serviceProvider.GetRequiredService<ExerciseDbContext>())
-        {
-            context.Database.EnsureCreated();
-        }
+        var context = serviceProvider.GetRequiredService<ExerciseDbContext>();
+        context.Database.EnsureCreated();
+
+        var controller = serviceProvider.GetRequiredService<Controller>();
+        controller.ShowMenu();
     }
 }

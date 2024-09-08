@@ -12,9 +12,9 @@ public class Service
         repo = repository;
     }
 
-    public void ListAll()
+    public IEnumerable<Exercise> ListAll()
     {
-        repo.ListAll();
+        return repo.ListAll();
     }
 
     public void AddExercise(DateTime start, DateTime end, TimeSpan duration, string comment)
