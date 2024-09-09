@@ -9,4 +9,5 @@ public interface IExerciseRepository
     Exercise Read(int id);
     void Update(Exercise exercise);
     void Delete(int id);
+    bool Exists(int id);
 }

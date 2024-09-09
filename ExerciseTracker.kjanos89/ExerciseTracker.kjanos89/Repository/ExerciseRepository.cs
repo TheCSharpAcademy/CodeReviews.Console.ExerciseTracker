@@ -12,6 +12,11 @@ public class ExerciseRepository : IExerciseRepository
         context = _context;
     }
 
+    public bool Exists(int id)
+    {
+        return context.Set<Exercise>().Any(e => e.Id == id);
+    }
+
     public void Create(Exercise exercise)
     {
        context.Exercises.Add(exercise);
@@ -20,7 +25,8 @@ public class ExerciseRepository : IExerciseRepository
 
     public void Delete(int id)
     {
-        context.Remove(id);
+        var exerciseToDelete = context.Exercises.Find(id);
+        context.Exercises.Remove(exerciseToDelete);
         context.SaveChanges();
     }
 

@@ -34,6 +34,11 @@ public class Service
         return repo.Read(id);
     }
 
+    public bool IdExists(int id)
+    {
+        return repo.Exists(id);
+    }
+
     public void UpdateExercise(int id, DateTime start, DateTime end, TimeSpan duration, string comment)
     {
         Exercise newExercise = new Exercise

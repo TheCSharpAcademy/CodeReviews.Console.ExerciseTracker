@@ -1,10 +1,5 @@
 ﻿using ExerciseTracker.kjanos89.Models;
 using ExerciseTracker.kjanos89.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ExerciseTracker.kjanos89.Controllers;
 
@@ -68,17 +63,106 @@ public class Controller
 
     private void Delete()
     {
-        throw new NotImplementedException();
+        ListAll();
+        int id;
+        while (true)
+        {
+            id = input.GetId();
+            if (id == 0)
+            {
+                ShowMenu();
+                return;
+            }
+            else if (service.IdExists(id))
+            {
+                break;
+            }
+        }
+        Console.WriteLine("Are you sure you want to delete the record? Answer with 'Y' (yes), 'N' (no) or press '0' to return to the menu.");
+        string answer = Console.ReadLine().ToLower();
+        if (answer != null && answer == "y")
+        {
+            service.DeleteExercise(id);
+        }
+        else if(answer=="0")
+        {
+            ShowMenu();
+            return;
+        }
+        else
+        {
+            Console.WriteLine("Removing the record is canceled. Returning to the menu.");
+            Thread.Sleep(1000);
+            ShowMenu();
+            return;
+        }
+        Console.WriteLine("Record deleted successfully. Returning to the menu.");
+        Thread.Sleep(1000);
+        ShowMenu();
     }
 
     private void Update()
     {
-        throw new NotImplementedException();
+        ListAll();
+        int id;
+        while (true)
+        {
+            id = input.GetId();
+            if (id == 0)
+            {
+                ShowMenu();
+                return;
+            }
+            else if (service.IdExists(id))
+            {
+                break;
+            }
+        }
+        var exercise = input.GetExerciseData();
+        if (exercise != null)
+        {
+            service.UpdateExercise(id, exercise.Start, exercise.End, exercise.Duration, exercise.Comments);
+        }
+        else
+        {
+            Console.WriteLine("Returned input not acceptable, returning to the menu.");
+            Thread.Sleep(1000);
+            ShowMenu();
+            return;
+        }
+        Console.WriteLine("Record updated. Returning to the menu.");
+        Thread.Sleep(1000);
+        ShowMenu();
     }
 
     private void Read()
     {
-        throw new NotImplementedException();
+        ListAll();
+        int id;
+        while (true)
+        {
+            id = input.GetId();
+            if(id==0)
+            {
+                Console.WriteLine("Returning to menu.");
+                Thread.Sleep(1000);
+                ShowMenu();
+                return;
+            }
+            else if (service.IdExists(id))
+            {
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Id does not exist, try again or press '0' to return to the menu.");
+            }
+        }
+        var exercise = service.ReadExercise(id);
+        Console.WriteLine($"Id: {exercise.Id}, Start date: {exercise.Start}, End date: {exercise.End}, Duration: {exercise.Duration}, Comment: {exercise.Comments}");
+        Console.WriteLine("\nPressing any button will return to the menu.");
+        Console.ReadLine();
+        ShowMenu();
     }
 
     public void GetAll()
@@ -93,6 +177,16 @@ public class Controller
         Console.ReadKey();
         ShowMenu();
         return;
+    }
+
+    public void ListAll()
+    {
+        Console.Clear();
+        IEnumerable<Exercise> list = service.ListAll();
+        foreach (Exercise exercise in list)
+        {
+            Console.WriteLine($"Id: {exercise.Id}, Start date: {exercise.Start}, End date: {exercise.End}, Whole duration: {exercise.Duration}, Comment: {exercise.Comments}.");
+        }
     }
 
     public void Add()

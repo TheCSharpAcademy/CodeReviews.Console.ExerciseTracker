@@ -1,6 +1,4 @@
-﻿
-using ExerciseTracker.kjanos89.Controllers;
-using ExerciseTracker.kjanos89.Models;
+﻿using ExerciseTracker.kjanos89.Models;
 
 namespace ExerciseTracker.kjanos89;
 
@@ -29,11 +27,6 @@ public class Input
                 {
                     startDate = validation.DateConverter(dateString);
                     break;
-                }
-                else
-                {
-                    Console.WriteLine($"Invalid date: {dateString}. Please try again.");
-                    Thread.Sleep(1000);
                 }
             }
             else
@@ -73,7 +66,9 @@ public class Input
         }
         if (!validation.IsEndLater(startDate, endDate))
         {
-            Console.WriteLine("End date must be later than the start date. Please try again.");
+            Console.WriteLine("End date must be later than the start date and the duration must be less than 24 hours. Please try again.");
+            Thread.Sleep(1500);
+            return null;
         }
         //comment
         Console.WriteLine("Please add a comment below or press '0' to return to the menu:");
@@ -102,5 +97,18 @@ public class Input
             Comments = comment
         };
         return exercise;
+    }
+
+    public int GetId()
+    {
+        Console.WriteLine("Enter an id from the list:");
+        if(Int32.TryParse(Console.ReadLine(), out int id))
+        {
+            return id;
+        }
+        else
+        {
+            return 0;
+        }
     }
 }
