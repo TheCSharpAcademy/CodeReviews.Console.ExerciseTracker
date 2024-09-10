@@ -66,8 +66,9 @@ public class Input
         }
         if (!validation.IsEndLater(startDate, endDate))
         {
-            Console.WriteLine("End date must be later than the start date and the duration must be less than 24 hours. Please try again.");
-            Thread.Sleep(1500);
+            Console.WriteLine("End date must be later than the start date and the duration must be less than 24 hours.");
+            Console.WriteLine("Record addition canceled, pressing any button will return to the menu.");
+            Console.ReadLine();
             return null;
         }
         //comment
