@@ -29,7 +29,7 @@ public class ExerciseRepository<T> : IExerciseRepository<T> where T : class, new
         _context.SaveChanges();
     }
 
-    public void UpdateSession(T session)
+    public void ModifySession(T session)
     {
         _dbSet.Update(session);
         _context.SaveChanges();
