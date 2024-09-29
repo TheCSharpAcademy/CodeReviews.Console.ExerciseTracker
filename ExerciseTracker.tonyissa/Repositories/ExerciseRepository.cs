@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ExerciseTracker.tonyissa.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExerciseTracker.tonyissa.Repositories;
 
@@ -7,7 +8,7 @@ public class ExerciseRepository<T> : IExerciseRepository<T> where T : class, new
     private readonly DbContext _context;
     private readonly DbSet<T> _dbSet;
 
-    public ExerciseRepository(DbContext context)
+    public ExerciseRepository(ExerciseContext context)
     {
         _context = context;
         _dbSet = context.Set<T>();
