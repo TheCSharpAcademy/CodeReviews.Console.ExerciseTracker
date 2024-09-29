@@ -24,6 +24,11 @@ public class ExerciseService
         return session;
     }
 
+    public void AddExerciseSession(ExerciseSession session)
+    {
+        _repository.AddSession(session);
+    }
+
     public void UpdateSession(ExerciseSession session)
     {
         _repository.ModifySession(session);

@@ -3,10 +3,8 @@
 public static class MenuOptions
 {
     public static string[] MainMenu = [
-        "View log",
-        "Add session",
-        "Remove session",
-        "Update session",
+        "Log a new exercise shift",
+        "View all exercise shifts",
         "Quit"
     ];
 }
