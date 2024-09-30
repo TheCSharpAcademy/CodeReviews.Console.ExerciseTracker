@@ -18,7 +18,7 @@ public class MainMenuController
         while (true)
         {
             Console.Clear();
-            var result = MenuSelection("What would you like to do?", MenuOptions.MainMenu);
+            var result = UserInput.GetMenuSelection(MenuOptions.MainMenu);
 
             switch (result)
             {
@@ -34,55 +34,47 @@ public class MainMenuController
         }
     }
 
-    public static string MenuSelection(string title, string[] options)
+    public void StartLogMenu(List<ExerciseSession> log)
     {
-        var selection = AnsiConsole.Prompt<string>(
-            new SelectionPrompt<string>()
-                .Title(title)
-                .AddChoices(options)
-        );
+        var result = UserInput.GetMenuSelection(MenuOptions.LogMenu);
 
-        return selection;
+        switch (result)
+        {
+            case "Update":
+                throw new NotImplementedException("Update functionality has not been added yet");
+            case "Delete":
+                throw new NotImplementedException("Delete functionality has not been added yet");
+            default:
+                return;
+        }
     }
 
     public void ViewAll()
     {
         var log = _service.GetExerciseLog();
         var table = new Table { Title = new TableTitle("Log") };
+        table.AddColumns("ID", "Start", "End", "Comments", "Duration (hours)");
 
-        table.AddColumns("Number", "Start", "End", "Comments", "Duration (hours)");
-
-        for (int i = 0; i < log.Count; i++)
+        foreach (var item in log)
         {
-            var pos = (i + 1).ToString();
-            var start = log[i].Start.ToString("g");
-            var end = log[i].End.ToString("g");
-            var comments = log[i].Comments ?? "";
-            var duration = log[i].Duration.ToString("g");
+            var id = item.Id.ToString();
+            var start = item.Start.ToString("g");
+            var end = item.End.ToString("g");
+            var comments = item.Comments ?? "";
+            var duration = item.Duration.ToString("g");
 
-            table.AddRow(pos, start, end, comments, duration);
+            table.AddRow(id, start, end, comments, duration);
         }
 
         AnsiConsole.Write(table);
-        AnsiConsole.WriteLine("\nPress any key to continue...");
-        Console.ReadKey();
+        StartLogMenu(log);
     }
 
     public void CreateNewSession()
     {
-        var (start, end) = UserInput.GetDates();
-        var comments = UserInput.GetComments();
-
-        var session = new ExerciseSession
-        {
-            Start = start,
-            End = end,
-            Comments = comments,
-            Duration = end - start
-        };
-
+        var session = UserInput.GetNewSession(null);
         _service.AddExerciseSession(session);
-        AnsiConsole.WriteLine("\nPress any key to continue...");
+        AnsiConsole.WriteLine("\nSession added. Press any key to continue...");
         Console.ReadKey();
     }
 }

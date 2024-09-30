@@ -2,9 +2,15 @@
 
 public static class MenuOptions
 {
-    public static string[] MainMenu = [
+    public static readonly string[] MainMenu = [
         "Log a new exercise shift",
         "View all exercise shifts",
+        "Quit"
+    ];
+
+    public static readonly string[] LogMenu = [
+        "Update",
+        "Delete",
         "Quit"
     ];
 }
