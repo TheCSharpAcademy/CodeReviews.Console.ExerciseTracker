@@ -41,9 +41,11 @@ public class MainMenuController
         switch (result)
         {
             case "Update":
-                throw new NotImplementedException("Update functionality has not been added yet");
+                UpdateSession(log);
+                break;
             case "Delete":
-                throw new NotImplementedException("Delete functionality has not been added yet");
+                DeleteSession(log);
+                break;
             default:
                 return;
         }
@@ -52,6 +54,14 @@ public class MainMenuController
     public void ViewAll()
     {
         var log = _service.GetExerciseLog();
+
+        if (log.Count == 0)
+        {
+            AnsiConsole.WriteLine("No entries found. Press any key to continue...");
+            Console.ReadKey();
+            return;
+        }
+
         var table = new Table { Title = new TableTitle("Log") };
         table.AddColumns("ID", "Start", "End", "Comments", "Duration (hours)");
 
@@ -76,5 +86,23 @@ public class MainMenuController
         _service.AddExerciseSession(session);
         AnsiConsole.WriteLine("\nSession added. Press any key to continue...");
         Console.ReadKey();
+    }
+
+    public void UpdateSession(List<ExerciseSession> log)
+    {
+        var oldSession = UserInput.GetSessionFromId(log);
+        var newSession = UserInput.GetNewSession(oldSession);
+
+        _service.UpdateSession(newSession);
+    }
+
+    public void DeleteSession(List<ExerciseSession> log)
+    {
+        var session = UserInput.GetSessionFromId(log);
+        var confirmation = AnsiConsole.Confirm($"Are you sure you want to delete this session?");
+
+        if (!confirmation) return;
+
+        _service.RemoveSession(session);
     }
 }

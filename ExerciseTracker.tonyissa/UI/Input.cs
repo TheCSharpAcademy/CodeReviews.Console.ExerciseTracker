@@ -16,17 +16,18 @@ public static class UserInput
         return selection;
     }
 
-    public static int GetIdFromEntries(List<ExerciseSession> log)
+    public static ExerciseSession GetSessionFromId(List<ExerciseSession> log)
     {
         var id = AnsiConsole.Ask<int>("Enter the ID of the entry");
+        var session = log.Find(s => s.Id == id);
 
-        if (!log.Exists(s => s.Id == id))
+        if (session == null)
         {
             AnsiConsole.MarkupLine("[red]Invalid selection[/]");
-            return GetIdFromEntries(log);
+            return GetSessionFromId(log);
         }
 
-        return id;
+        return session;
     }
 
     public static ExerciseSession GetNewSession(ExerciseSession? oldSession)
