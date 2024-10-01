@@ -2,7 +2,6 @@
 
 public interface IExerciseRepository<T>
 {
-    public T GetSessionById(int id);
     public IEnumerable<T> GetAllSessions();
     public void AddSession(T session);
     public void DeleteSession(T session);

@@ -14,11 +14,6 @@ public class ExerciseRepository<T> : IExerciseRepository<T> where T : class, new
         _dbSet = context.Set<T>();
     }
 
-    public T GetSessionById(int id)
-    {
-        return _dbSet.Find(id);
-    }
-
     public IEnumerable<T> GetAllSessions()
     {
         return _dbSet.ToList<T>();
