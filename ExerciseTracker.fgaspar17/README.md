@@ -7,7 +7,7 @@ SQL Server Express LocalDB, and SQLite.
 ## Given Requirements
 
 - [x] This is an application where you should record exercise data.
-- [x] You should choose one type of exercise only. 
+- [x] You should choose one type of exercise only.
 We want to keep the app simple so
 you focus on the subject you're learning and not on the business complexities.
 - [x] You can choose raw SQL or Entity Framework for your data-persistence.
@@ -15,7 +15,7 @@ you focus on the subject you're learning and not on the business complexities.
 {Id INT, DateStart DateTime, DateEnd DateTime, Duration TimeSpan, Comments string}
 - [x] Your application should have the following classes: UserInput, ExerciseController,
 ExerciseService (where business logic will be handled) and ExerciseRepository.
-These classes might feel empty at first but they'll be needed 
+These classes might feel empty at first but they'll be needed
 in most applications as they grow.
 - [x] You can choose between SQLite or SQLServer.
 - [x] You need to use dependency injection to access the repository from the controller.
