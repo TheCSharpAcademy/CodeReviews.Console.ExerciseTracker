@@ -44,10 +44,22 @@ public static class UserInput
 
         return session;
     }
+
     public static (DateTime, DateTime) GetDates()
     {
-        var start = AnsiConsole.Ask<DateTime>("Enter start date:");
-        var end = AnsiConsole.Ask<DateTime>("Enter end date:");
+        AnsiConsole.WriteLine("Expected date & time format: mm/dd/yyyy hh:mm(am/pm)");
+        var start = AnsiConsole.Ask<DateTime>("Enter start date & time:");
+        var end = AnsiConsole.Ask<DateTime>("Enter end date & time:");
+
+        try
+        {
+            ValidateDates(start, end);
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            AnsiConsole.MarkupLine("[red]Invalid date entry. Start date must not come after end date.[/]");
+            return GetDates();
+        }
 
         return (start, end);
     }
@@ -55,5 +67,10 @@ public static class UserInput
     public static string GetComments()
     {
         return AnsiConsole.Ask<string>("Enter any comments:");
+    }
+
+    public static void ValidateDates(DateTime start, DateTime end)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(start, end);
     }
 }

@@ -18,12 +18,6 @@ public class ExerciseService
         return log.ToList();
     }
 
-    public ExerciseSession GetExerciseSession(int id)
-    {
-        var session = _repository.GetSessionById(id);
-        return session;
-    }
-
     public void AddExerciseSession(ExerciseSession session)
     {
         _repository.AddSession(session);
