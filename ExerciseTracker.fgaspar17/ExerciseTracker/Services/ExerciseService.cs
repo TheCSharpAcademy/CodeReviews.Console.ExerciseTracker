@@ -20,7 +20,7 @@ public class ExerciseService
         (isCancelled, start) = AskForStartDate(dateValidator);
         if (isCancelled) return;
 
-        FutureDateTimeValidator futureDateTimeValidator = new(dateValidator);
+        FutureDateTimeValidator futureDateTimeValidator = new(dateValidator, Convert.ToDateTime(start));
 
         (isCancelled, end) = AskForEndDate(Convert.ToDateTime(start), futureDateTimeValidator);
         if (isCancelled) return;
@@ -68,7 +68,7 @@ public class ExerciseService
         (isCancelled, start) = AskForStartDate(dateValidator);
         if (isCancelled) return;
 
-        FutureDateTimeValidator futureDateTimeValidator = new(dateValidator);
+        FutureDateTimeValidator futureDateTimeValidator = new(dateValidator, Convert.ToDateTime(start));
 
         (isCancelled, end) = AskForEndDate(Convert.ToDateTime(start), futureDateTimeValidator);
         if (isCancelled) return;
