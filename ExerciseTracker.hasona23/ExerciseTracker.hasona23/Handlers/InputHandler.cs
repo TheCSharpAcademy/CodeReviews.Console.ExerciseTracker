@@ -26,8 +26,8 @@ public class InputHandler
         DateTime end = GetEndTime(day,start);
         return new ExerciseCreate(description,start,end);
     }
-    
-    public DateTime GetStartTime(DateTime day , bool optional = false)
+
+    private DateTime GetStartTime(DateTime day , bool optional = false)
     {
         DateTime start ;
         var prompt =
@@ -58,7 +58,7 @@ public class InputHandler
         return start;
     }
 
-    public DateTime GetEndTime(DateTime day, DateTime start, bool optional = false)
+    private DateTime GetEndTime(DateTime day, DateTime start, bool optional = false)
     {
          DateTime end ;
          var prompt =
@@ -94,7 +94,8 @@ public class InputHandler
          } while (end > DateTime.Now || end == DateTime.MinValue);
          return end;
     }
-    public DateTime GetDay(bool optional = false)
+
+    private DateTime GetDay(bool optional = false)
     {
         DateTime day;
         do
@@ -123,7 +124,8 @@ public class InputHandler
 
         return day;
     }
-    public string? GetDescription()
+
+    private string? GetDescription()
     {
         return AnsiConsole.Prompt(new TextPrompt<string?>("[yellow]Enter Description or press enter to skip: [/]").AllowEmpty().PromptStyle(new Style(Color.White)));
     }
