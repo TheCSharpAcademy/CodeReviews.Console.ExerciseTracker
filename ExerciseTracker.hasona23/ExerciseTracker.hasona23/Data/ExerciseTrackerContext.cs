@@ -7,11 +7,6 @@ public class ExerciseTrackerContext : DbContext
 {
        public DbSet<Exercise> Exercises { get ; set; }
 
-       protected override void OnModelCreating(ModelBuilder modelBuilder)
-       {
-              
-       }
-
        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
        {
               optionsBuilder.UseSqlServer(AppSettings.DefaultConnectionString);
