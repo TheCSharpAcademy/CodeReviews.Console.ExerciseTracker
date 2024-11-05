@@ -1,32 +1,30 @@
 ﻿using ExerciseTracker.hasona23.Enums;
 using ExerciseTracker.hasona23.Handlers;
-using ExerciseTracker.hasona23.Models;
 using ExerciseTracker.hasona23.Services;
+using Spectre.Console;
 
 namespace ExerciseTracker.hasona23.Controllers;
 
-public class ExerciseController(ExerciseService exerciseService)
+public class ExerciseController(ExerciseService exerciseService,InputHandler inputHandler)
 {
     private void AddExercise()
     {
-        //TODO:  to get exerciseCreate
-        //exerciseService.AddExercise(exercise);
-        throw new NotImplementedException();
+        var newExercise = inputHandler.CreateExercise();
+        exerciseService.AddExercise(newExercise);
     }
 
     private void UpdateExercise()
     {
-        
-        //TODO: Get Update exercise
-        //exerciseService.UpdateExercise(exercise);
-        throw new NotImplementedException();
+        var updatedExercise = inputHandler.UpdateExercise(exerciseService.GetAllExercises());
+        bool success = exerciseService.UpdateExercise(updatedExercise);
+        AnsiConsole.MarkupLine($"{(success?"[green]Updated Exercise Successfully[/]":"[red]Couldn't Update Exercise[/]")}");
     }
 
     private void DeleteExercise()
     {
-        //TODO: Get the id of deleted exercide
-        //exerciseService.DeleteExercise();
-        throw new NotImplementedException();
+        int deletedId = inputHandler.SelectExercise(exerciseService.GetAllExercises()).Id;
+        bool success = exerciseService.DeleteExercise(deletedId);
+        AnsiConsole.MarkupLine($"{(success?"[green]Deleted Exercise Successfully[/]":"[red]Couldn't Delete Exercise[/]")}");
     }
 
     private void DisplayAllExercises()

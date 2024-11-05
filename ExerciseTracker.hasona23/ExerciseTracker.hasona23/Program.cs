@@ -12,7 +12,7 @@ figlet.Justify(Justify.Center);
 AnsiConsole.Write(figlet);
 ExerciseRepository exerciseRepository = new ExerciseRepository();
 ExerciseService service = new ExerciseService(exerciseRepository);
-ExerciseController exerciseController = new ExerciseController(service);
+ExerciseController exerciseController = new ExerciseController(service,new InputHandler());
 MenuBuilder.Pause();
 
 while (isRunning)

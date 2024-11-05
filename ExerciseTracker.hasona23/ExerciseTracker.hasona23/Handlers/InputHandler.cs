@@ -27,12 +27,22 @@ public class InputHandler
         return new ExerciseCreate(description,start,end);
     }
     
-    public DateTime GetStartTime(DateTime day)
+    public DateTime GetStartTime(DateTime day , bool optional = false)
     {
         DateTime start ;
+        var prompt =
+            new TextPrompt<string?>(
+                    $"[yellow]Enter a start time ({TimeFormat}) {(optional ? "or Press enter to skip" : "")}: [/]")
+                .PromptStyle(Color.White);
+        if (optional)
+            prompt.AllowEmpty();
         do
         {
-            var startStr =  AnsiConsole.Prompt(new TextPrompt<string?>($"[yellow]Enter a start time ({TimeFormat}): [/]").PromptStyle(Color.White));
+            var startStr =  AnsiConsole.Prompt(prompt);
+            if (string.IsNullOrEmpty(startStr) && optional)
+            {
+                return DateTime.MinValue;
+            }
             bool success = DateTime.TryParseExact(startStr, TimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out start);
             if (!success)
             {
@@ -48,12 +58,23 @@ public class InputHandler
         return start;
     }
 
-    public DateTime GetEndTime(DateTime day, DateTime start)
+    public DateTime GetEndTime(DateTime day, DateTime start, bool optional = false)
     {
          DateTime end ;
+         var prompt =
+             new TextPrompt<string?>(
+                     $"[yellow]Enter a End time ({TimeFormat}) {(optional ? "or press enter to skip" : "")}: [/]")
+                 .PromptStyle(Color.White);
+         if (optional)
+             prompt.AllowEmpty();
+         
          do
          {
-             var endStr =  AnsiConsole.Prompt(new TextPrompt<string?>($"[yellow]Enter a End time ({TimeFormat}): [/]").PromptStyle(Color.White));
+             var endStr =  AnsiConsole.Prompt(prompt);
+             if (string.IsNullOrEmpty(endStr) && optional)
+             {
+                 return DateTime.MinValue;
+             }
              bool success = DateTime.TryParseExact(endStr, TimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out end);
              if (!success)
              {
@@ -61,24 +82,28 @@ public class InputHandler
                  continue;
              }
              end = new DateTime(day.Year, day.Month, day.Day, end.Hour, end.Minute, 0);
+             if (end <= start)
+             {
+                 end = end.AddDays(1);
+             }
              if (end > DateTime.Now)
              {
                  AnsiConsole.MarkupLine("[red]Cant Accept future timings[/]");
              }
 
-             if (end <= start)
-             {
-                 end = end.AddDays(1);
-             }
          } while (end > DateTime.Now || end == DateTime.MinValue);
          return end;
     }
-    public DateTime GetDay()
+    public DateTime GetDay(bool optional = false)
     {
         DateTime day;
         do
         {
-            var dayStr =  AnsiConsole.Prompt(new TextPrompt<string?>($"[yellow]Enter a date ({DateFormat}) or press enter for current: [/]").PromptStyle(Color.White).AllowEmpty());
+            var dayStr =  AnsiConsole.Prompt(new TextPrompt<string?>($"[yellow]Enter a date ({DateFormat}) or press enter {(optional?"To skip":"to get current date")}: [/]").PromptStyle(Color.White).AllowEmpty());
+            if (string.IsNullOrEmpty(dayStr) && optional)
+            {
+                return DateTime.MinValue;
+            }
             if (string.IsNullOrEmpty(dayStr))
             {
                 day = DateTime.Today;
@@ -103,9 +128,12 @@ public class InputHandler
         return AnsiConsole.Prompt(new TextPrompt<string?>("[yellow]Enter Description or press enter to skip: [/]").AllowEmpty().PromptStyle(new Style(Color.White)));
     }
 
-    public ExerciseUpdate UpdateExercise()
+    public ExerciseUpdate UpdateExercise(List<Exercise> exercises)
     {
-        //TODO: Get Exercise update
-        throw new NotImplementedException();
+        int exerciseId = SelectExercise(exercises).Id;
+        DateTime day = GetDay(true);
+        DateTime start = GetStartTime(day,true);
+        DateTime end = GetEndTime(day,start,true);
+        return new ExerciseUpdate(exerciseId,GetDescription(),start,end);
     }
 }

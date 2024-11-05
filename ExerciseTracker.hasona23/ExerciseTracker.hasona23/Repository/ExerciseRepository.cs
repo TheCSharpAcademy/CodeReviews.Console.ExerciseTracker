@@ -37,12 +37,13 @@ public class ExerciseRepository : IExerciseRepository
         {
             return false;
         }
-        if (string.IsNullOrEmpty(newExercise.Description))
+        if (!string.IsNullOrEmpty(newExercise.Description))
             exercise.Description = newExercise.Description;
         if(newExercise.Start != DateTime.MinValue)
             exercise.Start = newExercise.Start;
         if(newExercise.End != DateTime.MinValue)
             exercise.End = newExercise.End;
+        _context.SaveChanges();
         return true;
     }
 
@@ -52,6 +53,7 @@ public class ExerciseRepository : IExerciseRepository
         if(exercise is null)
             return false;
         _context.Exercises.Remove(exercise);
+        _context.SaveChanges();
         return true;
     }
     

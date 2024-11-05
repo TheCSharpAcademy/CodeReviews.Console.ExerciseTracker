@@ -5,7 +5,7 @@ namespace ExerciseTracker.hasona23.Models;
 
 public class Exercise
 {
-    [Key]
+    [Key,Required]
     public int Id { get; set; }
     [MaxLength(255)]
     //type - comments - etc
