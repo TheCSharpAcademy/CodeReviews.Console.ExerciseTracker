@@ -1,6 +1,7 @@
 ﻿using ExerciseTracker.hasona23;
 using ExerciseTracker.hasona23.Controllers;
 using ExerciseTracker.hasona23.Enums;
+using ExerciseTracker.hasona23.Handlers;
 using ExerciseTracker.hasona23.Repository;
 using ExerciseTracker.hasona23.Services;
 using Spectre.Console;
@@ -13,7 +14,6 @@ ExerciseRepository exerciseRepository = new ExerciseRepository();
 ExerciseService service = new ExerciseService(exerciseRepository);
 ExerciseController exerciseController = new ExerciseController(service);
 MenuBuilder.Pause();
-
 
 while (isRunning)
 {

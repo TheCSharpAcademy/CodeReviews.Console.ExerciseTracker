@@ -6,4 +6,5 @@ public enum ExerciseOptions
     Update,
     Delete,
     ReadAll,
+    Return,
 }

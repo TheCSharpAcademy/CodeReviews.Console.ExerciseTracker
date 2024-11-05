@@ -16,6 +16,7 @@ public class ExerciseController(ExerciseService exerciseService)
 
     private void UpdateExercise()
     {
+        
         //TODO: Get Update exercise
         //exerciseService.UpdateExercise(exercise);
         throw new NotImplementedException();
@@ -28,7 +29,7 @@ public class ExerciseController(ExerciseService exerciseService)
         throw new NotImplementedException();
     }
 
-    private void GetAllExercises()
+    private void DisplayAllExercises()
     {
         VisualisationHandler.DisplayExercisesTable(exerciseService.GetAllExercises());
     }
@@ -47,7 +48,9 @@ public class ExerciseController(ExerciseService exerciseService)
                 UpdateExercise();
                 break;
             case ExerciseOptions.ReadAll:
-                GetAllExercises();
+                DisplayAllExercises();
+                break;
+            case ExerciseOptions.Return:
                 break;
         }
     }
