@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
 
 namespace ExerciseTracker.hasona23.Models;
 
@@ -9,6 +8,7 @@ public class Exercise
     [Key]
     public int Id { get; set; }
     [MaxLength(255)]
+    //type - comments - etc
     public string? Description { get; set; }
     [Required]
     public DateTime Start { get; set; }
@@ -32,7 +32,9 @@ public class Exercise
         Start = start;
         End = end;
     }
+
+    public override string ToString() => $"Id: {Id} | Description: {Description} | Start: {Start} | End: {End}";
 }
 
 public record ExerciseCreate(string? Description, DateTime Start, DateTime End);
-public record ExerciseUpdate(string? Description, DateTime Start, DateTime End);
+public record ExerciseUpdate(int Id,string? Description, DateTime Start, DateTime End);

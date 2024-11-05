@@ -21,7 +21,7 @@ public class ExerciseRepository : IExerciseRepository
 
     public Exercise? GetExercise(int id)
     {
-        return _context.Exercises.Find(id);
+        return _context.Exercises.FirstOrDefault(e => e.Id == id);
     }
 
     public void AddExercise(ExerciseCreate exercise)
@@ -32,12 +32,27 @@ public class ExerciseRepository : IExerciseRepository
 
     public bool UpdateExercise(ExerciseUpdate newExercise)
     {
-        throw new NotImplementedException();
+        var exercise = _context.Exercises.FirstOrDefault(e => e.Id == newExercise.Id);
+        if (exercise is null)
+        {
+            return false;
+        }
+        if (string.IsNullOrEmpty(newExercise.Description))
+            exercise.Description = newExercise.Description;
+        if(newExercise.Start != DateTime.MinValue)
+            exercise.Start = newExercise.Start;
+        if(newExercise.End != DateTime.MinValue)
+            exercise.End = newExercise.End;
+        return true;
     }
 
     public bool DeleteExercise(int id)
     {
-        throw new NotImplementedException();
+        var exercise = _context.Exercises.FirstOrDefault(e => e.Id == id);
+        if(exercise is null)
+            return false;
+        _context.Exercises.Remove(exercise);
+        return true;
     }
     
 }
