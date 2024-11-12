@@ -13,10 +13,9 @@ public static class VisualisationHandler
         table.BorderStyle(new Style(Color.White));
         table.AddColumns("[yellow]Id[/]", "[yellow]Day[/]", "[yellow]Start[/]", "[yellow]End[/]",
             "[yellow]Duration[/]","[yellow]Description[/]");
-        exercises.ForEach(e => e.Id = exercises.IndexOf(e));
         foreach (var exercise in exercises)
         {
-            table.AddRow($"[darkturquoise]{exercise.Id}[/]",
+            table.AddRow($"[darkturquoise]{exercises.IndexOf(exercise)}[/]",
                 $"[darkturquoise]{exercise.Start:dd/MM/yyyy}[/]",
                 $"[darkturquoise]{exercise.Start:hh:mm}[/]",
                 $"[darkturquoise]{exercise.End:hh:mm}[/]",
