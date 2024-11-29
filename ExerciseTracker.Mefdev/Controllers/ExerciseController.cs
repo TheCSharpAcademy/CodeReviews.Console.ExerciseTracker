@@ -18,23 +18,16 @@ public class ExerciseController : ExerciseBase
 
     public void CreateExercise()
     {
-        int id = int.Parse(_userInput.GetId());
-        var oldWorkerExercise = _exerciseService.GetById(id);
-        if (oldWorkerExercise is not null)
-        {
-            DisplayMessage("The Exercise is already exists", "red");
-            AnsiConsole.Confirm("Press any key to continue... ");
-            return;
-        }
         string type = _userInput.GetType();
-        DateTime startDate = _userInput.GetDate();
-        DateTime endDate = _userInput.GetDate();
+        DateTime startDate = _userInput.GetStartDate();
+        DateTime endDate = _userInput.GetEndDate();
         string comment = _userInput.GetComment();
         var exercise = new Exercise { DateStart = startDate, DateEnd = endDate, Type = type, Comments = comment };
         var data = _exerciseService.Create(exercise);
         if (data is false)
         {
             DisplayMessage("The Exercise is not created", "red");
+            AnsiConsole.Confirm("Press any key to continue... ");
             return;
         }
         DisplayMessage("The Exercise is created", "green");
@@ -55,11 +48,10 @@ public class ExerciseController : ExerciseBase
 
     public void GetExercise()
     {
-        int id = int.Parse(_userInput.GetId());
-        var Exercise =  _exerciseService.GetById(id);
+        var Exercise = GetExercises("get");
         if (Exercise is null)
         {
-            DisplayMessage("Nothing to show or the data is empty", "red");
+            DisplayMessage("the data is empty or null", "red");
             AnsiConsole.Confirm("Press any key to continue... ");
             return;
         }
@@ -68,8 +60,14 @@ public class ExerciseController : ExerciseBase
 
     public void DeleteExercise()
     {
-        int id = int.Parse(_userInput.GetId());
-        var isDeleted =  _exerciseService.Delete(id);
+        var exercice = GetExercises("delete");
+        if (exercice is null)
+        {
+            DisplayMessage("the data is empty or null", "red");
+            AnsiConsole.Confirm("Press any key to continue... ");
+            return;
+        }
+        var isDeleted =  _exerciseService.Delete(exercice.Id);
         if (!isDeleted)
         {
             DisplayMessage("The Exercise you're looking for is not found", "red");
@@ -82,8 +80,7 @@ public class ExerciseController : ExerciseBase
 
     public void UpdateExercise()
     {
-        int id = int.Parse(_userInput.GetId());
-        var oldWorkerExercise =  _exerciseService.GetById(id);
+        var oldWorkerExercise = GetExercises("update");
         if (oldWorkerExercise is null)
         {
             DisplayMessage("Nothing to show or the data is empty", "red");
@@ -91,17 +88,33 @@ public class ExerciseController : ExerciseBase
             return;
         }
         string type = _userInput.GetType(oldWorkerExercise.Type);
-        DateTime startDate = _userInput.GetDate(oldWorkerExercise.DateStart.ToString());
-        DateTime endDate = _userInput.GetDate(oldWorkerExercise.DateEnd.ToString());
+        DateTime startDate = _userInput.GetStartDate(oldWorkerExercise.DateStart.ToString());
+        DateTime endDate = _userInput.GetEndDate(oldWorkerExercise.DateEnd.ToString());
         string comment = _userInput.GetComment(oldWorkerExercise.Comments);
 
-        var Exercise =  _exerciseService.Update(new Exercise { Id=oldWorkerExercise.Id, DateStart=startDate, DateEnd=endDate, Comments=comment, Type=type});;
+        var Exercise = _exerciseService.Update(new Exercise { Id=oldWorkerExercise.Id, DateStart=startDate, DateEnd=endDate, Comments=comment, Type=type});;
         if (Exercise is false)
         {
-            DisplayMessage("The Exercise is not updated", "false");
+            DisplayMessage("The Exercise is not updated", "red");
             return;
         }
         DisplayMessage("The Exercise is updated", "green");
         AnsiConsole.Confirm("Press any key to continue... ");
+    }
+
+    private Exercise? GetExercises(string action)
+    {
+        var exercises = _exerciseService.GetAll();
+        if (exercises == null)
+        {
+            DisplayMessage("Exercises are not found or Empty", "red");
+            return null;
+        }
+        var id = AnsiConsole.Prompt(new SelectionPrompt<string>()
+            .Title($"Select a [red]Exercise[/] to {action}")
+            .PageSize(10)
+            .MoreChoicesText("[grey](Move up and down to reveal more choices)[/]")
+            .AddChoices(exercises.Select(c => c.Id.ToString())));
+        return _exerciseService.GetById(int.Parse(id));
     }
 }

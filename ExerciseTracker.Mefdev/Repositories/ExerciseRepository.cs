@@ -16,7 +16,7 @@ public class ExerciseRepository : IRepository
     {
         try
         {
-            entity.Duration = CalculateShiftDuration(entity.DateStart, entity.DateEnd);
+            entity.Duration = GetDuration(entity.DateStart, entity.DateEnd);
             _context.Add(entity);
             _context.SaveChanges();
         }
@@ -32,7 +32,7 @@ public class ExerciseRepository : IRepository
         {
             var entity = _context.Exercises.Find(id);
             if(entity is not null){
-                _context.Remove(entity.Id);
+                _context.Remove(entity);
             }
             _context.SaveChanges();
         }
@@ -75,8 +75,9 @@ public class ExerciseRepository : IRepository
             {
                 exerciseToUpdate.DateStart = entity.DateStart;
                 exerciseToUpdate.DateEnd = entity.DateEnd;
-                exerciseToUpdate.Duration = CalculateShiftDuration(entity.DateStart, entity.DateEnd);
+                exerciseToUpdate.Duration = GetDuration(entity.DateStart, entity.DateEnd);
                 exerciseToUpdate.Comments =entity.Comments;
+                exerciseToUpdate.Type = entity.Type;
 
                 _context.Exercises.Update(exerciseToUpdate);
                 _context.Entry(exerciseToUpdate).State = EntityState.Modified;
@@ -90,7 +91,7 @@ public class ExerciseRepository : IRepository
         }
     }
 
-    private TimeSpan CalculateShiftDuration(DateTime start, DateTime end)
+    private TimeSpan GetDuration(DateTime start, DateTime end)
     {
         if (end >= start)
         {

@@ -21,32 +21,38 @@ public class UserInterface : ExerciseBase
 
                 AnsiConsole.Clear();
 
+                var options = Enum.GetValues(typeof(ExerciseMenu.Options))
+                .Cast<ExerciseMenu.Options>()
+                .ToList();
+
                 var mainChoice = AnsiConsole.Prompt(
-                    new SelectionPrompt<Enums.UserOptions>()
+                    new SelectionPrompt<ExerciseMenu.Options>()
                         .Title("Choose an option:")
-                        .AddChoices(Enum.GetValues(typeof(Enums.UserOptions)).Cast<Enums.UserOptions>())
+                        .AddChoices(options)
+                        .UseConverter(option => option.GetDisplayName())
                 );
 
-                switch (mainChoice)
+            switch (mainChoice)
                 {
-                    case Enums.UserOptions.Quit:
+                    
+                    case ExerciseMenu.Options.Quit:
                         DisplayMessage("Exiting the app...", "red");
                         Environment.Exit(0);
                         break;
-                    case Enums.UserOptions.CreateExercise:
+                    case ExerciseMenu.Options.Create:
                         _exerciseController.CreateExercise();
                         break;
-                    case Enums.UserOptions.UpdateExercise:
+                    case ExerciseMenu.Options.Update:
                         _exerciseController.UpdateExercise();
                         break;
-                    case Enums.UserOptions.DeleteExercise:
+                    case ExerciseMenu.Options.Delete:
                         _exerciseController.DeleteExercise();
                         break;
-                    case Enums.UserOptions.ViewExercise:
+                    case ExerciseMenu.Options.View:
                         _exerciseController.GetExercise();
                         break;
-                    case Enums.UserOptions.ViewExercises:
-                            _exerciseController.GetExercises();
+                    case ExerciseMenu.Options.ViewAll:
+                        _exerciseController.GetExercises();
                         break;
                     default:
                         DisplayMessage("Invalid choice. Please select a valid option.", "red");

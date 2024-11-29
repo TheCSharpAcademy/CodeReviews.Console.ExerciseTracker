@@ -42,14 +42,4 @@ To run the application, use the following command:
 dotnet run
 ```
 
-Make sure to set the connection string environment variable before running the application.
 
-### Example
-
-Here is an example of how to set the connection string environment variable:
-
-```sh
-export ConnectionStrings__DefaultConnection="Server=your_server;Database=your_database;User Id=your_user;Password=your_password;"
-```
-
-Replace `your_server`, `your_database`, `your_user`, and `your_password` with your actual database connection details.

@@ -1,4 +1,3 @@
-
 namespace ExerciseTracker.Mefdev.Models;
 
 public class Exercise

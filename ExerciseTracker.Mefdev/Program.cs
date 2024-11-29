@@ -6,14 +6,35 @@ using ExerciseTracker.Mefdev.Controllers;
 using ExerciseTracker.Mefdev.Repositories;
 using ExerciseTracker.Mefdev.Context;
 
-var serviceProvider = new ServiceCollection()
-               .AddScoped<ExerciseContext>()
-               .AddScoped<IRepository, ExerciseRepository>()
-               .AddScoped<ExerciseService>()
-               .AddScoped<UserInput>()
-               .AddScoped<ExerciseController>()
-               .AddScoped<UserInterface>()
-               .BuildServiceProvider();
+public class Program
+{
+    public static void Main()
+    {
+        try
+        {
+            LoadMenu();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
 
-var app = serviceProvider.GetRequiredService<UserInterface>();
-app.MainMenu();
+    private static void LoadMenu()
+    {
+
+        var ServiceCollection = new ServiceCollection()
+            .AddScoped<ExerciseContext>()
+            .AddScoped<IRepository, ExerciseRepository>()
+            .AddScoped<ExerciseService>()
+            .AddScoped<UserInput>()
+            .AddScoped<ExerciseController>()
+            .AddScoped<UserInterface>()
+            .BuildServiceProvider();
+
+        using var context = ServiceCollection.GetRequiredService<ExerciseContext>();
+        var app = ServiceCollection.GetRequiredService<UserInterface>();
+
+        app.MainMenu();
+    }
+}
