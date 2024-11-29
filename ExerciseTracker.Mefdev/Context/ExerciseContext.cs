@@ -1,14 +1,12 @@
 using ExerciseTracker.Mefdev.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 
 namespace ExerciseTracker.Mefdev.Context;
 public class ExerciseContext : DbContext
 {
     public DbSet<Exercise> Exercises {get; set;} = null!;
     private static IConfiguration _configuration = null!;
-
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlServer(GetConnectionString());
