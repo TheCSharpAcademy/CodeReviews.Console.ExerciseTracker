@@ -4,12 +4,17 @@ using System.Collections.Generic;
 
 namespace ExerciseTracker.TwilightSaw.Repository;
 
-public class EfRepository<T>(AppDbContext context) : IRepository<T> where T : class
+public class ExerciseRepository<T>(DbContext context) : IRepository<T> where T : class
 {
     private readonly DbSet<T> _dbSet = context.Set<T>();
     public T GetById(int id)
     {
         return _dbSet.Find(id);
+    }
+
+    public IEnumerable<T> GetAllByType(Func<T, bool> predicate)
+    {
+        return _dbSet.Where(predicate).ToList();
     }
 
     public IEnumerable<T> GetAll()
