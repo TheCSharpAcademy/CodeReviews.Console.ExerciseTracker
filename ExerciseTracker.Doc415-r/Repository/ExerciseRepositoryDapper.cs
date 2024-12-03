@@ -77,7 +77,7 @@ internal class ExerciseRepositoryDapper : IExerciseRepository
             Type = exercise.Type
         });
         Console.Error.WriteLine(affectedRows);
-    }
+     }
 
     public void Update(Exercise exercise)
     {
