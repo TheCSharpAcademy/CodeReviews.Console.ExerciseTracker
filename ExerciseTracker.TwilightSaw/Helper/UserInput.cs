@@ -1,11 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Text.RegularExpressions;
 using ExerciseTracker.TwilightSaw.Model;
-
-namespace ExerciseTracker.TwilightSaw.Helpers;
-
-using System.Text.RegularExpressions;
 using Spectre.Console;
 
+namespace ExerciseTracker.TwilightSaw.Helper;
 
 public class UserInput
 {

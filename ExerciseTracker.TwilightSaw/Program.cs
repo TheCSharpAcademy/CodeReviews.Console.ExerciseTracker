@@ -1,4 +1,4 @@
-﻿using ExerciseTracker.TwilightSaw.Controllers;
+﻿using ExerciseTracker.TwilightSaw.Controller;
 using ExerciseTracker.TwilightSaw.Data;
 using ExerciseTracker.TwilightSaw.Factory;
 using ExerciseTracker.TwilightSaw.Model;
@@ -8,7 +8,6 @@ using ExerciseTracker.TwilightSaw.View;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Spectre.Console;
 
 var app = HostFactory.CreateDbHost(args);
 
@@ -21,6 +20,7 @@ var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
 
-new Menu(new ExerciseController(new ExerciseService(new ExerciseRepository<Exercise>(context)))).AddMenu();
+new Menu(new ExerciseController(new ExerciseService(new ExerciseRepository<Exercise>(context), 
+    new ExerciseDapperRepository<Exercise>(configuration)))).AddMenu();
 
 

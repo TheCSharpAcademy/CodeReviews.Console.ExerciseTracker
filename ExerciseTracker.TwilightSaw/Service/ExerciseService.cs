@@ -3,11 +3,13 @@ using ExerciseTracker.TwilightSaw.Repository;
 
 namespace ExerciseTracker.TwilightSaw.Service;
 
-public class ExerciseService(IRepository<Exercise> repository)
+public class ExerciseService(IRepository<Exercise> repository, IRepository<Exercise> dapperRepository)
 {
     public void AddExercise(Exercise exercise)
     {
-        repository.Add(exercise);
+        if(exercise.Type == "Cardio")
+            repository.Add(exercise);
+        else dapperRepository.Add(exercise);
     }
 
     public List<Exercise> GetExercises()
@@ -26,7 +28,9 @@ public class ExerciseService(IRepository<Exercise> repository)
 
     public void UpdateExercise(Exercise exercise)
     {
-        repository.Update(exercise);
+        if (exercise.Type == "Cardio")
+            repository.Update(exercise);
+        else dapperRepository.Update(exercise);
     }
 
     public void DeleteExercise(int id)

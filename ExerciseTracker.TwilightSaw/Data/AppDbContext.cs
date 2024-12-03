@@ -1,7 +1,6 @@
 ﻿using ExerciseTracker.TwilightSaw.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace ExerciseTracker.TwilightSaw.Data;
 

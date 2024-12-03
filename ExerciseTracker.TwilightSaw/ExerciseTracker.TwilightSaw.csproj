@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <Folder Include="Factory\" />
+    <Folder Include="images\" />
     <Folder Include="View\" />
   </ItemGroup>
 

@@ -1,6 +1,6 @@
 ﻿using Spectre.Console;
 
-namespace ExerciseTracker.TwilightSaw.Helpers;
+namespace ExerciseTracker.TwilightSaw.Helper;
 
 public class Validation
 {

@@ -1,5 +1,5 @@
-﻿using ExerciseTracker.TwilightSaw.Controllers;
-using ExerciseTracker.TwilightSaw.Helpers;
+﻿using ExerciseTracker.TwilightSaw.Controller;
+using ExerciseTracker.TwilightSaw.Helper;
 using Spectre.Console;
 
 namespace ExerciseTracker.TwilightSaw.View;
@@ -25,32 +25,37 @@ public class Menu(ExerciseController controller)
                         controller.AddExercise(typeInput);
                         break;
                     case "Your exercises":
-                        while (true)
-                        {
-                            var chosenExercise = controller.GetExercise(typeInput);
-                            Console.Clear();
-                            AnsiConsole.Write(new Rule($"[olive]{chosenExercise.StartTime.ToShortDateString()} " +
-                                                       $"{chosenExercise.StartTime.TimeOfDay} " +
-                                                       $"{chosenExercise.EndTime.TimeOfDay}[/]"));
-                            if (chosenExercise.Comments == "Return") break;
-                            switch (UserInput.CreateChoosingList(["Update exercise information", "Delete the exercise"],
-                                        "Return"))
-                            {
-                                case "Update exercise information":
-                                    controller.ChangeExercise(chosenExercise);
-                                    break;
-                                case "Delete the exercise":
-                                    controller.DeleteExercise(chosenExercise);
-                                    break;
-                                case "Return":
-                                    break;
-                            }
-                        }
+                        ShowExercise(typeInput);
                         break;
                     case "Return":
                         end = true;
                         break;
                 }
+            }
+        }
+    }
+
+    private void ShowExercise(string typeInput)
+    {
+        while (true)
+        {
+            var chosenExercise = controller.GetExercise(typeInput);
+            Console.Clear();
+            AnsiConsole.Write(new Rule($"[olive]{chosenExercise.StartTime.ToShortDateString()} " +
+                                       $"{chosenExercise.StartTime.TimeOfDay} " +
+                                       $"{chosenExercise.EndTime.TimeOfDay}[/]"));
+            if (chosenExercise.Comments == "Return") break;
+            switch (UserInput.CreateChoosingList(["Update exercise information", "Delete the exercise"],
+                        "Return"))
+            {
+                case "Update exercise information":
+                    controller.ChangeExercise(chosenExercise);
+                    break;
+                case "Delete the exercise":
+                    controller.DeleteExercise(chosenExercise);
+                    break;
+                case "Return":
+                    break;
             }
         }
     }

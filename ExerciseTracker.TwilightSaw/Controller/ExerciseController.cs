@@ -1,10 +1,9 @@
-﻿using ExerciseTracker.TwilightSaw.Helpers;
+﻿using ExerciseTracker.TwilightSaw.Helper;
 using ExerciseTracker.TwilightSaw.Model;
 using ExerciseTracker.TwilightSaw.Service;
-using Microsoft.Identity.Client;
 using Spectre.Console;
 
-namespace ExerciseTracker.TwilightSaw.Controllers;
+namespace ExerciseTracker.TwilightSaw.Controller;
 
 public class ExerciseController(ExerciseService service)
 {
@@ -12,11 +11,15 @@ public class ExerciseController(ExerciseService service)
     {
         Console.Clear();
         AnsiConsole.Write(new Rule("[cyan]Format - hh:mm[/]"));
-        var addStartInput =  UserInput.CreateRegex("^(?:([0-1][0-9]|2[0-3]):([0-5][0-9])|0)$", "Insert the start of your Exercise", "Wrong format, try again.");
+        var addStartInput = UserInput.CreateRegex("^(?:([0-1][0-9]|2[0-3]):([0-5][0-9])|0)$",
+            "Insert the start of your Exercise", "Wrong format, try again.");
         if (addStartInput == "0") return;
         AnsiConsole.Write(new Rule("[cyan]Format - hh:mm[/]"));
-        var addEndInput =  UserInput.CreateRegex("^(?:([0-1][0-9]|2[0-3]):([0-5][0-9])|0|(N|n))$", "Insert the end of your Exercise, N for time at this moment", "Wrong format.");
-        addEndInput = addEndInput is "N" or "n" ? DateTime.Now.AddSeconds(-DateTime.Now.Second).ToShortTimeString() : addEndInput;
+        var addEndInput = UserInput.CreateRegex("^(?:([0-1][0-9]|2[0-3]):([0-5][0-9])|0|(N|n))$",
+            "Insert the end of your Exercise, N for time at this moment", "Wrong format.");
+        addEndInput = addEndInput is "N" or "n"
+            ? DateTime.Now.AddSeconds(-DateTime.Now.Second).ToShortTimeString()
+            : addEndInput;
         if (addEndInput == "0") return;
         var addComments = UserInput.Create("Add the comments, leave this field empty");
         if (addComments == "0") return;
@@ -51,9 +54,11 @@ public class ExerciseController(ExerciseService service)
         var stringEndTime = exercise.EndTime.TimeOfDay.ToString();
         var comment = exercise.Comments;
 
-        var changeInput = UserInput.CreateUpdateChoosingList([$"Type: {type}", 
-            $"Date: {stringDate}", $"Start Time: {stringStartTime}", 
-            $"End Time: {stringEndTime}", $"Comment: {comment}"],
+        var changeInput = UserInput.CreateUpdateChoosingList([
+                $"Type: {type}",
+                $"Date: {stringDate}", $"Start Time: {stringStartTime}",
+                $"End Time: {stringEndTime}", $"Comment: {comment}"
+            ],
             exercise, "Return");
         switch (changeInput)
         {
@@ -90,10 +95,12 @@ public class ExerciseController(ExerciseService service)
                 break;
             case "4":
                 AnsiConsole.Write(new Rule("[olive]Format: hh:mm[/]"));
-                var newEndTimeInput = UserInput.CreateRegex("^(?:([0-1][0-9]|2[0-3]):([0-5][0-9])|0|(N|n))$", 
+                var newEndTimeInput = UserInput.CreateRegex("^(?:([0-1][0-9]|2[0-3]):([0-5][0-9])|0|(N|n))$",
                     "Insert the end of your Exercise, N for time at this moment", "Wrong format.");
                 if (newEndTimeInput == "0") return;
-                newEndTimeInput = newEndTimeInput is "N" or "n" ? DateTime.Now.AddSeconds(-DateTime.Now.Second).ToShortTimeString() : newEndTimeInput;
+                newEndTimeInput = newEndTimeInput is "N" or "n"
+                    ? DateTime.Now.AddSeconds(-DateTime.Now.Second).ToShortTimeString()
+                    : newEndTimeInput;
 
                 DateTime.TryParse(newEndTimeInput, out var newEndTime);
                 exercise.EndTime = exercise.EndTime.Date + newEndTime.TimeOfDay;
@@ -104,6 +111,7 @@ public class ExerciseController(ExerciseService service)
                 exercise.Comments = newComment;
                 break;
         }
+
         service.UpdateExercise(exercise);
         Validation.EndMessage("Changed successfully.");
     }
