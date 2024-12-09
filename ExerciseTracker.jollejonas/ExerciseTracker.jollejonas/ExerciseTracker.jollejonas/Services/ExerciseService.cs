@@ -80,7 +80,6 @@ public class ExerciseService
 
         var exercise = _exercieseRepository.GetExerciseById(selectedExercise.Id);
 
-        Exercise updatedExercise = new Exercise();
 
         if (_userInput.GetConfirmation("Do you want to update the start time? (y/n)"))
         {
