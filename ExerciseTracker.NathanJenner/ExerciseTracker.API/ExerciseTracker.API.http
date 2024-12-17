@@ -1,0 +1,6 @@
+@ExerciseTracker.API_HostAddress = https://localhost:7298
+
+GET {{ExerciseTracker.API_HostAddress}}/api/Exercise/get
+Accept: application/json
+
+###
