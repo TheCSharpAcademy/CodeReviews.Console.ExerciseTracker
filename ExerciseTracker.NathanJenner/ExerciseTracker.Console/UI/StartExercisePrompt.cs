@@ -8,7 +8,7 @@ public class StartExercisePrompt
 {
     ExerciseConsoleService exerciseConsoleService = new();
     MainMenuPrompt mainMenuPrompt = new();
-    Exercise exercise { get; set; }
+    Exercise Exercise { get; set; }
 
     public void StartExercise()
     {
