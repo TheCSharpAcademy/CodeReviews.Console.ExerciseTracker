@@ -7,24 +7,24 @@ namespace ExerciseTracker.Views;
 public class HistoryView(IExerciseController exerciseController)
 {
     private readonly IExerciseController _exerciseController = exerciseController;
-    private UpdateView _updateView { get; set; }
+    private IUpdateView UpdateView { get; set; }
     
     internal void Run(MenuOptions selectedMenu, UserInterfaceOptions selectedSession)
     {
         bool endMainMenu = false;
         if (selectedSession == UserInterfaceOptions.Cardio)
-            _updateView = new UpdateCardioView(exerciseController);
+            UpdateView = new UpdateCardioView(exerciseController);
         else if (selectedSession == UserInterfaceOptions.Weights)
-            _updateView = new UpdateWeightsView(exerciseController);
+            UpdateView = new UpdateWeightsView(exerciseController);
         
         while (!endMainMenu)
         {
             Console.Clear(); 
             
             string exerciseText = string.Empty;
-            if (_updateView is UpdateCardioView)
+            if (UpdateView is UpdateCardioView)
                 exerciseText = "Cardio";
-            else if (_updateView is UpdateWeightsView)
+            else if (UpdateView is UpdateWeightsView)
                 exerciseText = "Weights";
             
             ViewExtensions.GetEnumDescription(selectedMenu, exerciseText);
@@ -38,7 +38,7 @@ public class HistoryView(IExerciseController exerciseController)
                     Util.AskUserToContinue();
                     break;
                 case HistoryOptions.Update:
-                    _updateView.Run(selectedEnum);
+                    UpdateView.Run(selectedEnum);
                     break;
                 case HistoryOptions.Delete:
                     Console.Clear();

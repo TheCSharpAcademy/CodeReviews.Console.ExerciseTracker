@@ -4,7 +4,7 @@ using ExerciseTracker.Utilities;
 
 namespace ExerciseTracker.Views;
 
-public class UpdateCardioView(IExerciseController exerciseController)  : UpdateView
+public class UpdateCardioView(IExerciseController exerciseController)  : IUpdateView
 {
     private readonly IExerciseController _exerciseController = exerciseController;
     public void Run(Enum SelectedEnum)

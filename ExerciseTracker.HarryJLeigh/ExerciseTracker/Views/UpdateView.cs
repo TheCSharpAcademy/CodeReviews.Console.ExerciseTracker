@@ -1,6 +1,6 @@
 namespace ExerciseTracker.Views;
 
-interface UpdateView
+interface IUpdateView
 {
     void Run(Enum selected);
 }
