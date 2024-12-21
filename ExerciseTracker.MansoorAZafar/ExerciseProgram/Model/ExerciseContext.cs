@@ -1,6 +1,5 @@
 using ExerciseProgram.Model.ExerciseModel;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace ExerciseProgram.Model;
 

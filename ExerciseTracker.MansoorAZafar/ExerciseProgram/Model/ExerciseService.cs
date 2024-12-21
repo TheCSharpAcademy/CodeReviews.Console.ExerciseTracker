@@ -36,7 +36,7 @@ internal class ExerciseService
 
     public void DeleteExercise(int id)
     {
-        this.ExerciseRepository.Delete(DTO.exerciseService.GetExerciseById(id));
+        this.ExerciseRepository.Delete(Dto.exerciseService.GetExerciseById(id));
         Cache.NeedUpdate = true;
     }
 

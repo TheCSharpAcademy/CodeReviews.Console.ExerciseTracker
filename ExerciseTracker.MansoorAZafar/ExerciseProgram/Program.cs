@@ -23,7 +23,7 @@ using (var scope = serviceProvider.CreateScope())
     context.Database.Migrate();
 }
 
-DTO.exerciseService = serviceProvider.GetRequiredService<ExerciseService>();
+Dto.exerciseService = serviceProvider.GetRequiredService<ExerciseService>();
 
 // Ensure the cache has the most updated version of the database when the application starts
 Cache.UpdateList();

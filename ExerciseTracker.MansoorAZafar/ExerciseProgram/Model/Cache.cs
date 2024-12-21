@@ -14,10 +14,10 @@ namespace ExerciseProgram.Model;
 */
 internal static class Cache {
     internal static List<Exercise>? exerciseModels = [];
-    internal static bool NeedUpdate = false;
+    internal static bool NeedUpdate;
 
     internal static void UpdateList()
     {
-        exerciseModels = DTO.exerciseService.GetAllExercise();
+        exerciseModels = Dto.exerciseService.GetAllExercise();
     }
 }

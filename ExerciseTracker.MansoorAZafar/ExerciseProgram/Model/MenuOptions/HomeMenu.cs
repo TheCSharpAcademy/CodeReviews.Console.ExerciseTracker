@@ -8,10 +8,3 @@ internal enum HomeMenu
     Update,
     Delete
 };
-
-internal enum ReadMenu
-{
-    exit = 0,
-    All,
-    One
-};

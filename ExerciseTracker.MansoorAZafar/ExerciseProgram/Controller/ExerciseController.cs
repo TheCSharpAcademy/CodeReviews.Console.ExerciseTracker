@@ -1,7 +1,6 @@
 using ExerciseLibrary.Display;
 using ExerciseLibrary.Utilities;
 using ExerciseProgram.Model;
-using ExerciseProgram.Model.Enums;
 using ExerciseProgram.Model.ExerciseModel;
 
 namespace ExerciseProgram.Controller;
@@ -13,32 +12,32 @@ internal class ExerciseController
         //Display all the data
         this.ReadExercise();    
 
-        int id = UserInput.GetId(DTO.exerciseService.GetExerciseById);
+        int id = UserInput.GetId(Dto.exerciseService.GetExerciseById);
         if(id == -1) return;
 
-        Exercise existing_exercise = DTO.exerciseService.GetExerciseById(id);
+        Exercise existing_exercise = Dto.exerciseService.GetExerciseById(id);
 
         Exercise updated_exercise = UserInput.CreateExercise();
         existing_exercise.Update(updated_exercise);
 
-        DTO.exerciseService.UpdateExercise(existing_exercise);    
+        Dto.exerciseService.UpdateExercise(existing_exercise);    
     }
 
     internal void DeleteExercise()
     {
         //Display all the data
         this.ReadExercise();
-        int id = UserInput.GetId(DTO.exerciseService.GetExerciseById);
+        int id = UserInput.GetId(Dto.exerciseService.GetExerciseById);
         if(id == -1) return;
 
-        DTO.exerciseService.DeleteExercise(id);
+        Dto.exerciseService.DeleteExercise(id);
     }
 
     internal void CreateExercise()
     {
         if(Utilities.GetInput<int>("Enter -1 to go back otherwise, enter any other Whole Number to continue") == -1) return;
         System.Console.WriteLine();
-        DTO.exerciseService.AddExercise(UserInput.CreateExercise());
+        Dto.exerciseService.AddExercise(UserInput.CreateExercise());
     }
 
     internal void ReadExercise()

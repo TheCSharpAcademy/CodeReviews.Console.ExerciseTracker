@@ -1,5 +1,3 @@
-using System.Linq.Expressions;
-
 namespace ExerciseProgram.Model.ExerciseModel;
 
 public class Exercise 
