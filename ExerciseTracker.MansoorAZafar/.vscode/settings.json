@@ -1,0 +1,26 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "ExerciseLibrary/obj": true,
+        ".vscode": true,
+        "ExerciseLibrary/ExerciseLibrary.csproj": true,
+        "ExerciseLibrary/bin/Debug/net8.0": true,
+        "ExerciseLibrary/bin/Debug": true,
+        "ExerciseLibrary/bin": true,
+        "ExerciseTracker.MansoorAZafar.sln": true
+    },
+    "hide-files.files": [
+        "ExerciseLibrary/obj",
+        ".vscode",
+        "ExerciseLibrary/ExerciseLibrary.csproj",
+        "ExerciseLibrary/bin/Debug/net8.0",
+        "ExerciseLibrary/bin/Debug",
+        "ExerciseLibrary/bin",
+        "ExerciseTracker.MansoorAZafar.sln"
+    ]
+}
